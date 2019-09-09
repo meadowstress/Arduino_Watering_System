@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/davhor/Dropbox/CodeBase/Arduino/Pump_Control/src/mock_arduino.h
+string
+-
+
+/home/davhor/Dropbox/CodeBase/Arduino/Pump_Control/src/time.h
+
+/home/davhor/Dropbox/CodeBase/Arduino/Pump_Control/src/unit_test.cpp
+gtest/gtest.h
+-
+time.h
+/home/davhor/Dropbox/CodeBase/Arduino/Pump_Control/src/time.h
+mock_arduino.h
+/home/davhor/Dropbox/CodeBase/Arduino/Pump_Control/src/mock_arduino.h
+
