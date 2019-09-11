@@ -8,6 +8,7 @@ const short VALVETOP = 9;
 const short VALVEBOTTOM = 10;
 const short SWITCH = 7;
 const short WATER = 3;
+const short WATERLEVEL = 4;
 
 bool switch_on = false;
 bool water_on = false;
@@ -113,6 +114,18 @@ TEST(digitalRead, WATER_OFF)
 {
     water_state = false;
     ASSERT_EQ(digitalRead(WATER), false);
+}
+
+TEST(digitalRead, WATERLEVEL_ON)
+{
+    water_level_state = true;
+    ASSERT_EQ(digitalRead(WATERLEVEL), true);
+}
+
+TEST(digitalRead, WATERLEVEL_OFF)
+{
+    water_level_state = false;
+    ASSERT_EQ(digitalRead(WATERLEVEL), false);
 }
 
 TEST(Serial, println)

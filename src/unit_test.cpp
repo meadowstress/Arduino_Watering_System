@@ -8,12 +8,14 @@ const short VALVETOP = 9;
 const short VALVEBOTTOM = 10;
 const short SWITCH = 7;
 const short WATER = 3;
+const short WATERLEVEL = 4;
 
 bool pre_state_water = false;
 bool current_state_water = false;
 bool switch_on = false;
 bool water_on = false;
 bool timer_on = false;
+bool water_level_ok = false;
 
 unsigned long const t_half_can = 15000;
 unsigned long const t_half_vol = 40000;
@@ -205,6 +207,8 @@ TEST(Pump_Water_Clock, Before_Water_Counter)
     int water_counter = 0;
     unsigned long pump_time_top = 3000;
     unsigned long pump_time_bottom = 3000;
+    water_level_state = true;
+    switch_state = true;
     
     TIME t_curr(8,0), t1_water(10,0), t2_water(15,0);
     
@@ -219,6 +223,8 @@ TEST(Pump_Water_Clock, Between_Water_Counter)
     int water_counter = 0;
     unsigned long pump_time_top = 3000;
     unsigned long pump_time_bottom = 3000;
+    water_level_state = true;
+    switch_state = true;
     
     TIME t_curr(12,0), t1_water(10,0), t2_water(15,0);
     
@@ -233,6 +239,8 @@ TEST(Pump_Water_Clock, After_Water_Counter)
     int water_counter = 0;
     unsigned long pump_time_top = 3000;
     unsigned long pump_time_bottom = 3000;
+    water_level_state = true;
+    switch_state = true;
     
     TIME t_curr(18,0), t1_water(10,0), t2_water(15,0);
     
@@ -247,6 +255,9 @@ TEST(Pump_Water_Clock, Before_pre_pause1)
     int water_counter = 0;
     unsigned long pump_time_top = 3000;
     unsigned long pump_time_bottom = 3000;
+
+    water_level_state = true;
+    switch_state = true;
     
     TIME t_curr(8,0), t1_water(10,0), t2_water(15,0);
     
@@ -265,6 +276,9 @@ TEST(Pump_Water_Clock, Between_pre_pause1)
     unsigned long pump_time_top = 3000;
     unsigned long pump_time_bottom = 3000;
     
+    water_level_state = true;
+    switch_state = true;
+
     TIME t_curr(12,0), t1_water(10,0), t2_water(15,0);
     
     water_counter = Pump_Water_Clock(pump_time_top, pump_time_bottom,
@@ -282,6 +296,9 @@ TEST(Pump_Water_Clock, After_pre_pause1)
     unsigned long pump_time_top = 3000;
     unsigned long pump_time_bottom = 3000;
     
+    water_level_state = true;
+    switch_state = true;
+
     TIME t_curr(18,0), t1_water(10,0), t2_water(15,0);
     
     water_counter = Pump_Water_Clock(pump_time_top, pump_time_bottom,
@@ -298,6 +315,9 @@ TEST(Pump_Water_Clock, Between_pre_pause2)
     int water_counter = 0;
     unsigned long pump_time_top = 3000;
     unsigned long pump_time_bottom = 3000;
+
+    water_level_state = true;
+    switch_state = true;
     
     TIME t_curr(12,0), t1_water(10,0), t2_water(15,0);
     
@@ -314,6 +334,9 @@ TEST(Pump_Water_Clock, Before_pause1_water)
     int water_counter = 0;
     unsigned long pump_time_top = 3000;
     unsigned long pump_time_bottom = 3000;
+
+    water_level_state = true;
+    switch_state = true;
     
     TIME t_curr(8,0), t1_water(10,0), t2_water(15,0);
     
@@ -331,6 +354,9 @@ TEST(Pump_Water_Clock, Between_pause1_water)
     int water_counter = 0;
     unsigned long pump_time_top = 3000;
     unsigned long pump_time_bottom = 3000;
+
+    water_level_state = true;
+    switch_state = true;
     
     TIME t_curr(12,0), t1_water(10,0), t2_water(15,0);
     
@@ -348,6 +374,9 @@ TEST(Pump_Water_Clock, After_pause1_water)
     int water_counter = 0;
     unsigned long pump_time_top = 3000;
     unsigned long pump_time_bottom = 3000;
+
+    water_level_state = true;
+    switch_state = true;
     
     TIME t_curr(18,0), t1_water(10,0), t2_water(15,0);
     
@@ -365,6 +394,9 @@ TEST(Pump_Water_Clock, Before_pause2_water)
     int water_counter = 0;
     unsigned long pump_time_top = 3000;
     unsigned long pump_time_bottom = 3000;
+
+    water_level_state = true;
+    switch_state = true;
     
     TIME t_curr(8,0), t1_water(10,0), t2_water(15,0);
     
@@ -381,6 +413,9 @@ TEST(Pump_Water_Clock, Between_pause2_water)
     int water_counter = 0;
     unsigned long pump_time_top = 3000;
     unsigned long pump_time_bottom = 3000;
+
+    water_level_state = true;
+    switch_state = true;
     
     TIME t_curr(12,0), t1_water(10,0), t2_water(15,0);
     
@@ -397,6 +432,9 @@ TEST(Pump_Water_Clock, After_pause2_water)
     int water_counter = 0;
     unsigned long pump_time_top = 3000;
     unsigned long pump_time_bottom = 3000;
+
+    water_level_state = true;
+    switch_state = true;
     
     TIME t_curr(18,0), t1_water(10,0), t2_water(15,0);
     

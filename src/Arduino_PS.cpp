@@ -8,7 +8,7 @@ const short VALVETOP = 9;
 const short VALVEBOTTOM = 10;
 const short SWITCH = 7;
 const short WATER = 3;
-
+const short WATERLEVEL = 4;
 
 //states
 bool pre_state_water = false;
@@ -17,7 +17,7 @@ bool switch_on = true;
 //bool switch_on = false; //testing mode
 bool water_on = false;
 bool timer_on = false;
-
+bool water_level_ok = false;
 
 unsigned long const t_half_can = 15000;
 unsigned long const t_half_vol = 40000;

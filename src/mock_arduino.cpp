@@ -10,6 +10,7 @@ bool valve_state_top = false;
 bool valve_state_bottom = false;
 bool switch_state = false;
 bool water_state = false;
+bool water_level_state = false;
 
 const bool HIGH = false;
 const bool LOW = true;
@@ -76,8 +77,12 @@ bool digitalRead(const short& pin)
   else if(pin == SWITCH)
     return(switch_state);
 
-  else if (pin == WATER)
+  else if(pin == WATER)
     return(water_state);
+
+  else if(pin == WATERLEVEL)
+    return(water_level_state);
+
   else 
     cout << "Throw Error: digitalRead \n";
 }

@@ -11,6 +11,7 @@ extern bool valve_state_top;
 extern bool valve_state_bottom;
 extern bool switch_state;
 extern bool water_state;
+extern bool water_level_state;
 
 extern const bool HIGH;
 extern const bool LOW;
@@ -21,12 +22,14 @@ extern const short VALVEBOTTOM;
 
 extern const short SWITCH;
 extern const short WATER;
+extern const short WATERLEVEL;
 
 extern bool pre_state_water;
 extern bool current_state_water;
 extern bool switch_on;
 extern bool water_on;
 extern bool timer_on;
+extern bool water_level_ok;
 
 extern unsigned long const t_half_can;
 extern unsigned long const t_half_vol;
