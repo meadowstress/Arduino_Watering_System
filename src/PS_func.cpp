@@ -68,8 +68,7 @@ bool Hold_State(unsigned long  hold_time)
 
   // test if hold time has been elapsed regularly
   // var i is only necessary for time simulation with high factors
-  //if(elapsed_time > hold_time && i > 2)
-  if((elapsed_time > hold_time))
+  if((elapsed_time > hold_time) && i > 1)
     return true;
   else
     return false;
@@ -82,7 +81,7 @@ unsigned long valve_time)
 
   Serial.println("Open Valve!");
   digitalWrite(valve_pin, LOW);
-  water_flag = Hold_State(valve_time);
+  Hold_State(valve_time);
 
   Serial.println("Pump Water!");
   digitalWrite(PUMP, LOW); //pumping starts
@@ -93,13 +92,9 @@ unsigned long valve_time)
   water_on = false; // state for interupt!
   
   if(water_flag==true)
-  {
     return(1);
-  }
   else
-  {
     return(0);
-  }
 }
 
 void Hold_State_Clock(unsigned long  hold_time, TIME t, unsigned long pump_time)
