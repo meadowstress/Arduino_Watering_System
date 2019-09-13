@@ -1,1 +1,0 @@
-/usr/bin/c++  -g  -rdynamic CMakeFiles/runTest_mock.dir/test_mocks.cpp.o CMakeFiles/runTest_mock.dir/mock_arduino.cpp.o  -o runTest_mock -Wl,-Bstatic -lgtest -Wl,-Bdynamic -lpthread 

@@ -180,25 +180,72 @@ TEST(PS_func, State_Water_tf)
     ASSERT_EQ(water_on, true);
 }
  
-TEST(PS_func, Hold_State)
+TEST(Hold_State, SwitchOn)
 {
     switch_state = true;
-    Hold_State(3000);
+    water_level_state = true;
+    ASSERT_TRUE(Hold_State(3000));
 }
 
-TEST(PS_func, Pump_Water)
+TEST(Hold_State, SwitchOff)
+{
+    switch_state = false;
+    water_level_state = true;
+    ASSERT_FALSE(Hold_State(3000));
+}
+
+TEST(Hold_State, WaterLevel)
+{
+    switch_state = true;
+    water_level_state = false;
+    ASSERT_FALSE(Hold_State(3000));
+}
+
+TEST(Pump_Water, SwitchOn)
 {
     unsigned long pump_time = t_half_can; 
     unsigned short valve_pin = VALVETOP; 
     unsigned long valve_time = t_valve;
+
+    water_level_state = true;
+    switch_state = true;
+
     ASSERT_EQ(Pump_Water(pump_time, valve_pin, valve_time), 1);
+}
+
+TEST(Pump_Water, SwitchOff)
+{
+    unsigned long pump_time = t_half_can; 
+    unsigned short valve_pin = VALVETOP; 
+    unsigned long valve_time = t_valve;
+    int result = 0;
+
+    water_level_state = true;
+    switch_state = false;
+
+    result = Pump_Water(pump_time, valve_pin, valve_time);
+    ASSERT_EQ(result, 0);
+}
+
+TEST(Pump_Water,LowLevel)
+{
+    unsigned long pump_time = t_half_can; 
+    unsigned short valve_pin = VALVETOP; 
+    unsigned long valve_time = t_valve;
+    int result = 0;
+
+    water_level_state = false;
+    switch_state = true;
+
+    result = Pump_Water(pump_time, valve_pin, valve_time);
+    ASSERT_EQ(result, 0);
 }
 
 TEST(PS_func, Hold_State_Clock)
 {
-    unsigned long hold_time = 60000;
+    unsigned long hold_time = 600000;
     TIME t(0,1);
-    unsigned long pump_time = 3000;
+    unsigned long pump_time = 300000;
     Hold_State_Clock(hold_time, t, pump_time);
 }
 
@@ -218,6 +265,38 @@ TEST(Pump_Water_Clock, Before_Water_Counter)
     ASSERT_EQ(water_counter, 8);
 }
 
+TEST(Pump_Water_Clock, Before_Water_Counter_LowLevel)
+{
+    int water_counter = 0;
+    unsigned long pump_time_top = 3000;
+    unsigned long pump_time_bottom = 3000;
+    water_level_state = false;
+    switch_state = true;
+    
+    TIME t_curr(8,0), t1_water(10,0), t2_water(15,0);
+    
+    water_counter = Pump_Water_Clock(pump_time_top, pump_time_bottom,
+    t_curr, t1_water, t2_water);
+
+    ASSERT_EQ(water_counter, 0);
+}
+
+TEST(Pump_Water_Clock, Before_Water_Counter_Off)
+{
+    int water_counter = 0;
+    unsigned long pump_time_top = 3000;
+    unsigned long pump_time_bottom = 3000;
+    water_level_state = true;
+    switch_state = false;
+    
+    TIME t_curr(8,0), t1_water(10,0), t2_water(15,0);
+    
+    water_counter = Pump_Water_Clock(pump_time_top, pump_time_bottom,
+    t_curr, t1_water, t2_water);
+
+    ASSERT_EQ(water_counter, 0);
+}
+
 TEST(Pump_Water_Clock, Between_Water_Counter)
 {
     int water_counter = 0;
@@ -234,6 +313,38 @@ TEST(Pump_Water_Clock, Between_Water_Counter)
     ASSERT_EQ(water_counter, 10);
 }
 
+TEST(Pump_Water_Clock, Between_Water_Counter_LowLevel)
+{
+    int water_counter = 0;
+    unsigned long pump_time_top = 3000;
+    unsigned long pump_time_bottom = 3000;
+    water_level_state = false;
+    switch_state = true;
+    
+    TIME t_curr(12,0), t1_water(10,0), t2_water(15,0);
+    
+    water_counter = Pump_Water_Clock(pump_time_top, pump_time_bottom,
+    t_curr, t1_water, t2_water);
+
+    ASSERT_EQ(water_counter, 0);
+}
+
+TEST(Pump_Water_Clock, Between_Water_Counter_Off)
+{
+    int water_counter = 0;
+    unsigned long pump_time_top = 3000;
+    unsigned long pump_time_bottom = 3000;
+    water_level_state = true;
+    switch_state = false;
+    
+    TIME t_curr(12,0), t1_water(10,0), t2_water(15,0);
+    
+    water_counter = Pump_Water_Clock(pump_time_top, pump_time_bottom,
+    t_curr, t1_water, t2_water);
+
+    ASSERT_EQ(water_counter, 0);
+}
+
 TEST(Pump_Water_Clock, After_Water_Counter)
 {
     int water_counter = 0;
@@ -248,6 +359,38 @@ TEST(Pump_Water_Clock, After_Water_Counter)
     t_curr, t1_water, t2_water);
 
     ASSERT_EQ(water_counter, 8);
+}
+
+TEST(Pump_Water_Clock, After_Water_Counter_LowLevel)
+{
+    int water_counter = 0;
+    unsigned long pump_time_top = 3000;
+    unsigned long pump_time_bottom = 3000;
+    water_level_state = false;
+    switch_state = true;
+    
+    TIME t_curr(18,0), t1_water(10,0), t2_water(15,0);
+    
+    water_counter = Pump_Water_Clock(pump_time_top, pump_time_bottom,
+    t_curr, t1_water, t2_water);
+
+    ASSERT_EQ(water_counter, 0);
+}
+
+TEST(Pump_Water_Clock, After_Water_Counter_Off)
+{
+    int water_counter = 0;
+    unsigned long pump_time_top = 3000;
+    unsigned long pump_time_bottom = 3000;
+    water_level_state = true;
+    switch_state = false;
+    
+    TIME t_curr(18,0), t1_water(10,0), t2_water(15,0);
+    
+    water_counter = Pump_Water_Clock(pump_time_top, pump_time_bottom,
+    t_curr, t1_water, t2_water);
+
+    ASSERT_EQ(water_counter, 0);
 }
 
 TEST(Pump_Water_Clock, Before_pre_pause1)

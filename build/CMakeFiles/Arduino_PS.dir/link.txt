@@ -1,1 +1,0 @@
-/usr/bin/c++  -g  -rdynamic CMakeFiles/Arduino_PS.dir/Arduino_PS.cpp.o CMakeFiles/Arduino_PS.dir/PS_func.cpp.o CMakeFiles/Arduino_PS.dir/mock_arduino.cpp.o CMakeFiles/Arduino_PS.dir/time.cpp.o  -o Arduino_PS 

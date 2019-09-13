@@ -1,5 +1,0 @@
-/home/davhor/Dropbox/CodeBase/Arduino/Pump_Control/build/CMakeFiles/edit_cache.dir
-/home/davhor/Dropbox/CodeBase/Arduino/Pump_Control/build/CMakeFiles/runTest_mock.dir
-/home/davhor/Dropbox/CodeBase/Arduino/Pump_Control/build/CMakeFiles/rebuild_cache.dir
-/home/davhor/Dropbox/CodeBase/Arduino/Pump_Control/build/CMakeFiles/runTest_unit.dir
-/home/davhor/Dropbox/CodeBase/Arduino/Pump_Control/build/CMakeFiles/Arduino_PS.dir

@@ -67,7 +67,7 @@ loop() // Enable on Hardware
   State_Water();
 
   // function execution
-  if (switch_on && water_on )
+  if (switch_on && water_on)
   {
     Serial.println("Pump_Water single Function!");
     Pump_Water(t_half_can, VALVETOP, t_valve);

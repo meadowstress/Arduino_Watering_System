@@ -44,42 +44,62 @@ void State_Water()
 
 // Hold logic
 
-void Hold_State(unsigned long  hold_time)
+bool Hold_State(unsigned long  hold_time)
 {
 
   bool state_flag = true;
   unsigned long start_time = millis();
+  unsigned long elapsed_time = 0;
+  int i = 0;
 
   do
   {
+    i++;
     switch_on = State_Switch(digitalRead(SWITCH));
     water_level_ok = State_Switch(digitalRead(WATERLEVEL));
 
-    if ((millis() - start_time > hold_time) || switch_on == false || 
-    WATERLEVEL == false)
+    elapsed_time = (millis() - start_time);
+    if ( (elapsed_time > hold_time) || switch_on == false || 
+    water_level_ok == false)
     {
       state_flag = false;
     }
-
   } while (state_flag);
+
+  // test if hold time has been elapsed regularly
+  // var i is only necessary for time simulation with high factors
+  //if(elapsed_time > hold_time && i > 2)
+  if((elapsed_time > hold_time))
+    return true;
+  else
+    return false;
 }
 
 int Pump_Water(unsigned long pump_time, unsigned short valve_pin, 
 unsigned long valve_time)
 {
+  bool water_flag = false;
+
   Serial.println("Open Valve!");
   digitalWrite(valve_pin, LOW);
-  Hold_State(valve_time);
+  water_flag = Hold_State(valve_time);
 
   Serial.println("Pump Water!");
   digitalWrite(PUMP, LOW); //pumping starts
-  Hold_State(pump_time);
+  water_flag = Hold_State(pump_time);
   digitalWrite(PUMP, HIGH); // pumping ends
 
   digitalWrite(valve_pin, HIGH); //closing Valve
   water_on = false; // state for interupt!
   
-  return(1);
+  if(water_flag==true)
+  {
+    return(1);
+  }
+  else
+  {
+    return(0);
+  }
 }
 
 void Hold_State_Clock(unsigned long  hold_time, TIME t, unsigned long pump_time)
@@ -165,6 +185,8 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
     Hold_State_Clock(pre_pause1.Time2Ticks(), pre_pause1, t_half_can);
 
     pTime = 0;
+    switch_on = State_Switch(digitalRead(SWITCH));
+    water_level_ok = State_Switch(digitalRead(WATERLEVEL));
     if (switch_on && water_level_ok)
     {
       water_counter += Pump_Water(pump_time_top, VALVETOP, t_valve);
@@ -188,9 +210,6 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
 
   else
     Serial.println("Fehler bei Berechnung von pre_pause!");
-
-  switch_on = State_Switch(digitalRead(SWITCH));
-  water_level_ok = State_Switch(digitalRead(WATERLEVEL));
   
   for(int i=0; i < 2; i++) // Enable for Testing
   { // Enable for Testing
@@ -199,6 +218,10 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
   while (timer_on) //Enalbe on Hardware
   { // Enable on Hardware
   */
+
+    switch_on = State_Switch(digitalRead(SWITCH));
+    water_level_ok = State_Switch(digitalRead(WATERLEVEL));
+
     pTime = 0;
     if (switch_on && water_level_ok)
     {
@@ -208,6 +231,9 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
     }
 
     Hold_State_Clock(pause1_water.Time2Ticks() - pTime, pause1_water, t_half_can);
+
+    switch_on = State_Switch(digitalRead(SWITCH));
+    water_level_ok = State_Switch(digitalRead(WATERLEVEL));
 
     pTime = 0;
     if (switch_on && water_level_ok)

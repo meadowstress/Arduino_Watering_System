@@ -1,1 +1,0 @@
-/usr/bin/c++  -g  -rdynamic CMakeFiles/runTests.dir/unit_test.cpp.o CMakeFiles/runTests.dir/time.cpp.o  -o runTests 
