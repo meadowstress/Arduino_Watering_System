@@ -30,7 +30,7 @@ int main(void) //Enable for Testing
 { // Enable for Testing
 
 /*
-setup() // Enable on Hardware
+void setup() // Enable on Hardware
 {
   pinMode(PUMP, OUTPUT);  // Enable on Hardware
   pinMode(VALVETOP, OUTPUT);  // Enable on Hardware
@@ -56,7 +56,7 @@ setup() // Enable on Hardware
 
 
 /*
-loop() // Enable on Hardware
+void loop() // Enable on Hardware
 { // Enable on Hardware
 */
   

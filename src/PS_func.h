@@ -3,6 +3,29 @@
 
 #include"time.h"
 
+//pins
+extern const short PUMP;
+extern const short VALVETOP;
+extern const short VALVEBOTTOM;
+extern const short SWITCH;
+extern const short WATER;
+extern const short WATERLEVEL;
+
+//states
+extern bool pre_state_water;
+extern bool current_state_water;
+extern bool switch_on;
+//bool switch_on = false; //testing mode
+extern bool water_on;
+extern bool timer_on;
+extern bool water_level_ok;
+
+extern unsigned long const t_half_can;
+extern unsigned long const t_half_vol;
+extern unsigned long const t_quater_vol;
+extern unsigned long const t_valve;
+extern unsigned long const t_bottom_vol;
+
 extern TIME pre_pause1, pre_pause2, pause1_water, pause2_water;
 
 //function headers
