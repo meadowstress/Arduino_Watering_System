@@ -1,9 +1,8 @@
 #include "PS_func.h"
-#include "mock_arduino.h" //Enable for Testing
-/*
+// #include "mock_arduino.h" //Enable for Testing
 #include <Arduino.h> //Enable on Hardware
 #include <HardwareSerial.h> //Enable on Hardware
-*/
+
 
 //Switch logic
 bool State_Switch(int input)
@@ -209,15 +208,13 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
   else
     Serial.println("Fehler bei Berechnung von pre_pause!");
   
-  /*
   for(int i=0; i < 2; i++) // Enable for Testing
   { // Enable for Testing
-  */
-
   
+  /*
   while (timer_on) //Enalbe on Hardware
   { // Enable on Hardware
-  
+  */
 
     switch_on = State_Switch(digitalRead(SWITCH));
     water_level_ok = State_Switch(digitalRead(WATERLEVEL));

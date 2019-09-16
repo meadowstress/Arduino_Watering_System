@@ -1,4 +1,4 @@
-#include "mock_arduino.h" //Enable for testing
+//#include "mock_arduino.h" //Enable for testing
 #include "time.h"
 #include "PS_func.h"
 
@@ -24,16 +24,14 @@ unsigned long const t_quater_vol = 20000;
 unsigned long const t_valve = 100;
 unsigned long const t_bottom_vol = 6000;
 
-
+/*
 int main(void) //Enable for Testing
 { // Enable for Testing
+*/
 
 
-/*
 void setup() // Enable on Hardware
 {
-
-
   pinMode(PUMP, OUTPUT);  // Enable on Hardware
   pinMode(VALVETOP, OUTPUT);  // Enable on Hardware
   pinMode(VALVEBOTTOM, OUTPUT);  // Enable on Hardware
@@ -41,7 +39,7 @@ void setup() // Enable on Hardware
   pinMode(WATER, INPUT_PULLUP);  // Enable on Hardware
   pinMode(WATERLEVEL, INPUT_PULLUP);  // Enable on Hardware
   Serial.begin(9600);  // Enable on Hardware
-  */
+  
 
   digitalWrite(PUMP, HIGH); //default no pumping enabled
   digitalWrite(VALVETOP, HIGH); //default no pumping enabled
@@ -53,14 +51,14 @@ void setup() // Enable on Hardware
     pre_state_water = true;
     current_state_water = true;
   }
-// } //Enable on Hardware
+} //Enable on Hardware
 
 
 
-/*
+
 void loop() // Enable on Hardware
 { // Enable on Hardware
-*/
+
   
   //configuration settings - change time here
   timer_on = true; // software switch for pump timer function
