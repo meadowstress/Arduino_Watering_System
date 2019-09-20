@@ -36,7 +36,7 @@ void setup() // Enable on Hardware
   pinMode(VALVETOP, OUTPUT);  // Enable on Hardware
   pinMode(VALVEBOTTOM, OUTPUT);  // Enable on Hardware
   pinMode(SWITCH, INPUT_PULLUP);  // Enable on Hardware
-  pinMode(WATER, INPUT_PULLUP);  // Enable on Hardware
+  pinMode(WATER, INPUT);  // Enable on Hardware
   pinMode(WATERLEVEL, INPUT_PULLUP);  // Enable on Hardware
   Serial.begin(9600);  // Enable on Hardware
   
@@ -64,7 +64,7 @@ void loop() // Enable on Hardware
   timer_on = true; // software switch for pump timer function
 
   // state logics
-  switch_on = State_Switch(digitalRead(SWITCH));
+  switch_on = State_Switch(digitalRead(SWITCH));// bool timer_on = false; //Enable on Hardware
   State_Water();
 
   // function execution
@@ -76,7 +76,7 @@ void loop() // Enable on Hardware
   }
 
   //setup timer
-  TIME t_curr(8, 0), t1(10, 0), t2(15, 0);
+  TIME t_curr(18, 54), t1(10, 0), t2(15, 0);
 
   if (timer_on)
   {
