@@ -8,7 +8,11 @@ const short VALVETOP = 9;
 const short VALVEBOTTOM = 10;
 const short SWITCH = 7;
 const short WATER = 3;
-const short WATERLEVEL = 4;
+/*
+Set to 7 meaning the same pin like the on/off switch to disable functionality
+of waterlevel functionality. Set to 4 when intended to use this functionality. 
+*/
+const short WATERLEVEL = 7; 
 
 //states
 bool pre_state_water = false;
@@ -35,9 +39,13 @@ void setup() // Enable on Hardware
   pinMode(PUMP, OUTPUT);  // Enable on Hardware
   pinMode(VALVETOP, OUTPUT);  // Enable on Hardware
   pinMode(VALVEBOTTOM, OUTPUT);  // Enable on Hardware
-  pinMode(SWITCH, INPUT_PULLUP);  // Enable on Hardware
-  pinMode(WATER, INPUT_PULLUP);  // Enable on Hardware
-  pinMode(WATERLEVEL, INPUT_PULLUP);  // Enable on Hardware
+  pinMode(SWITCH, INPUT);  // Enable on Hardware
+  pinMode(WATER, INPUT);  // Enable on Hardware
+  /*
+  since waterlevel feature not inteded to use configuration of waterlevel pin
+  skiped.
+  */
+  //pinMode(WATERLEVEL, INPUT);  // Enable on Hardware
   Serial.begin(9600);  // Enable on Hardware
   
 
@@ -46,7 +54,7 @@ void setup() // Enable on Hardware
   digitalWrite(VALVEBOTTOM, HIGH); //default no pumping enabled
 
   //prevent different states when water switch is on
-  if (digitalRead(WATER) == LOW)
+  if (digitalRead(WATER) == HIGH)
   {
     pre_state_water = true;
     current_state_water = true;

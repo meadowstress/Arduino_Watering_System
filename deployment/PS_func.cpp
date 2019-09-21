@@ -1,5 +1,6 @@
 #include "PS_func.h"
-// #include "mock_arduino.h" //Enable for Testing
+//#include "mock_arduino.h" //Enable for Testing
+
 #include <Arduino.h> //Enable on Hardware
 #include <HardwareSerial.h> //Enable on Hardware
 
@@ -9,7 +10,7 @@ bool State_Switch(int input)
 {
   bool state;
   // switch logic
-  if (input == LOW)
+  if (input == HIGH)
   {
     state = true;
   }
@@ -23,7 +24,7 @@ bool State_Switch(int input)
 
 void State_Water()
 {
-  if (digitalRead(WATER) == LOW)
+  if (digitalRead(WATER) == HIGH)
   {
     current_state_water = true;
   }
@@ -81,18 +82,24 @@ unsigned long valve_time)
 {
   bool water_flag = false;
 
-  Serial.println("Open Valve!");
-  digitalWrite(valve_pin, LOW);
-  Hold_State(valve_time);
+  switch_on = State_Switch(digitalRead(SWITCH));
+  water_level_ok = State_Switch(digitalRead(WATERLEVEL));
 
-  Serial.println("Pump Water!");
-  digitalWrite(PUMP, LOW); //pumping starts
-  water_flag = Hold_State(pump_time);
-  digitalWrite(PUMP, HIGH); // pumping ends
+  if(switch_on && water_level_ok)
+  {
+    Serial.println("Open Valve!");
+    digitalWrite(valve_pin, LOW);
+    Hold_State(valve_time);
 
-  digitalWrite(valve_pin, HIGH); //closing Valve
-  water_on = false; // state for interupt!
-  
+    Serial.println("Pump Water!");
+    digitalWrite(PUMP, LOW); //pumping starts
+    water_flag = Hold_State(pump_time);
+    digitalWrite(PUMP, HIGH); // pumping ends
+
+    digitalWrite(valve_pin, HIGH); //closing Valve
+    water_on = false; // state for interupt!
+  }
+
   if(water_flag==true)
     return(1);
   else
@@ -208,13 +215,15 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
   else
     Serial.println("Fehler bei Berechnung von pre_pause!");
   
+  /*
   for(int i=0; i < 2; i++) // Enable for Testing
   { // Enable for Testing
+  */
+
   
-  /*
   while (timer_on) //Enalbe on Hardware
   { // Enable on Hardware
-  */
+  
 
     switch_on = State_Switch(digitalRead(SWITCH));
     water_level_ok = State_Switch(digitalRead(WATERLEVEL));
