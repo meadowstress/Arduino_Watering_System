@@ -33,7 +33,8 @@ to check for LOW in order to be true.
 ATTENTION:
 Currently there is no solution how to mock the case of switches with pullup 
 resistors and pulldown resistors alltogether. A robust solution has to be 
-evaluated in the future.
+evaluated in the future. But since this is only a mocking issue and therefore
+is not relevant on the hardware the solution is currently acceptable.
 */
 const bool HIGH = true;
 const bool LOW = false;
