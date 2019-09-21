@@ -10,7 +10,7 @@ bool State_Switch(int input)
 {
   bool state;
   // switch logic
-  if (input == LOW)
+  if (input == HIGH)
   {
     state = true;
   }
@@ -24,7 +24,7 @@ bool State_Switch(int input)
 
 void State_Water()
 {
-  if (digitalRead(WATER) == LOW)
+  if (digitalRead(WATER) == HIGH)
   {
     current_state_water = true;
   }
@@ -99,7 +99,7 @@ unsigned long valve_time)
     digitalWrite(valve_pin, HIGH); //closing Valve
     water_on = false; // state for interupt!
   }
-  
+
   if(water_flag==true)
     return(1);
   else

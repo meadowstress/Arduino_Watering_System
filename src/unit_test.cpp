@@ -124,8 +124,8 @@ TEST(Time, operator_minus)
 
 TEST(PS_func, State_Switch) 
 { 
-    ASSERT_TRUE( State_Switch(LOW));
-    ASSERT_FALSE( State_Switch(HIGH));
+    ASSERT_FALSE( State_Switch(LOW));
+    ASSERT_TRUE( State_Switch(HIGH));
 }
 
 TEST(PS_func, State_Water_ff)
