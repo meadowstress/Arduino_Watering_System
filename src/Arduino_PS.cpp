@@ -24,6 +24,7 @@ unsigned long const t_quater_vol = 20000;
 unsigned long const t_valve = 100;
 unsigned long const t_bottom_vol = 6000;
 
+WaterSystem PumpControl;
 
 int main(void) //Enable for Testing
 { // Enable for Testing
@@ -83,6 +84,6 @@ void loop() // Enable on Hardware
   if (timer_on)
   {
     Serial.println("Start Timer:");
-    Pump_Water_Clock(t_quater_vol, t_bottom_vol, t_curr, t1, t2);
+    PumpControl.Pump_Water_Clock(t_quater_vol, t_bottom_vol, t_curr, t1, t2);
   }
 }

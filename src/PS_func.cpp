@@ -131,10 +131,7 @@ void Hold_State_Clock(unsigned long  hold_time, TIME t, unsigned long pump_time)
   } while (state_flag);
 }
 
-//making the important variables visible to the testing framework
-TIME pre_pause1(0, 0), pre_pause2(0, 0), pause1_water(0, 0), pause2_water(0, 0);
-
-int Pump_Water_Clock(unsigned long pump_time_top, 
+int WaterSystem::Pump_Water_Clock(unsigned long pump_time_top, 
 unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
 {
   int water_counter = 0;
