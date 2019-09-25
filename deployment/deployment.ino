@@ -25,8 +25,11 @@ bool water_level_ok = false;
 unsigned long const t_half_can = 15000;
 unsigned long const t_half_vol = 40000;
 unsigned long const t_quater_vol = 20000;
+unsigned long const t_low_temp_vol = 10000;
+
 unsigned long const t_valve = 100;
 unsigned long const t_bottom_vol = 6000;
+unsigned long const t_bottom_low_temp_vol = 3000;
 
 /*
 int main(void) //Enable for Testing
@@ -84,11 +87,11 @@ void loop() // Enable on Hardware
   }
 
   //setup timer
-  TIME t_curr(8, 0), t1(10, 0), t2(15, 0);
+  TIME t_curr(21, 10), t1(10, 0), t2(15, 0);
 
   if (timer_on)
   {
     Serial.println("Start Timer:");
-    Pump_Water_Clock(t_quater_vol, t_bottom_vol, t_curr, t1, t2);
+    Pump_Water_Clock(t_low_temp_vol, t_bottom_low_temp_vol, t_curr, t1, t2);
   }
 }
