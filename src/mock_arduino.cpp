@@ -11,6 +11,7 @@ bool valve_state_bottom = false;
 bool switch_state = false;
 bool water_state = false;
 bool water_level_state = false;
+bool measure_current_wl = false;
 
 /*
 This definition of HIGH and LOW is very volatile and is only valid for 
@@ -85,6 +86,17 @@ void digitalWrite(const short& pin, const bool& state)
     else
       std::cout << "Throw Error: digitalWrite(VALVEBOTTOM)\n";
   }
+
+  else if( pin == MEASURE_WL)
+  {
+    if(state == HIGH)
+      measure_current_wl = true;
+    else if(state == LOW)
+      measure_current_wl = false;
+    else
+      std::cout << "Throw Error: digitalWrite(VALVEBOTTOM)\n";
+  }
+
 }
 
 bool digitalRead(const short& pin)

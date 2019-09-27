@@ -9,6 +9,7 @@ const short VALVEBOTTOM = 10;
 const short SWITCH = 7;
 const short WATER = 3;
 const short WATERLEVEL = 4;
+const short MEASURE_WL = 5;
 
 bool switch_on = false;
 bool water_on = false;
@@ -56,6 +57,19 @@ TEST(digitalWrite, VALVEBOTTOM_HIGH )
     ASSERT_EQ(valve_state_bottom, false);
 }
 
+TEST(digitalWrite, MEASURE_WL_HIGH ) 
+{ 
+    measure_current_wl = false;
+    digitalWrite(VALVEBOTTOM,HIGH);
+    ASSERT_EQ(measure_current_wl, true);
+}
+
+TEST(digitalWrite, MEASURE_WL_LOW ) 
+{ 
+    measure_current_wl = true;
+    digitalWrite(VALVEBOTTOM,LOW);
+    ASSERT_EQ(measure_current_wl, false);
+}
 /*
     All following tests for digital read should originally evaluate to 
     LOW==true but since pulldown resistors are used with sitches LOW==false 
