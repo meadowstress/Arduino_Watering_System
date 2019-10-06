@@ -24,6 +24,7 @@ extern const short VALVEBOTTOM;
 extern const short SWITCH;
 extern const short WATER;
 extern const short WATERLEVEL;
+extern const short MEASURE_WL;
 
 extern bool pre_state_water;
 extern bool current_state_water;

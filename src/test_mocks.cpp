@@ -60,14 +60,14 @@ TEST(digitalWrite, VALVEBOTTOM_HIGH )
 TEST(digitalWrite, MEASURE_WL_HIGH ) 
 { 
     measure_current_wl = false;
-    digitalWrite(VALVEBOTTOM,HIGH);
+    digitalWrite(MEASURE_WL,HIGH);
     ASSERT_EQ(measure_current_wl, true);
 }
 
 TEST(digitalWrite, MEASURE_WL_LOW ) 
 { 
     measure_current_wl = true;
-    digitalWrite(VALVEBOTTOM,LOW);
+    digitalWrite(MEASURE_WL,LOW);
     ASSERT_EQ(measure_current_wl, false);
 }
 /*

@@ -56,7 +56,11 @@ class WaterSystem
         ~WaterSystem(){}
     
     int Pump_Water_Clock(unsigned long pump_time_top,
-    unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water);
+    unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, 
+    TIME& t2_water);
+
+    bool isWaterLevelOk();
+    bool isSystemSwitchedOn();
 
     TIME get_pre_pause1(){return pre_pause1;}
     TIME get_pre_pause2(){return pre_pause2;}

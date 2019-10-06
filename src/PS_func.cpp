@@ -186,8 +186,8 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
     Hold_State_Clock(pre_pause1.Time2Ticks(), pre_pause1, t_half_can);
 
     pTime = 0;
-    switch_on = State_Switch(digitalRead(SWITCH));
-    water_level_ok = State_Switch(digitalRead(WATERLEVEL));
+    switch_on = isSystemSwitchedOn();
+    water_level_ok = isWaterLevelOk();
     if (switch_on && water_level_ok)
     {
       water_counter += Pump_Water(pump_time_top, VALVETOP, t_valve);
@@ -222,8 +222,8 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
   { // Enable on Hardware
   */
 
-    switch_on = State_Switch(digitalRead(SWITCH));
-    water_level_ok = State_Switch(digitalRead(WATERLEVEL));
+    switch_on = isSystemSwitchedOn();
+    water_level_ok = isWaterLevelOk();
 
     pTime = 0;
     if (switch_on && water_level_ok)
@@ -235,8 +235,8 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
 
     Hold_State_Clock(pause1_water.Time2Ticks() - pTime, pause1_water, t_half_can);
 
-    switch_on = State_Switch(digitalRead(SWITCH));
-    water_level_ok = State_Switch(digitalRead(WATERLEVEL));
+    switch_on = isSystemSwitchedOn();
+    water_level_ok = isWaterLevelOk();
 
     pTime = 0;
     if (switch_on && water_level_ok)
@@ -249,4 +249,20 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
     Hold_State_Clock(pause2_water.Time2Ticks() - pTime, pause2_water, t_half_can);
   }
   return(water_counter);
+}
+
+bool WaterSystem::isWaterLevelOk()
+{
+    bool level_Ok = false;
+    digitalWrite(MEASURE_WL, HIGH); //measurement current switched on
+    level_Ok = (bool)digitalRead(WATERLEVEL);
+    digitalWrite(MEASURE_WL, LOW); //measurement current switched off
+    return(level_Ok);
+}
+
+bool WaterSystem::isSystemSwitchedOn()
+{
+  bool state = false;
+  state = (bool)digitalRead(SWITCH);
+  return state;
 }

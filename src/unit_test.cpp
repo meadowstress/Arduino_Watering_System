@@ -9,6 +9,7 @@ const short VALVEBOTTOM = 10;
 const short SWITCH = 7;
 const short WATER = 3;
 const short WATERLEVEL = 4;
+const short MEASURE_WL = 5;
 
 bool pre_state_water = false;
 bool current_state_water = false;

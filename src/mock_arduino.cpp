@@ -90,13 +90,12 @@ void digitalWrite(const short& pin, const bool& state)
   else if( pin == MEASURE_WL)
   {
     if(state == HIGH)
-      measure_current_wl = true;
-    else if(state == LOW)
       measure_current_wl = false;
+    else if(state == LOW)
+      measure_current_wl = true;
     else
       std::cout << "Throw Error: digitalWrite(VALVEBOTTOM)\n";
   }
-
 }
 
 bool digitalRead(const short& pin)
