@@ -106,8 +106,10 @@ unsigned long valve_time)
     return(0);
 }
 
-void Hold_State_Clock(unsigned long  hold_time, TIME t, unsigned long pump_time)
+int WaterSystem::Hold_State_Clock(unsigned long  hold_time, TIME t, unsigned long pump_time)
 {
+  int water_activations = 0;
+  
   Serial.println("Clock: hold_time:");
   Serial.println(hold_time);
   t.print();
@@ -121,14 +123,14 @@ void Hold_State_Clock(unsigned long  hold_time, TIME t, unsigned long pump_time)
     {
       state_flag = false;
     }
-
-    State_Water();
-    if (water_on)
+    
+    if (isWaterActivated() && isWaterLevelOk())
     {
-      Pump_Water(pump_time, VALVETOP, t_valve);
+      water_activations += Pump_Water(pump_time, VALVETOP, t_valve);
     }
 
   } while (state_flag);
+  return water_activations;
 }
 
 int WaterSystem::Pump_Water_Clock(unsigned long pump_time_top, 
@@ -265,4 +267,24 @@ bool WaterSystem::isSystemSwitchedOn()
   bool state = false;
   state = (bool)digitalRead(SWITCH);
   return state;
+}
+
+bool WaterSystem::isWaterActivated()
+{
+  if (digitalRead(WATER) == HIGH)
+  {
+    current_state_water = true;
+  }
+  else
+  {
+    current_state_water = false;
+  }
+
+  if (current_state_water != pre_state_water)
+  {
+    pre_state_water = current_state_water;
+    return true;
+  }
+  else
+    return false;
 }

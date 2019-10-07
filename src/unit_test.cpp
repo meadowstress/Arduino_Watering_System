@@ -258,10 +258,17 @@ TEST(Pump_Water,SwitchOffLowLevel)
 
 TEST(PS_func, Hold_State_Clock)
 {
+    WaterSystem PS;
+    int activations = 0;
+
     unsigned long hold_time = 600000;
     TIME t(0,1);
     unsigned long pump_time = 300000;
-    Hold_State_Clock(hold_time, t, pump_time);
+
+    water_level_ok = true;
+
+    activations = PS.Hold_State_Clock(hold_time, t, pump_time);
+    ASSERT_EQ(activations, 0);
 }
 
 TEST(Pump_Water_Clock, Before_Water_Counter)
@@ -279,6 +286,7 @@ TEST(Pump_Water_Clock, Before_Water_Counter)
     t_curr, t1_water, t2_water);
 
     ASSERT_EQ(water_counter, 8);
+    ASSERT_EQ(digitalRead(WATER),LOW);
 }
 
 TEST(Pump_Water_Clock, Before_Water_Counter_LowLevel)
