@@ -87,14 +87,24 @@ void digitalWrite(const short& pin, const bool& state)
       std::cout << "Throw Error: digitalWrite(VALVEBOTTOM)\n";
   }
 
+  else if( pin == WATERLEVEL)
+  {
+    if(state == HIGH)
+      water_level_state = true;
+    else if(state == LOW)
+      water_level_state = false;
+    else
+      std::cout << "Throw Error: digitalWrite(WATERLEVEL)\n";
+  }
+  
   else if( pin == MEASURE_WL)
   {
     if(state == HIGH)
-      measure_current_wl = false;
-    else if(state == LOW)
       measure_current_wl = true;
+    else if(state == LOW)
+      measure_current_wl = false;
     else
-      std::cout << "Throw Error: digitalWrite(VALVEBOTTOM)\n";
+      std::cout << "Throw Error: digitalWrite(MEASURE_WL)\n";
   }
 }
 
@@ -117,6 +127,9 @@ bool digitalRead(const short& pin)
 
   else if(pin == WATERLEVEL)
     return(water_level_state);
+
+  else if(pin == MEASURE_WL)
+    return(measure_current_wl);
 
   else 
     cout << "Throw Error: digitalRead \n";

@@ -146,8 +146,14 @@ TEST(digitalRead, WATERLEVEL_ON)
 
 TEST(digitalRead, WATERLEVEL_OFF)
 {
-    water_level_state = false;
-    ASSERT_EQ(digitalRead(WATERLEVEL), false);
+    measure_current_wl = false;
+    ASSERT_EQ(digitalRead(MEASURE_WL), false);
+}
+
+TEST(digitalRead, MEASURE_WL_ON)
+{
+    water_level_state = true;
+    ASSERT_EQ(digitalRead(WATERLEVEL), true);
 }
 
 TEST(Serial, println)
