@@ -10,7 +10,7 @@ bool State_Switch(int input)
 {
   bool state;
   // switch logic
-  if (input == HIGH)
+  if (input == LOW)
   {
     state = true;
   }
@@ -256,9 +256,9 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
 bool WaterSystem::isWaterLevelOk()
 {
     bool level_Ok = false;
-    digitalWrite(MEASURE_WL, HIGH); //measurement current switched on
+    digitalWrite(MEASURE_WL, LOW); //measurement current switched on
     level_Ok = (bool)digitalRead(WATERLEVEL);
-    digitalWrite(MEASURE_WL, LOW); //measurement current switched off
+    digitalWrite(MEASURE_WL, HIGH); //measurement current switched off
     return(level_Ok);
 }
 
@@ -266,7 +266,10 @@ bool WaterSystem::isSystemSwitchedOn()
 {
   bool state = false;
   state = (bool)digitalRead(SWITCH);
-  return state;
+  if (state == LOW)
+    return true;
+  else
+    return false;
 }
 
 bool WaterSystem::isWaterActivated()

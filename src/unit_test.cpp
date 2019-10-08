@@ -125,8 +125,8 @@ TEST(Time, operator_minus)
 
 TEST(PS_func, State_Switch) 
 { 
-    ASSERT_FALSE( State_Switch(LOW));
-    ASSERT_TRUE( State_Switch(HIGH));
+    ASSERT_FALSE( State_Switch(HIGH));
+    ASSERT_TRUE( State_Switch(LOW));
 }
 
 TEST(PS_func, State_Water_ff)
@@ -286,7 +286,6 @@ TEST(Pump_Water_Clock, Before_Water_Counter)
     t_curr, t1_water, t2_water);
 
     ASSERT_EQ(water_counter, 8);
-    ASSERT_EQ(digitalRead(WATER),LOW);
 }
 
 TEST(Pump_Water_Clock, Before_Water_Counter_LowLevel)

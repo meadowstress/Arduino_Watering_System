@@ -17,28 +17,10 @@ bool measure_current_wl = false;
 This definition of HIGH and LOW is very volatile and is only valid for 
 switches connected to pulldown resistors. Currently there are 3 switches
 implemented in the code.
-
-1. On/Off switch
-2. Water switch
-3. Water level detector
-
-All these switches are using the two functions below:
-
-bool State_Switch(int input)
-void State_Water()
-
-Currently they check for the state HIGH in order to be true. As soon as there
-are pullup resitors used together with that switches then these functions need
-to check for LOW in order to be true.
-
-ATTENTION:
-Currently there is no solution how to mock the case of switches with pullup 
-resistors and pulldown resistors alltogether. A robust solution has to be 
-evaluated in the future. But since this is only a mocking issue and therefore
-is not relevant on the hardware the solution is currently acceptable.
 */
-const bool HIGH = true;
-const bool LOW = false;
+
+const bool HIGH = false;
+const bool LOW = true;
 
 Output Serial;
 
@@ -90,9 +72,9 @@ void digitalWrite(const short& pin, const bool& state)
   else if( pin == WATERLEVEL)
   {
     if(state == HIGH)
-      water_level_state = true;
-    else if(state == LOW)
       water_level_state = false;
+    else if(state == LOW)
+      water_level_state = true;
     else
       std::cout << "Throw Error: digitalWrite(WATERLEVEL)\n";
   }
@@ -100,9 +82,9 @@ void digitalWrite(const short& pin, const bool& state)
   else if( pin == MEASURE_WL)
   {
     if(state == HIGH)
-      measure_current_wl = true;
-    else if(state == LOW)
       measure_current_wl = false;
+    else if(state == LOW)
+      measure_current_wl = true;
     else
       std::cout << "Throw Error: digitalWrite(MEASURE_WL)\n";
   }

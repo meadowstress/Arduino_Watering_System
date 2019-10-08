@@ -59,101 +59,100 @@ TEST(digitalWrite, VALVEBOTTOM_HIGH )
 
 TEST(digitalWrite, MEASURE_WL_HIGH ) 
 { 
-    measure_current_wl = false;
+    measure_current_wl = true;
     digitalWrite(MEASURE_WL,HIGH);
-    ASSERT_EQ(measure_current_wl, true);
+    ASSERT_EQ(measure_current_wl, false);
 }
 
 TEST(digitalWrite, MEASURE_WL_LOW ) 
 { 
-    measure_current_wl = true;
+    measure_current_wl = false;
     digitalWrite(MEASURE_WL,LOW);
-    ASSERT_EQ(measure_current_wl, false);
+    ASSERT_EQ(measure_current_wl, true);
 }
-/*
-    All following tests for digital read should originally evaluate to 
-    LOW==true but since pulldown resistors are used with sitches LOW==false 
-    for the switches. 
-    For outputs LOW==true still. A proper solution for this confusion must 
-    be found in the future. But for now the tests evaluate trivial to true 
-    and false as exected.
-*/
+
 TEST(digitalRead, PUMP_LOW) 
 { 
     pump_state = true;
-    ASSERT_EQ(digitalRead(PUMP), true);
+    ASSERT_EQ(digitalRead(PUMP), LOW);
 }
 
 TEST(digitalRead, PUMP_HIGH) 
 { 
     pump_state = false;
-    ASSERT_EQ(digitalRead(PUMP), false);
+    ASSERT_EQ(digitalRead(PUMP), HIGH);
 }
 
 TEST(digitalRead, VALVETOP_LOW) 
 { 
     valve_state_top = true;
-    ASSERT_EQ(digitalRead(VALVETOP), true);
+    ASSERT_EQ(digitalRead(VALVETOP), LOW);
 }
 
 TEST(digitalRead, VALVETOP_HIGH) 
 { 
     valve_state_top = false;
-    ASSERT_EQ(digitalRead(VALVETOP), false);
+    ASSERT_EQ(digitalRead(VALVETOP), HIGH);
 }
 
 TEST(digitalRead, VALVEBOTTOM_LOW) 
 { 
     valve_state_bottom = true;
-    ASSERT_EQ(digitalRead(VALVEBOTTOM), true);
+    ASSERT_EQ(digitalRead(VALVEBOTTOM), LOW);
 }
 
 TEST(digitalRead, VALVEBOTTOM_HIGH) 
 { 
     valve_state_bottom = false;
-    ASSERT_EQ(digitalRead(VALVEBOTTOM), false);
+    ASSERT_EQ(digitalRead(VALVEBOTTOM), HIGH);
 }
 
 TEST(digitalRead, SWITCH_ON)
 {
     switch_state = true;
-    ASSERT_EQ(digitalRead(SWITCH), true);
+    ASSERT_EQ(digitalRead(SWITCH), LOW);
 }
 
 TEST(digitalRead, SWITCH_OFF)
 {
     switch_state = false;
-    ASSERT_EQ(digitalRead(SWITCH), false);
+    ASSERT_EQ(digitalRead(SWITCH), HIGH);
 }
 
 TEST(digitalRead, WATER_ON)
 {
     water_state = true;
-    ASSERT_EQ(digitalRead(WATER), true);
+    ASSERT_EQ(digitalRead(WATER), LOW);
 }
 
 TEST(digitalRead, WATER_OFF)
 {
     water_state = false;
-    ASSERT_EQ(digitalRead(WATER), false);
+    ASSERT_EQ(digitalRead(WATER), HIGH);
 }
 
 TEST(digitalRead, WATERLEVEL_ON)
 {
     water_level_state = true;
-    ASSERT_EQ(digitalRead(WATERLEVEL), true);
+    ASSERT_EQ(digitalRead(WATERLEVEL), LOW);
 }
 
 TEST(digitalRead, WATERLEVEL_OFF)
 {
     measure_current_wl = false;
-    ASSERT_EQ(digitalRead(MEASURE_WL), false);
+    ASSERT_EQ(digitalRead(MEASURE_WL), HIGH);
 }
 
 TEST(digitalRead, MEASURE_WL_ON)
 {
     water_level_state = true;
-    ASSERT_EQ(digitalRead(WATERLEVEL), true);
+    ASSERT_EQ(digitalRead(WATERLEVEL), LOW);
+}
+
+TEST(digitalRead, MEASURE_WL_OFF)
+{
+    water_level_state = false;
+    ASSERT_EQ(digitalRead(WATERLEVEL), HIGH);
 }
 
 TEST(Serial, println)
