@@ -8,8 +8,11 @@ const short VALVETOP = 9;
 const short VALVEBOTTOM = 10;
 const short SWITCH = 7;
 const short WATER = 3;
-const short WATERLEVEL = 4;
-const short MEASURE_WL = 5; 
+/*
+Set to 7 meaning the same pin like the on/off switch to disable functionality
+of waterlevel functionality. Set to 4 when intended to use this functionality. 
+*/
+const short WATERLEVEL = 7; 
 
 //states
 bool pre_state_water = false;
@@ -28,8 +31,6 @@ unsigned long const t_valve = 100;
 unsigned long const t_bottom_vol = 6000;
 unsigned long const t_bottom_low_temp_vol = 2000;
 
-WaterSystem PumpControl;
-
 /*
 int main(void) //Enable for Testing
 { // Enable for Testing
@@ -43,8 +44,11 @@ void setup() // Enable on Hardware
   pinMode(VALVEBOTTOM, OUTPUT);  // Enable on Hardware
   pinMode(SWITCH, INPUT);  // Enable on Hardware
   pinMode(WATER, INPUT);  // Enable on Hardware
-  pinMode(WATERLEVEL, INPUT);  // Enable on Hardware
-  pinMode(MEASURE_WL, OUTPUT); // Enable on Hardware
+  /*
+  since waterlevel feature not inteded to use configuration of waterlevel pin
+  skiped.
+  */
+  //pinMode(WATERLEVEL, INPUT);  // Enable on Hardware
   Serial.begin(9600);  // Enable on Hardware
   
 
@@ -78,8 +82,8 @@ void loop() // Enable on Hardware
   if (switch_on && water_on)
   {
     Serial.println("Pump_Water single Function!");
-    PumpControl.Pump_Water(t_half_can, VALVETOP, t_valve);
-    PumpControl.Pump_Water(t_bottom_vol, VALVEBOTTOM, t_valve);
+    Pump_Water(t_half_can, VALVETOP, t_valve);
+    Pump_Water(t_bottom_vol, VALVEBOTTOM, t_valve);
   }
 
   //setup timer
@@ -88,6 +92,6 @@ void loop() // Enable on Hardware
   if (timer_on)
   {
     Serial.println("Start Timer:");
-    PumpControl.Pump_Water_Clock(t_low_temp_vol, t_bottom_low_temp_vol, t_curr, t1, t2);
+    Pump_Water_Clock(t_low_temp_vol, t_bottom_low_temp_vol, t_curr, t1, t2);
   }
 }

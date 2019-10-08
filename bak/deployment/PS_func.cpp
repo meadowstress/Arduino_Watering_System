@@ -10,7 +10,7 @@ bool State_Switch(int input)
 {
   bool state;
   // switch logic
-  if (input == LOW)
+  if (input == HIGH)
   {
     state = true;
   }
@@ -47,7 +47,7 @@ void State_Water()
 
 // Hold logic
 
-bool WaterSystem::Hold_State(unsigned long  hold_time)
+bool Hold_State(unsigned long  hold_time)
 {
 
   bool state_flag = true;
@@ -58,8 +58,8 @@ bool WaterSystem::Hold_State(unsigned long  hold_time)
   do
   {
     i++;
-    switch_on = isSystemSwitchedOn();
-    water_level_ok = isWaterLevelOk();
+    switch_on = State_Switch(digitalRead(SWITCH));
+    water_level_ok = State_Switch(digitalRead(WATERLEVEL));
 
     elapsed_time = (millis() - start_time);
     if ( (elapsed_time > hold_time) || switch_on == false || 
@@ -77,13 +77,13 @@ bool WaterSystem::Hold_State(unsigned long  hold_time)
     return false;
 }
 
-int WaterSystem::Pump_Water(unsigned long pump_time, unsigned short valve_pin, 
+int Pump_Water(unsigned long pump_time, unsigned short valve_pin, 
 unsigned long valve_time)
 {
   bool water_flag = false;
 
-  switch_on = isSystemSwitchedOn();
-  water_level_ok = isWaterLevelOk();
+  switch_on = State_Switch(digitalRead(SWITCH));
+  water_level_ok = State_Switch(digitalRead(WATERLEVEL));
 
   if(switch_on && water_level_ok)
   {
@@ -106,10 +106,8 @@ unsigned long valve_time)
     return(0);
 }
 
-int WaterSystem::Hold_State_Clock(unsigned long  hold_time, TIME t, unsigned long pump_time)
+void Hold_State_Clock(unsigned long  hold_time, TIME t, unsigned long pump_time)
 {
-  int water_activations = 0;
-  
   Serial.println("Clock: hold_time:");
   Serial.println(hold_time);
   t.print();
@@ -123,17 +121,20 @@ int WaterSystem::Hold_State_Clock(unsigned long  hold_time, TIME t, unsigned lon
     {
       state_flag = false;
     }
-    
-    if (isWaterActivated() && isWaterLevelOk())
+
+    State_Water();
+    if (water_on)
     {
-      water_activations += Pump_Water(pump_time, VALVETOP, t_valve);
+      Pump_Water(pump_time, VALVETOP, t_valve);
     }
 
   } while (state_flag);
-  return water_activations;
 }
 
-int WaterSystem::Pump_Water_Clock(unsigned long pump_time_top, 
+//making the important variables visible to the testing framework
+TIME pre_pause1(0, 0), pre_pause2(0, 0), pause1_water(0, 0), pause2_water(0, 0);
+
+int Pump_Water_Clock(unsigned long pump_time_top, 
 unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
 {
   int water_counter = 0;
@@ -188,8 +189,8 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
     Hold_State_Clock(pre_pause1.Time2Ticks(), pre_pause1, t_half_can);
 
     pTime = 0;
-    switch_on = isSystemSwitchedOn();
-    water_level_ok = isWaterLevelOk();
+    switch_on = State_Switch(digitalRead(SWITCH));
+    water_level_ok = State_Switch(digitalRead(WATERLEVEL));
     if (switch_on && water_level_ok)
     {
       water_counter += Pump_Water(pump_time_top, VALVETOP, t_valve);
@@ -222,10 +223,10 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
   
   while (timer_on) //Enalbe on Hardware
   { // Enable on Hardware
+  
 
-
-    switch_on = isSystemSwitchedOn();
-    water_level_ok = isWaterLevelOk();
+    switch_on = State_Switch(digitalRead(SWITCH));
+    water_level_ok = State_Switch(digitalRead(WATERLEVEL));
 
     pTime = 0;
     if (switch_on && water_level_ok)
@@ -237,8 +238,8 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
 
     Hold_State_Clock(pause1_water.Time2Ticks() - pTime, pause1_water, t_half_can);
 
-    switch_on = isSystemSwitchedOn();
-    water_level_ok = isWaterLevelOk();
+    switch_on = State_Switch(digitalRead(SWITCH));
+    water_level_ok = State_Switch(digitalRead(WATERLEVEL));
 
     pTime = 0;
     if (switch_on && water_level_ok)
@@ -251,43 +252,4 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
     Hold_State_Clock(pause2_water.Time2Ticks() - pTime, pause2_water, t_half_can);
   }
   return(water_counter);
-}
-
-bool WaterSystem::isWaterLevelOk()
-{
-    bool level_Ok = false;
-    digitalWrite(MEASURE_WL, LOW); //measurement current switched on
-    level_Ok = (bool)digitalRead(WATERLEVEL);
-    digitalWrite(MEASURE_WL, HIGH); //measurement current switched off
-    return(level_Ok);
-}
-
-bool WaterSystem::isSystemSwitchedOn()
-{
-  bool state = false;
-  state = (bool)digitalRead(SWITCH);
-  if (state == LOW)
-    return true;
-  else
-    return false;
-}
-
-bool WaterSystem::isWaterActivated()
-{
-  if (digitalRead(WATER) == HIGH)
-  {
-    current_state_water = true;
-  }
-  else
-  {
-    current_state_water = false;
-  }
-
-  if (current_state_water != pre_state_water)
-  {
-    pre_state_water = current_state_water;
-    return true;
-  }
-  else
-    return false;
 }
