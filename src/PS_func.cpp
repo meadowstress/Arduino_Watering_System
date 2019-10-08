@@ -47,7 +47,7 @@ void State_Water()
 
 // Hold logic
 
-bool Hold_State(unsigned long  hold_time)
+bool WaterSystem::Hold_State(unsigned long  hold_time)
 {
 
   bool state_flag = true;
@@ -58,8 +58,8 @@ bool Hold_State(unsigned long  hold_time)
   do
   {
     i++;
-    switch_on = State_Switch(digitalRead(SWITCH));
-    water_level_ok = State_Switch(digitalRead(WATERLEVEL));
+    switch_on = isSystemSwitchedOn();
+    water_level_ok = isWaterLevelOk();
 
     elapsed_time = (millis() - start_time);
     if ( (elapsed_time > hold_time) || switch_on == false || 
@@ -77,13 +77,13 @@ bool Hold_State(unsigned long  hold_time)
     return false;
 }
 
-int Pump_Water(unsigned long pump_time, unsigned short valve_pin, 
+int WaterSystem::Pump_Water(unsigned long pump_time, unsigned short valve_pin, 
 unsigned long valve_time)
 {
   bool water_flag = false;
 
-  switch_on = State_Switch(digitalRead(SWITCH));
-  water_level_ok = State_Switch(digitalRead(WATERLEVEL));
+  switch_on = isSystemSwitchedOn();
+  water_level_ok = isWaterLevelOk();
 
   if(switch_on && water_level_ok)
   {

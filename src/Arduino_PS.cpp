@@ -75,8 +75,8 @@ void loop() // Enable on Hardware
   if (switch_on && water_on)
   {
     Serial.println("Pump_Water single Function!");
-    Pump_Water(t_half_can, VALVETOP, t_valve);
-    Pump_Water(t_bottom_vol, VALVEBOTTOM, t_valve);
+    PumpControl.Pump_Water(t_half_can, VALVETOP, t_valve);
+    PumpControl.Pump_Water(t_bottom_vol, VALVEBOTTOM, t_valve);
   }
 
   //setup timer

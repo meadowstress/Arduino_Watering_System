@@ -60,6 +60,9 @@ class WaterSystem
     TIME& t2_water);
     int Hold_State_Clock(unsigned long  hold_time, TIME t,
     unsigned long pump_time);
+    int Pump_Water(unsigned long pump_time, 
+    unsigned short valve_pin, unsigned long valve_time);
+    bool Hold_State(unsigned long  hold_time);
 
     bool isWaterLevelOk();
     bool isSystemSwitchedOn();

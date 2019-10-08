@@ -183,27 +183,31 @@ TEST(PS_func, State_Water_tf)
  
 TEST(Hold_State, SwitchOn)
 {
+    WaterSystem PS;
     switch_state = true;
     water_level_state = true;
-    ASSERT_TRUE(Hold_State(3000));
+    ASSERT_TRUE(PS.Hold_State(3000));
 }
 
 TEST(Hold_State, SwitchOff)
 {
+    WaterSystem PS;
     switch_state = false;
     water_level_state = true;
-    ASSERT_FALSE(Hold_State(3000));
+    ASSERT_FALSE(PS.Hold_State(3000));
 }
 
 TEST(Hold_State, WaterLevel)
 {
+    WaterSystem PS;
     switch_state = true;
     water_level_state = false;
-    ASSERT_FALSE(Hold_State(3000));
+    ASSERT_FALSE(PS.Hold_State(3000));
 }
 
 TEST(Pump_Water, SwitchOn)
 {
+    WaterSystem PS;
     unsigned long pump_time = t_half_can; 
     unsigned short valve_pin = VALVETOP; 
     unsigned long valve_time = t_valve;
@@ -211,11 +215,12 @@ TEST(Pump_Water, SwitchOn)
     water_level_state = true;
     switch_state = true;
 
-    ASSERT_EQ(Pump_Water(pump_time, valve_pin, valve_time), 1);
+    ASSERT_EQ(PS.Pump_Water(pump_time, valve_pin, valve_time), 1);
 }
 
 TEST(Pump_Water, SwitchOff)
 {
+    WaterSystem PS;
     unsigned long pump_time = t_half_can; 
     unsigned short valve_pin = VALVETOP; 
     unsigned long valve_time = t_valve;
@@ -224,12 +229,13 @@ TEST(Pump_Water, SwitchOff)
     water_level_state = true;
     switch_state = false;
 
-    result = Pump_Water(pump_time, valve_pin, valve_time);
+    result = PS.Pump_Water(pump_time, valve_pin, valve_time);
     ASSERT_EQ(result, 0);
 }
 
 TEST(Pump_Water,LowLevel)
 {
+    WaterSystem PS;
     unsigned long pump_time = t_half_can; 
     unsigned short valve_pin = VALVETOP; 
     unsigned long valve_time = t_valve;
@@ -238,12 +244,13 @@ TEST(Pump_Water,LowLevel)
     water_level_state = false;
     switch_state = true;
 
-    result = Pump_Water(pump_time, valve_pin, valve_time);
+    result = PS.Pump_Water(pump_time, valve_pin, valve_time);
     ASSERT_EQ(result, 0);
 }
 
 TEST(Pump_Water,SwitchOffLowLevel)
 {
+    WaterSystem PS;
     unsigned long pump_time = t_half_can; 
     unsigned short valve_pin = VALVETOP; 
     unsigned long valve_time = t_valve;
@@ -252,7 +259,7 @@ TEST(Pump_Water,SwitchOffLowLevel)
     water_level_state = false;
     switch_state = false;
 
-    result = Pump_Water(pump_time, valve_pin, valve_time);
+    result = PS.Pump_Water(pump_time, valve_pin, valve_time);
     ASSERT_EQ(result, 0);
 }
 
