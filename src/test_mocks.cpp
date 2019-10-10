@@ -131,28 +131,44 @@ TEST(digitalRead, WATER_OFF)
     ASSERT_EQ(digitalRead(WATER), HIGH);
 }
 
-TEST(digitalRead, WATERLEVEL_ON)
+TEST(digitalRead, WATERLEVEL_ONON)
 {
     water_level_state = true;
+    measure_current_wl = true;
     ASSERT_EQ(digitalRead(WATERLEVEL), LOW);
 }
 
-TEST(digitalRead, WATERLEVEL_OFF)
+TEST(digitalRead, WATERLEVEL_ONOFF)
 {
+    water_level_state = true;
     measure_current_wl = false;
-    ASSERT_EQ(digitalRead(MEASURE_WL), HIGH);
+    ASSERT_EQ(digitalRead(WATERLEVEL), HIGH);
+}
+
+TEST(digitalRead, WATERLEVEL_OFFON)
+{
+    water_level_state = false;
+    measure_current_wl = true;
+    ASSERT_EQ(digitalRead(WATERLEVEL), HIGH);
+}
+
+TEST(digitalRead, WATERLEVEL_OFFOFF)
+{
+    water_level_state = false;
+    measure_current_wl = false;
+    ASSERT_EQ(digitalRead(WATERLEVEL), HIGH);
 }
 
 TEST(digitalRead, MEASURE_WL_ON)
 {
-    water_level_state = true;
-    ASSERT_EQ(digitalRead(WATERLEVEL), LOW);
+    measure_current_wl = true;
+    ASSERT_EQ(digitalRead(MEASURE_WL), LOW);
 }
 
 TEST(digitalRead, MEASURE_WL_OFF)
 {
-    water_level_state = false;
-    ASSERT_EQ(digitalRead(WATERLEVEL), HIGH);
+    measure_current_wl = false;
+    ASSERT_EQ(digitalRead(MEASURE_WL), HIGH);
 }
 
 TEST(Serial, println)

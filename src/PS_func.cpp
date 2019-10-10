@@ -5,46 +5,6 @@
 #include <HardwareSerial.h> //Enable on Hardware
 */
 
-//Switch logic
-bool State_Switch(int input)
-{
-  bool state;
-  // switch logic
-  if (input == LOW)
-  {
-    state = true;
-  }
-  else
-  {
-    state = false;
-  }
-  return state;
-}
-
-
-void State_Water()
-{
-  if (digitalRead(WATER) == HIGH)
-  {
-    current_state_water = true;
-  }
-  else
-  {
-    current_state_water = false;
-  }
-
-  if (current_state_water != pre_state_water)
-  {
-    water_on = true;
-    pre_state_water = current_state_water;
-  }
-  else
-  {
-    water_on = false;
-  }
-}
-
-
 // Hold logic
 
 bool WaterSystem::Hold_State(unsigned long  hold_time)

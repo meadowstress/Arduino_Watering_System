@@ -108,7 +108,7 @@ bool digitalRead(const short& pin)
     return(water_state);
 
   else if(pin == WATERLEVEL)
-    return(water_level_state);
+    return(water_level_state && measure_current_wl);
 
   else if(pin == MEASURE_WL)
     return(measure_current_wl);
