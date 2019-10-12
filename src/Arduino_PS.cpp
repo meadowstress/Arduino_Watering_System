@@ -68,8 +68,8 @@ void loop() // Enable on Hardware
   timer_on = true; // software switch for pump timer function
 
   // state logics
-  switch_on = State_Switch(digitalRead(SWITCH));
-  State_Water();
+  switch_on = PumpControl.isSystemSwitchedOn();
+  water_on = PumpControl.isWaterActivated();
 
   // function execution
   if (switch_on && water_on)

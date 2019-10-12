@@ -123,69 +123,69 @@ TEST(Time, operator_minus)
 }
 
 
-TEST(PS_func, State_Switch) 
+TEST(PS_func, isSystemSwitchedOnTrue) 
 { 
-    ASSERT_FALSE( State_Switch(HIGH));
-    ASSERT_TRUE( State_Switch(LOW));
+    WaterSystem PS;
+    switch_state = true;
+    ASSERT_TRUE(PS.isSystemSwitchedOn());
 }
 
-TEST(PS_func, State_Water_ff)
+TEST(PS_func, isSystemSwitchedOnFalse) 
+{ 
+    WaterSystem PS;
+    switch_state = false;
+    ASSERT_FALSE(PS.isSystemSwitchedOn());
+}
+
+TEST(PS_func, isWaterActivatedTrueFF)
 {
-    water_on = false;
+    WaterSystem PS;
+
+    pre_state_water = false;
+    current_state_water = false;
+
+    water_state = true;
+    ASSERT_TRUE(PS.isWaterActivated());
+}
+
+TEST(PS_func, isWaterActivatedFalseFF)
+{
+    WaterSystem PS;
+
     pre_state_water = false;
     current_state_water = false;
 
     water_state = false;
-    State_Water();
-    water_state = false;
-    State_Water();
-    ASSERT_EQ(water_on, false);
+    ASSERT_FALSE(PS.isWaterActivated());
 }
 
-TEST(PS_func, State_Water_tt)
+TEST(PS_func, isWaterActivatedTrueTT)
 {
-    water_on = false;
+    WaterSystem PS;
+
+    pre_state_water = true;
+    current_state_water = true;
+
+    water_state = false;
+    ASSERT_TRUE(PS.isWaterActivated());
+}
+
+TEST(PS_func, isWaterActivatedFalseTT)
+{
+    WaterSystem PS;
+
     pre_state_water = true;
     current_state_water = true;
 
     water_state = true;
-    State_Water();
-    water_state = true;
-    State_Water();
-    ASSERT_EQ(water_on, false);
+    ASSERT_FALSE(PS.isWaterActivated());
 }
 
-TEST(PS_func, State_Water_ft)
-{
-    water_on = false;
-    pre_state_water = false;
-    current_state_water = false;
-
-    water_state = false;
-    State_Water();
-    water_state = true;
-    State_Water();
-    ASSERT_EQ(water_on, true);
-}
-
-TEST(PS_func, State_Water_tf)
-{
-    water_on = false;
-    pre_state_water = true;
-    current_state_water = true;
-
-    water_state = true;
-    State_Water();
-    water_state = false;
-    State_Water();
-    ASSERT_EQ(water_on, true);
-}
  
 TEST(Hold_State, SwitchOn)
 {
     WaterSystem PS;
     switch_state = true;
-    water_level_state = true;
     ASSERT_TRUE(PS.Hold_State(3000));
 }
 
@@ -193,17 +193,17 @@ TEST(Hold_State, SwitchOff)
 {
     WaterSystem PS;
     switch_state = false;
-    water_level_state = true;
     ASSERT_FALSE(PS.Hold_State(3000));
 }
 
-TEST(Hold_State, WaterLevel)
+TEST(Hold_State, LowLevel)
 {
     WaterSystem PS;
     switch_state = true;
     water_level_state = false;
     ASSERT_FALSE(PS.Hold_State(3000));
 }
+
 
 TEST(Pump_Water, SwitchOn)
 {

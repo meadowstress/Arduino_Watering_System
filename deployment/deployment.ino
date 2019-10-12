@@ -22,11 +22,11 @@ bool water_level_ok = false;
 unsigned long const t_half_can = 15000;
 unsigned long const t_half_vol = 40000;
 unsigned long const t_quater_vol = 20000;
-unsigned long const t_low_temp_vol = 6000;
+unsigned long const t_low_temp_vol = 4000;
 
 unsigned long const t_valve = 100;
 unsigned long const t_bottom_vol = 6000;
-unsigned long const t_bottom_low_temp_vol = 2000;
+unsigned long const t_bottom_low_temp_vol = 1000;
 
 WaterSystem PumpControl;
 
@@ -53,11 +53,13 @@ void setup() // Enable on Hardware
   digitalWrite(VALVEBOTTOM, HIGH); //default no pumping enabled
 
   //prevent different states when water switch is on
-  if (digitalRead(WATER) == HIGH)
+  if (digitalRead(WATER) == LOW) //set to LOW for Pullup resistor
   {
     pre_state_water = true;
     current_state_water = true;
   }
+
+  timer_on = true; // software switch for pump timer function
 } //Enable on Hardware
 
 
@@ -65,29 +67,22 @@ void setup() // Enable on Hardware
 
 void loop() // Enable on Hardware
 { // Enable on Hardware
-
-  
-  //configuration settings - change time here
-  timer_on = true; // software switch for pump timer function
-
-  // state logics
-  switch_on = State_Switch(digitalRead(SWITCH));
-  State_Water();
-
-  // function execution
-  if (switch_on && water_on)
+  if (PumpControl.isSystemSwitchedOn() && PumpControl.isWaterActivated())
   {
-    Serial.println("Pump_Water single Function!");
+    //Serial.println("Pump_Water single Function!");
     PumpControl.Pump_Water(t_half_can, VALVETOP, t_valve);
-    PumpControl.Pump_Water(t_bottom_vol, VALVEBOTTOM, t_valve);
+    //PumpControl.Pump_Water(t_bottom_vol, VALVEBOTTOM, t_valve);
+    //Serial.println("condition true");
   }
 
+  
   //setup timer
-  TIME t_curr(8, 51), t1(10, 0), t2(15, 0);
+  TIME t_curr(18, 26), t1(18, 27), t2(18, 28);
 
   if (timer_on)
   {
     Serial.println("Start Timer:");
     PumpControl.Pump_Water_Clock(t_low_temp_vol, t_bottom_low_temp_vol, t_curr, t1, t2);
   }
+  
 }
