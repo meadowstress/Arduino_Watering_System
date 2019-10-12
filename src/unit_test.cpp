@@ -186,6 +186,8 @@ TEST(Hold_State, SwitchOn)
 {
     WaterSystem PS;
     switch_state = true;
+    water_level_state = true;
+    measure_current_wl = true;
     ASSERT_TRUE(PS.Hold_State(3000));
 }
 
@@ -193,6 +195,8 @@ TEST(Hold_State, SwitchOff)
 {
     WaterSystem PS;
     switch_state = false;
+    water_level_state = true;
+    measure_current_wl = true;
     ASSERT_FALSE(PS.Hold_State(3000));
 }
 
@@ -201,6 +205,7 @@ TEST(Hold_State, LowLevel)
     WaterSystem PS;
     switch_state = true;
     water_level_state = false;
+    measure_current_wl = true;
     ASSERT_FALSE(PS.Hold_State(3000));
 }
 
