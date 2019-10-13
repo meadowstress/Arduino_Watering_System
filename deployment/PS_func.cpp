@@ -22,7 +22,8 @@ bool WaterSystem::Hold_State(unsigned long  hold_time)
     water_level_ok = isWaterLevelOk(); //has to be evaluated if test test for waterlevel is applicable
 
     elapsed_time = (millis() - start_time);
-    if ( (elapsed_time > hold_time) || switch_on == false)
+    if ( (elapsed_time > hold_time) || switch_on == false || 
+    water_level_ok == false)
     {
       state_flag = false;
     }
@@ -214,7 +215,6 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
 
 bool WaterSystem::isWaterLevelOk()
 {
-    /*
     bool level_Ok = false;
     digitalWrite(MEASURE_WL, LOW); //measurement current switched on
     level_Ok = (bool)digitalRead(WATERLEVEL);
@@ -228,8 +228,6 @@ bool WaterSystem::isWaterLevelOk()
     {
       return false;
     }
-    */
-   return true;
 }
 
 bool WaterSystem::isSystemSwitchedOn()
