@@ -23,6 +23,7 @@ const bool HIGH = false;
 const bool LOW = true;
 
 Output Serial;
+DHT dht;
 
 timeb t_start;
 
@@ -155,4 +156,9 @@ void Output::print(float data)
 void Output::println(float data)
 {
   cout << data <<endl;
+}
+
+float DHT::readTemperature()
+{
+  return(20.0);
 }

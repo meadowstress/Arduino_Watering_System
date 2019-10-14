@@ -58,4 +58,16 @@ class Output
 
 extern Output Serial;
 
+class DHT
+{
+  public:
+  float temperature;
+  DHT()
+  {
+    temperature = 0.0F;
+  }
+  ~DHT(){}
+  float readTemperature();
+};
+
 #endif

@@ -3,6 +3,7 @@
 /*
 #include <Arduino.h> //Enable on Hardware
 #include <HardwareSerial.h> //Enable on Hardware
+#include "DHT.h"
 */
 
 // Hold logic
@@ -258,4 +259,13 @@ bool WaterSystem::isWaterActivated()
   }
   else
     return false;
+}
+
+float WaterSystem::getTemperature()
+{
+  float temperature = 0.0;
+
+  temperature = dht.readTemperature();
+
+  return(temperature);
 }

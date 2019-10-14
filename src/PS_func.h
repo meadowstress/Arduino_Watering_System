@@ -1,6 +1,8 @@
 #ifndef PS_FUNC_H
 #define PS_FUNC_H
 
+//#include"DHT.h" //Enable on Hardware
+#include"mock_arduino.h" //Enable for Testing
 #include"time.h"
 
 //pins
@@ -11,6 +13,7 @@ extern const short SWITCH;
 extern const short WATER;
 extern const short WATERLEVEL;
 extern const short MEASURE_WL;
+extern DHT dht;
 
 //states
 extern bool pre_state_water;
@@ -67,6 +70,7 @@ class WaterSystem
     bool isWaterLevelOk();
     bool isSystemSwitchedOn();
     bool isWaterActivated();
+    float getTemperature();
 
     TIME get_pre_pause1(){return pre_pause1;}
     TIME get_pre_pause2(){return pre_pause2;}

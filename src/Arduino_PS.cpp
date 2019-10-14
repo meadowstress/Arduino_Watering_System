@@ -10,6 +10,8 @@ const short SWITCH = 7;
 const short WATER = 3;
 const short WATERLEVEL = 4;
 const short MEASURE_WL = 5;
+const short TEMPERATURE = 6;
+//DHT dht(TEMPERATURE, DHT22); //Enable for Hardware
 
 //states
 bool pre_state_water = false;
@@ -43,6 +45,7 @@ void setup() // Enable on Hardware
   pinMode(WATER, INPUT_PULLUP);  // Enable on Hardware
   pinMode(WATERLEVEL, INPUT_PULLUP);  // Enable on Hardware
   Serial.begin(9600);  // Enable on Hardware
+  dht.begin();
   */
 
   digitalWrite(PUMP, HIGH); //default no pumping enabled
