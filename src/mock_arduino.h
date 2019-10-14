@@ -70,4 +70,6 @@ class DHT
   float readTemperature();
 };
 
+extern DHT dht;
+
 #endif
