@@ -25,11 +25,11 @@ bool water_level_ok = false;
 unsigned long const t_half_can = 15000;
 unsigned long const t_half_vol = 40000;
 unsigned long const t_quater_vol = 20000;
-unsigned long const t_low_temp_vol = 4000;
+unsigned long const t_low_temp_vol = 8000;
 
 unsigned long const t_valve = 100;
 unsigned long const t_bottom_vol = 6000;
-unsigned long const t_bottom_low_temp_vol = 1000;
+unsigned long const t_bottom_low_temp_vol = 4000;
 
 WaterSystem PumpControl;
 
@@ -81,7 +81,7 @@ void loop() // Enable on Hardware
   Serial.println(PumpControl.getTemperature());
   
   //setup timer
-  TIME t_curr(18,40), t1(10,0), t2(15,0);
+  TIME t_curr(17,9), t1(10,0), t2(15,0);
 
   if (timer_on)
   {
