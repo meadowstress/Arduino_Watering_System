@@ -123,6 +123,11 @@ TEST(Time, operator_minus)
     ASSERT_TRUE((t1-t2)==t3);
 }
 
+TEST(PS_func, readTemperature) 
+{ 
+    WaterSystem PS;
+    ASSERT_FLOAT_EQ(PS.getTemperature(), 20.0F);
+}
 
 TEST(PS_func, isSystemSwitchedOnTrue) 
 { 

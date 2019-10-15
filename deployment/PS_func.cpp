@@ -3,6 +3,7 @@
 
 #include <Arduino.h> //Enable on Hardware
 #include <HardwareSerial.h> //Enable on Hardware
+#include "DHT.h"
 
 
 // Hold logic
@@ -88,7 +89,6 @@ int WaterSystem::Hold_State_Clock(unsigned long  hold_time, TIME t, unsigned lon
     {
       water_activations += Pump_Water(pump_time, VALVETOP, t_valve);
     }
-
   } while (state_flag);
   return water_activations;
 }
@@ -258,4 +258,13 @@ bool WaterSystem::isWaterActivated()
   }
   else
     return false;
+}
+
+float WaterSystem::getTemperature()
+{
+  float temperature = 0.0;
+
+  temperature = dht.readTemperature();
+
+  return(temperature);
 }

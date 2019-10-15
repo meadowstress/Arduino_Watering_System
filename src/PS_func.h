@@ -79,4 +79,6 @@ class WaterSystem
 
 };
 
+extern WaterSystem PumpControl;
+
 #endif

@@ -60,8 +60,10 @@ extern Output Serial;
 
 class DHT
 {
-  public:
+  private:
   float temperature;
+
+  public:
   DHT()
   {
     temperature = 0.0F;

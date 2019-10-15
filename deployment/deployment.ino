@@ -73,12 +73,12 @@ void loop() // Enable on Hardware
 { // Enable on Hardware
   if (PumpControl.isSystemSwitchedOn() && PumpControl.isWaterActivated())
   {
-    //Serial.println("Pump_Water single Function!");
     PumpControl.Pump_Water(t_half_can, VALVETOP, t_valve);
-    //PumpControl.Pump_Water(t_bottom_vol, VALVEBOTTOM, t_valve);
-    //Serial.println("condition true");
   }
 
+   //Output of Temperature for test purpose
+  Serial.print("Temperatur: ");
+  Serial.println(PumpControl.getTemperature());
   
   //setup timer
   TIME t_curr(18,40), t1(10,0), t2(15,0);
