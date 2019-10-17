@@ -91,15 +91,17 @@ int WaterSystem::Hold_State_Clock(unsigned long  hold_time, TIME t, unsigned lon
     }
 
   } while (state_flag);
+
   return water_activations;
 }
 
-int WaterSystem::Pump_Water_Clock(unsigned long pump_time_top, 
-unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
+int WaterSystem::Pump_Water_Clock(TIME& t_curr, TIME& t1_water, TIME& t2_water)
 {
   int water_counter = 0;
   TIME eleven_pm(23, 0), one_am(1, 0);
   unsigned long pTime = 0;
+  unsigned int pump_time_top = 0;
+  unsigned int pump_time_bottom = 0;
 
   if (t1_water <= t2_water)
   {
@@ -151,8 +153,11 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
     pTime = 0;
     switch_on = isSystemSwitchedOn();
     water_level_ok = isWaterLevelOk();
-    if (switch_on && water_level_ok && watering_enabled)
+
+    if (switch_on && water_level_ok && isAutomaticWateringEnabled())
     {
+      pump_time_top = getWaterTimeTop();
+      pump_time_bottom = getWaterTimeBottom();
       water_counter += Pump_Water(pump_time_top, VALVETOP, t_valve);
       water_counter += Pump_Water(pump_time_bottom, VALVEBOTTOM, t_valve);
       pTime = pump_time_top + pump_time_bottom + 2L * t_valve;
@@ -189,8 +194,10 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
     water_level_ok = isWaterLevelOk();
 
     pTime = 0;
-    if (switch_on && water_level_ok && watering_enabled)
+    if (switch_on && water_level_ok && isAutomaticWateringEnabled())
     {
+      pump_time_top = getWaterTimeTop();
+      pump_time_bottom = getWaterTimeBottom();
       water_counter += Pump_Water(pump_time_top, VALVETOP, t_valve);
       water_counter += Pump_Water(pump_time_bottom, VALVEBOTTOM, t_valve);
       pTime = pump_time_top + pump_time_bottom + 2L * t_valve;
@@ -202,8 +209,10 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
     water_level_ok = isWaterLevelOk();
 
     pTime = 0;
-    if (switch_on && water_level_ok && watering_enabled)
+    if (switch_on && water_level_ok && isAutomaticWateringEnabled())
     {
+      pump_time_top = getWaterTimeTop();
+      pump_time_bottom = getWaterTimeBottom();
       water_counter += Pump_Water(pump_time_top, VALVETOP, t_valve);
       water_counter += Pump_Water(pump_time_bottom, VALVEBOTTOM, t_valve);
       pTime = pump_time_top + pump_time_bottom + 2L * t_valve;
@@ -269,6 +278,18 @@ void WaterSystem::updateTemperature()
    measured_temperature = dht.readTemperature();
 }
 
+bool WaterSystem::isAutomaticWateringEnabled()
+{
+  updateTemperature();
+
+  if(getTemperature() >= 18.0F)
+    watering_enabled = true;
+  else
+    watering_enabled = false;
+  
+  return(watering_enabled);
+}
+
 unsigned int WaterSystem::getWaterTimeTop()
 {
   float temperature = 0.0F;
@@ -279,32 +300,26 @@ unsigned int WaterSystem::getWaterTimeTop()
   
   if(temperature >= 35.0F)
   {
-    watering_enabled = true;
     water_time_ms = 60000;
   }
   else if(temperature >= 30.0F)
   {
-    watering_enabled = true;
     water_time_ms = 40000;
   }
   else if(temperature >= 25.0F)
   {
-    watering_enabled = true;
     water_time_ms = 30000;
   }
   else if(temperature >= 20.0F)
   {
-    watering_enabled = true;
     water_time_ms = 20000;
   }
   else if(temperature >= 18.0F)
   {
-    watering_enabled = true;
     water_time_ms = 8000;
   }
   else
   {
-    watering_enabled = false;
     water_time_ms = 0;
   }
   return water_time_ms;
@@ -320,32 +335,26 @@ unsigned int WaterSystem::getWaterTimeBottom()
   
   if(temperature >= 35.0F)
   {
-    watering_enabled = true;
     water_time_ms = 20000;
   }
   else if(temperature >= 30.0F)
   {
-    watering_enabled = true;
     water_time_ms = 15000;
   }
   else if(temperature >= 25.0F)
   {
-    watering_enabled = true;
     water_time_ms = 10000;
   }
   else if(temperature >= 20.0F)
   {
-    watering_enabled = true;
     water_time_ms = 8000;
   }
   else if(temperature >= 18.0F)
   {
-    watering_enabled = true;
     water_time_ms = 4000;
   }
   else
   {
-    watering_enabled = false;
     water_time_ms = 0;
   }
   return water_time_ms;

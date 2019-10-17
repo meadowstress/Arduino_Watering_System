@@ -62,9 +62,7 @@ class WaterSystem
         }
         ~WaterSystem(){}
     
-    int Pump_Water_Clock(unsigned long pump_time_top,
-    unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, 
-    TIME& t2_water);
+    int Pump_Water_Clock(TIME& t_curr, TIME& t1_water, TIME& t2_water);
     int Hold_State_Clock(unsigned long  hold_time, TIME t,
     unsigned long pump_time);
     int Pump_Water(unsigned long pump_time, 
@@ -84,6 +82,7 @@ class WaterSystem
     TIME get_pause2_water(){return pause2_water;}
     float getTemperature(){return(measured_temperature);}
     bool getWateringEnabled(){return watering_enabled;}
+    bool isAutomaticWateringEnabled();
 };
 
 extern WaterSystem PumpControl;

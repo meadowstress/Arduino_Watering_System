@@ -91,6 +91,6 @@ void loop() // Enable on Hardware
   if (timer_on)
   {
     Serial.println("Start Timer:");
-    PumpControl.Pump_Water_Clock(t_quater_vol, t_bottom_vol, t_curr, t1, t2);
+    PumpControl.Pump_Water_Clock(t_curr, t1, t2);
   }
 }
