@@ -206,6 +206,8 @@ TEST(Hold_State, SwitchOff)
     ASSERT_FALSE(PS.Hold_State(3000));
 }
 
+//Deactivation of water level feature
+/* 
 TEST(Hold_State, LowLevel)
 {
     WaterSystem PS;
@@ -214,7 +216,7 @@ TEST(Hold_State, LowLevel)
     measure_current_wl = true;
     ASSERT_FALSE(PS.Hold_State(3000));
 }
-
+*/
 
 TEST(Pump_Water, SwitchOn)
 {
@@ -244,6 +246,8 @@ TEST(Pump_Water, SwitchOff)
     ASSERT_EQ(result, 0);
 }
 
+//Deactivation of water level feature
+/*
 TEST(Pump_Water,LowLevel)
 {
     WaterSystem PS;
@@ -273,6 +277,7 @@ TEST(Pump_Water,SwitchOffLowLevel)
     result = PS.Pump_Water(pump_time, valve_pin, valve_time);
     ASSERT_EQ(result, 0);
 }
+*/
 
 TEST(PS_func, Hold_State_Clock)
 {
@@ -306,6 +311,8 @@ TEST(Pump_Water_Clock, Before_Water_Counter)
     ASSERT_EQ(water_counter, 8);
 }
 
+//Detection of water level feature
+/*
 TEST(Pump_Water_Clock, Before_Water_Counter_LowLevel)
 {
     int water_counter = 0;
@@ -322,6 +329,7 @@ TEST(Pump_Water_Clock, Before_Water_Counter_LowLevel)
 
     ASSERT_EQ(water_counter, 0);
 }
+*/
 
 TEST(Pump_Water_Clock, Before_Water_Counter_Off)
 {
@@ -340,6 +348,8 @@ TEST(Pump_Water_Clock, Before_Water_Counter_Off)
     ASSERT_EQ(water_counter, 0);
 }
 
+//Deactivation of water level feature
+/*
 TEST(Pump_Water_Clock, Before_Water_Counter_Off_LowLevel)
 {
     int water_counter = 0;
@@ -356,6 +366,7 @@ TEST(Pump_Water_Clock, Before_Water_Counter_Off_LowLevel)
 
     ASSERT_EQ(water_counter, 0);
 }
+*/
 
 TEST(Pump_Water_Clock, Between_Water_Counter)
 {
@@ -374,6 +385,8 @@ TEST(Pump_Water_Clock, Between_Water_Counter)
     ASSERT_EQ(water_counter, 10);
 }
 
+//Deactivation of water level feature
+/*
 TEST(Pump_Water_Clock, Between_Water_Counter_LowLevel)
 {
     int water_counter = 0;
@@ -390,6 +403,7 @@ TEST(Pump_Water_Clock, Between_Water_Counter_LowLevel)
 
     ASSERT_EQ(water_counter, 0);
 }
+*/
 
 TEST(Pump_Water_Clock, Between_Water_Counter_Off)
 {
@@ -408,6 +422,8 @@ TEST(Pump_Water_Clock, Between_Water_Counter_Off)
     ASSERT_EQ(water_counter, 0);
 }
 
+//Deactivation of water level feature
+/*
 TEST(Pump_Water_Clock, Between_Water_Counter_Off_LowLevel)
 {
     int water_counter = 0;
@@ -424,6 +440,7 @@ TEST(Pump_Water_Clock, Between_Water_Counter_Off_LowLevel)
 
     ASSERT_EQ(water_counter, 0);
 }
+*/
 
 TEST(Pump_Water_Clock, After_Water_Counter)
 {
@@ -442,6 +459,8 @@ TEST(Pump_Water_Clock, After_Water_Counter)
     ASSERT_EQ(water_counter, 8);
 }
 
+//Deactivation of water level feature
+/*
 TEST(Pump_Water_Clock, After_Water_Counter_LowLevel)
 {
     int water_counter = 0;
@@ -458,6 +477,7 @@ TEST(Pump_Water_Clock, After_Water_Counter_LowLevel)
 
     ASSERT_EQ(water_counter, 0);
 }
+*/
 
 TEST(Pump_Water_Clock, After_Water_Counter_Off)
 {
@@ -476,6 +496,8 @@ TEST(Pump_Water_Clock, After_Water_Counter_Off)
     ASSERT_EQ(water_counter, 0);
 }
 
+//Deactivation of water level feature
+/*
 TEST(Pump_Water_Clock, After_Water_Counter_Off_LowLevel)
 {
     int water_counter = 0;
@@ -492,6 +514,7 @@ TEST(Pump_Water_Clock, After_Water_Counter_Off_LowLevel)
 
     ASSERT_EQ(water_counter, 0);
 }
+*/
 
 TEST(Pump_Water_Clock, Before_pre_pause1)
 {

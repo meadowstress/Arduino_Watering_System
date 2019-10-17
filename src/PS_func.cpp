@@ -216,9 +216,10 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
 
 bool WaterSystem::isWaterLevelOk()
 {
-    bool level_Ok = false;
+    /*
+    int level_Ok = false;
     digitalWrite(MEASURE_WL, LOW); //measurement current switched on
-    level_Ok = (bool)digitalRead(WATERLEVEL);
+    level_Ok = digitalRead(WATERLEVEL);
     digitalWrite(MEASURE_WL, HIGH); //measurement current switched off
     
     if(level_Ok == LOW)
@@ -229,6 +230,8 @@ bool WaterSystem::isWaterLevelOk()
     {
       return false;
     }
+    */
+   return true;
 }
 
 bool WaterSystem::isSystemSwitchedOn()
