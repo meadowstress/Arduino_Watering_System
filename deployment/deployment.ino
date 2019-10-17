@@ -81,12 +81,12 @@ void loop() // Enable on Hardware
   Serial.println(PumpControl.getTemperature());
   
   //setup timer
-  TIME t_curr(17,9), t1(10,0), t2(15,0);
+  TIME t_curr(14,8), t1(10,0), t2(15,0);
 
   if (timer_on)
   {
     Serial.println("Start Timer:");
-    PumpControl.Pump_Water_Clock(t_low_temp_vol, t_bottom_low_temp_vol, t_curr, t1, t2);
+    PumpControl.Pump_Water_Clock(t_quater_vol, t_bottom_vol, t_curr, t1, t2);
   }
   
 }
