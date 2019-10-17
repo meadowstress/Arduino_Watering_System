@@ -47,6 +47,8 @@ class WaterSystem
     TIME pre_pause2;
     TIME pause1_water;
     TIME pause2_water;
+    bool watering_enabled;
+    float measured_temperature;
 
     public:
         WaterSystem()
@@ -55,6 +57,8 @@ class WaterSystem
             pre_pause2.set_Time(0,0);
             pause1_water.set_Time(0,0);
             pause2_water.set_Time(0,0);
+            watering_enabled = false;
+            measured_temperature = 0.0F;
         }
         ~WaterSystem(){}
     
@@ -70,13 +74,16 @@ class WaterSystem
     bool isWaterLevelOk();
     bool isSystemSwitchedOn();
     bool isWaterActivated();
-    float getTemperature();
+    void updateTemperature();
+    unsigned int getWaterTimeTop();
+    unsigned int getWaterTimeBottom();
 
     TIME get_pre_pause1(){return pre_pause1;}
     TIME get_pre_pause2(){return pre_pause2;}
     TIME get_pause1_water(){return pause1_water;}
     TIME get_pause2_water(){return pause2_water;}
-
+    float getTemperature(){return(measured_temperature);}
+    bool getWateringEnabled(){return watering_enabled;}
 };
 
 extern WaterSystem PumpControl;

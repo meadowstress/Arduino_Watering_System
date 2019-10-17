@@ -12,6 +12,7 @@ bool switch_state = false;
 bool water_state = false;
 bool water_level_state = false;
 bool measure_current_wl = false;
+float temperature_value = 20;
 
 /*
 This definition of HIGH and LOW is very volatile and is only valid for 
@@ -160,5 +161,5 @@ void Output::println(float data)
 
 float DHT::readTemperature()
 {
-  return(20.0);
+  return(temperature_value);
 }

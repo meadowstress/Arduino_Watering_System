@@ -151,7 +151,7 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
     pTime = 0;
     switch_on = isSystemSwitchedOn();
     water_level_ok = isWaterLevelOk();
-    if (switch_on && water_level_ok)
+    if (switch_on && water_level_ok && watering_enabled)
     {
       water_counter += Pump_Water(pump_time_top, VALVETOP, t_valve);
       water_counter += Pump_Water(pump_time_bottom, VALVEBOTTOM, t_valve);
@@ -189,7 +189,7 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
     water_level_ok = isWaterLevelOk();
 
     pTime = 0;
-    if (switch_on && water_level_ok)
+    if (switch_on && water_level_ok && watering_enabled)
     {
       water_counter += Pump_Water(pump_time_top, VALVETOP, t_valve);
       water_counter += Pump_Water(pump_time_bottom, VALVEBOTTOM, t_valve);
@@ -202,7 +202,7 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
     water_level_ok = isWaterLevelOk();
 
     pTime = 0;
-    if (switch_on && water_level_ok)
+    if (switch_on && water_level_ok && watering_enabled)
     {
       water_counter += Pump_Water(pump_time_top, VALVETOP, t_valve);
       water_counter += Pump_Water(pump_time_bottom, VALVEBOTTOM, t_valve);
@@ -264,11 +264,89 @@ bool WaterSystem::isWaterActivated()
     return false;
 }
 
-float WaterSystem::getTemperature()
+void WaterSystem::updateTemperature()
 {
-  float temperature = 0.0;
+   measured_temperature = dht.readTemperature();
+}
 
-  temperature = dht.readTemperature();
+unsigned int WaterSystem::getWaterTimeTop()
+{
+  float temperature = 0.0F;
+  int water_time_ms = 0;
 
-  return(temperature);
+  updateTemperature();
+  temperature = getTemperature();
+  
+  if(temperature >= 35.0F)
+  {
+    watering_enabled = true;
+    water_time_ms = 60000;
+  }
+  else if(temperature >= 30.0F)
+  {
+    watering_enabled = true;
+    water_time_ms = 40000;
+  }
+  else if(temperature >= 25.0F)
+  {
+    watering_enabled = true;
+    water_time_ms = 30000;
+  }
+  else if(temperature >= 20.0F)
+  {
+    watering_enabled = true;
+    water_time_ms = 20000;
+  }
+  else if(temperature >= 18.0F)
+  {
+    watering_enabled = true;
+    water_time_ms = 8000;
+  }
+  else
+  {
+    watering_enabled = false;
+    water_time_ms = 0;
+  }
+  return water_time_ms;
+}
+
+unsigned int WaterSystem::getWaterTimeBottom()
+{
+  float temperature = 0.0F;
+  int water_time_ms = 0;
+
+  updateTemperature();
+  temperature = getTemperature();
+  
+  if(temperature >= 35.0F)
+  {
+    watering_enabled = true;
+    water_time_ms = 20000;
+  }
+  else if(temperature >= 30.0F)
+  {
+    watering_enabled = true;
+    water_time_ms = 15000;
+  }
+  else if(temperature >= 25.0F)
+  {
+    watering_enabled = true;
+    water_time_ms = 10000;
+  }
+  else if(temperature >= 20.0F)
+  {
+    watering_enabled = true;
+    water_time_ms = 8000;
+  }
+  else if(temperature >= 18.0F)
+  {
+    watering_enabled = true;
+    water_time_ms = 4000;
+  }
+  else
+  {
+    watering_enabled = false;
+    water_time_ms = 0;
+  }
+  return water_time_ms;
 }

@@ -22,10 +22,13 @@ bool timer_on = false;
 bool water_level_ok = false;
 
 unsigned long const t_half_can = 15000;
+unsigned long const t_vol = 60000;
 unsigned long const t_half_vol = 40000;
 unsigned long const t_quater_vol = 20000;
 unsigned long const t_valve = 100;
+
 unsigned long const t_bottom_vol = 6000;
+unsigned long const t_bottom_low_temp_vol = 1000;
 
 WaterSystem PumpControl;
 

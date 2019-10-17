@@ -126,6 +126,7 @@ TEST(Time, operator_minus)
 TEST(PS_func, readTemperature) 
 { 
     WaterSystem PS;
+    PS.updateTemperature();
     ASSERT_FLOAT_EQ(PS.getTemperature(), 20.0F);
 }
 
@@ -721,6 +722,211 @@ TEST(Pump_Water_Clock, After_pause2_water)
     TIME t = PS.get_pause2_water();
     ASSERT_TRUE(t==p);
 }
+
+TEST(Temperature, getWaterTimeTop_Temp1)
+{
+    WaterSystem PS;
+    unsigned int time = 0;
+
+    temperature_value = 35.0F;
+    time = PS.getWaterTimeTop();
+
+    ASSERT_FLOAT_EQ(time, 60000);
+
+    temperature_value = 36.0F;
+    time = PS.getWaterTimeTop();
+
+    ASSERT_EQ(time, 60000);
+    ASSERT_TRUE(PS.getWateringEnabled());
+}
+
+TEST(Temperature, getWaterTimeTop_Temp2)
+{
+    WaterSystem PS;
+    unsigned int time = 0;
+
+    temperature_value = 30.0F;
+    time = PS.getWaterTimeTop();
+
+    ASSERT_EQ(time, 40000);
+
+    temperature_value = 31.0F;
+    time = PS.getWaterTimeTop();
+
+    ASSERT_EQ(time, 40000);
+    ASSERT_TRUE(PS.getWateringEnabled());
+}
+
+TEST(Temperature, getWaterTimeTop_Temp3)
+{
+    WaterSystem PS;
+    unsigned int time = 0;
+
+    temperature_value = 25.0F;
+    time = PS.getWaterTimeTop();
+
+    ASSERT_EQ(time, 30000);
+
+    temperature_value = 26.0F;
+    time = PS.getWaterTimeTop();
+
+    ASSERT_EQ(time, 30000);
+    ASSERT_TRUE(PS.getWateringEnabled());
+}
+
+TEST(Temperature, getWaterTimeTop_Temp4)
+{
+    WaterSystem PS;
+    unsigned int time = 0;
+
+    temperature_value = 20.0F;
+    time = PS.getWaterTimeTop();
+
+    ASSERT_EQ(time, 20000);
+
+    temperature_value = 21.0F;
+    time = PS.getWaterTimeTop();
+
+    ASSERT_EQ(time, 20000);
+    ASSERT_TRUE(PS.getWateringEnabled());
+}
+
+TEST(Temperature, getWaterTimeTop_Temp5)
+{
+    WaterSystem PS;
+    unsigned int time = 0;
+
+    temperature_value = 18.0F;
+    time = PS.getWaterTimeTop();
+
+    ASSERT_EQ(time, 8000);
+
+    temperature_value = 19.0F;
+    time = PS.getWaterTimeTop();
+
+    ASSERT_EQ(time, 8000);
+    ASSERT_TRUE(PS.getWateringEnabled());
+}
+
+TEST(Temperature, getWaterTimeTop_Temp6)
+{
+    WaterSystem PS;
+    unsigned int time = 0;
+
+    temperature_value = 17.0F;
+    time = PS.getWaterTimeTop();
+
+    ASSERT_EQ(time, 0);
+
+    temperature_value = 0.0F;
+    time = PS.getWaterTimeTop();
+
+    ASSERT_EQ(time, 0);
+    ASSERT_FALSE(PS.getWateringEnabled());
+}
+
+TEST(Temperature, getWaterTimeBottom_Temp1)
+{
+    WaterSystem PS;
+    unsigned int time = 0;
+
+    temperature_value = 35.0F;
+    time = PS.getWaterTimeBottom();
+
+    ASSERT_FLOAT_EQ(time, 20000);
+
+    temperature_value = 36.0F;
+    time = PS.getWaterTimeBottom();
+
+    ASSERT_EQ(time, 20000);
+    ASSERT_TRUE(PS.getWateringEnabled());
+}
+
+TEST(Temperature, getWaterTimeBottom_Temp2)
+{
+    WaterSystem PS;
+    unsigned int time = 0;
+
+    temperature_value = 30.0F;
+    time = PS.getWaterTimeBottom();
+
+    ASSERT_EQ(time, 15000);
+
+    temperature_value = 31.0F;
+    time = PS.getWaterTimeBottom();
+
+    ASSERT_EQ(time, 15000);
+    ASSERT_TRUE(PS.getWateringEnabled());
+}
+
+TEST(Temperature, getWaterTimeBottom_Temp3)
+{
+    WaterSystem PS;
+    unsigned int time = 0;
+
+    temperature_value = 25.0F;
+    time = PS.getWaterTimeBottom();
+
+    ASSERT_EQ(time, 10000);
+
+    temperature_value = 26.0F;
+    time = PS.getWaterTimeBottom();
+
+    ASSERT_EQ(time, 10000);
+    ASSERT_TRUE(PS.getWateringEnabled());
+}
+
+TEST(Temperature, getWaterTimeBottom_Temp4)
+{
+    WaterSystem PS;
+    unsigned int time = 0;
+
+    temperature_value = 20.0F;
+    time = PS.getWaterTimeBottom();
+
+    ASSERT_EQ(time, 8000);
+
+    temperature_value = 21.0F;
+    time = PS.getWaterTimeBottom();
+
+    ASSERT_EQ(time, 8000);
+    ASSERT_TRUE(PS.getWateringEnabled());
+}
+
+TEST(Temperature, getWaterTimeBottom_Temp5)
+{
+    WaterSystem PS;
+    unsigned int time = 0;
+
+    temperature_value = 18.0F;
+    time = PS.getWaterTimeBottom();
+
+    ASSERT_EQ(time, 4000);
+
+    temperature_value = 19.0F;
+    time = PS.getWaterTimeBottom();
+
+    ASSERT_EQ(time, 4000);
+    ASSERT_TRUE(PS.getWateringEnabled());
+}
+
+TEST(Temperature, getWaterTimeBottom_Temp6)
+{
+    WaterSystem PS;
+    unsigned int time = 0;
+
+    temperature_value = 17.0F;
+    time = PS.getWaterTimeBottom();
+
+    ASSERT_EQ(time, 0);
+
+    temperature_value = 0.0F;
+    time = PS.getWaterTimeBottom();
+
+    ASSERT_EQ(time, 0);
+    ASSERT_FALSE(PS.getWateringEnabled());
+}
+
 
 int main(int argc, char **argv) 
 {
