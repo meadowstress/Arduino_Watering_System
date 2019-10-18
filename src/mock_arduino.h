@@ -55,6 +55,8 @@ class Output
         void println(unsigned long data);
         void print(float data);
         void println(float data);
+        void println(unsigned int data);
+        void print(unsigned int data);
 };
 
 extern Output Serial;

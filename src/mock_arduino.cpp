@@ -149,6 +149,16 @@ void Output::println(unsigned long data)
   cout << data <<endl;
 }
 
+void Output::print(unsigned int data)
+{
+  cout << data;
+}
+
+void Output::println(unsigned int data)
+{
+  cout << data <<endl;
+}
+
 void Output::print(float data)
 {
   cout << data;
