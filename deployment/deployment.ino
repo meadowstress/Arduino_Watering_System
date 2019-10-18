@@ -91,7 +91,7 @@ void loop() // Enable on Hardware
   }
 
   //setup timer
-  TIME t_curr(17, 33), t1(17, 45), t2(18, 15);
+  TIME t_curr(18, 40), t1(11, 30), t2(15, 30);
 
   if (timer_on)
   {
