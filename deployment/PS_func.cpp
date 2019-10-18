@@ -89,12 +89,13 @@ int WaterSystem::Hold_State_Clock(unsigned long  hold_time, TIME t, unsigned lon
     {
       water_activations += Pump_Water(pump_time, VALVETOP, t_valve);
     }
+
   } while (state_flag);
+
   return water_activations;
 }
 
-int WaterSystem::Pump_Water_Clock(unsigned long pump_time_top, 
-unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
+int WaterSystem::Pump_Water_Clock(TIME& t_curr, TIME& t1_water, TIME& t2_water)
 {
   int water_counter = 0;
   TIME eleven_pm(23, 0), one_am(1, 0);
@@ -150,11 +151,22 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
     pTime = 0;
     switch_on = isSystemSwitchedOn();
     water_level_ok = isWaterLevelOk();
-    if (switch_on && water_level_ok)
+
+    if (switch_on && water_level_ok && isAutomaticWateringEnabled())
     {
-      water_counter += Pump_Water(pump_time_top, VALVETOP, t_valve);
-      water_counter += Pump_Water(pump_time_bottom, VALVEBOTTOM, t_valve);
-      pTime = pump_time_top + pump_time_bottom + 2L * t_valve;
+      Serial.print("Temperature = ");
+      Serial.print(getTemperature());
+      Serial.println(" Celsius");
+      Serial.print("WaterTimeTop = ");
+      Serial.print(getWaterTimeTop());
+      Serial.println(" ms");
+      Serial.print("WaterTimeBottom = ");
+      Serial.print(getWaterTimeBottom());
+      Serial.println(" ms");
+      
+      water_counter += Pump_Water(getWaterTimeTop(), VALVETOP, t_valve);
+      water_counter += Pump_Water(getWaterTimeBottom(), VALVEBOTTOM, t_valve);
+      pTime = getWaterTimeTop() + getWaterTimeBottom() + 2L * t_valve;
     }
 
     Hold_State_Clock(pre_pause2.Time2Ticks() - pTime, pre_pause2, t_half_can);
@@ -188,11 +200,21 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
     water_level_ok = isWaterLevelOk();
 
     pTime = 0;
-    if (switch_on && water_level_ok)
+    if (switch_on && water_level_ok && isAutomaticWateringEnabled())
     {
-      water_counter += Pump_Water(pump_time_top, VALVETOP, t_valve);
-      water_counter += Pump_Water(pump_time_bottom, VALVEBOTTOM, t_valve);
-      pTime = pump_time_top + pump_time_bottom + 2L * t_valve;
+      Serial.print("Temperature = ");
+      Serial.print(getTemperature());
+      Serial.println(" Celsius");
+      Serial.print("WaterTimeTop = ");
+      Serial.print(getWaterTimeTop());
+      Serial.println(" ms");
+      Serial.print("WaterTimeBottom = ");
+      Serial.print(getWaterTimeBottom());
+      Serial.println(" ms");
+      
+      water_counter += Pump_Water(getWaterTimeTop(), VALVETOP, t_valve);
+      water_counter += Pump_Water(getWaterTimeBottom(), VALVEBOTTOM, t_valve);
+      pTime = getWaterTimeTop() + getWaterTimeBottom() + 2L * t_valve;
     }
 
     Hold_State_Clock(pause1_water.Time2Ticks() - pTime, pause1_water, t_half_can);
@@ -201,11 +223,21 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
     water_level_ok = isWaterLevelOk();
 
     pTime = 0;
-    if (switch_on && water_level_ok)
+    if (switch_on && water_level_ok && isAutomaticWateringEnabled())
     {
-      water_counter += Pump_Water(pump_time_top, VALVETOP, t_valve);
-      water_counter += Pump_Water(pump_time_bottom, VALVEBOTTOM, t_valve);
-      pTime = pump_time_top + pump_time_bottom + 2L * t_valve;
+      Serial.print("Temperature = ");
+      Serial.print(getTemperature());
+      Serial.println(" Celsius");
+      Serial.print("WaterTimeTop = ");
+      Serial.print(getWaterTimeTop());
+      Serial.println(" ms");
+      Serial.print("WaterTimeBottom = ");
+      Serial.print(getWaterTimeBottom());
+      Serial.println(" ms");
+      
+      water_counter += Pump_Water(getWaterTimeTop(), VALVETOP, t_valve);
+      water_counter += Pump_Water(getWaterTimeBottom(), VALVEBOTTOM, t_valve);
+      pTime = getWaterTimeTop() + getWaterTimeBottom() + 2L * t_valve;
     }
 
     Hold_State_Clock(pause2_water.Time2Ticks() - pTime, pause2_water, t_half_can);
@@ -215,9 +247,11 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
 
 bool WaterSystem::isWaterLevelOk()
 {
-    bool level_Ok = false;
+    //Deactivation of water level feature
+    /*
+    int level_Ok = false;
     digitalWrite(MEASURE_WL, LOW); //measurement current switched on
-    level_Ok = (bool)digitalRead(WATERLEVEL);
+    level_Ok = digitalRead(WATERLEVEL);
     digitalWrite(MEASURE_WL, HIGH); //measurement current switched off
     
     if(level_Ok == LOW)
@@ -228,6 +262,8 @@ bool WaterSystem::isWaterLevelOk()
     {
       return false;
     }
+    */
+   return true;
 }
 
 bool WaterSystem::isSystemSwitchedOn()
@@ -260,11 +296,101 @@ bool WaterSystem::isWaterActivated()
     return false;
 }
 
-float WaterSystem::getTemperature()
+void WaterSystem::updateTemperature()
 {
-  float temperature = 0.0;
+   measured_temperature = dht.readTemperature();
+}
 
-  temperature = dht.readTemperature();
+bool WaterSystem::isAutomaticWateringEnabled()
+{
+  updateTemperature();
 
-  return(temperature);
+  if(getTemperature() >= 18.0F)
+    watering_enabled = true;
+  else
+    watering_enabled = false;
+  
+  return(watering_enabled);
+}
+
+unsigned int WaterSystem::getWaterTimeTop()
+{
+  float temperature = 0.0F;
+  int water_time_ms = 0;
+
+  updateTemperature();
+  temperature = getTemperature();
+  
+  if(temperature >= 55.0F)
+  {
+    water_time_ms = 60000;
+    //Serial.println("TempTop 1"); //For Debugging
+  }
+  else if(temperature >= 45.0F)
+  {
+    water_time_ms = 40000;
+    //Serial.println("TempTop 2"); //For Debugging
+  }
+  else if(temperature >= 35.0F)
+  {
+    water_time_ms = 30000;
+    //Serial.println("TempTop 3"); //For Debugging
+  }
+  else if(temperature >= 25.0F)
+  {
+    water_time_ms = 20000;
+    //Serial.println("TempTop 4"); //For Debugging
+  }
+  else if(temperature >= 18.0F)
+  {
+    water_time_ms = 8000;
+    //Serial.println("TempTop 5"); //For Debugging
+  }
+  else
+  {
+    water_time_ms = 0;
+    //Serial.println("TempTop 6"); //For Debugging
+  }
+  return water_time_ms;
+}
+
+unsigned int WaterSystem::getWaterTimeBottom()
+{
+  float temperature = 0.0F;
+  int water_time_ms = 0;
+
+  updateTemperature();
+  temperature = getTemperature();
+  
+  if(temperature >= 55.0F)
+  {
+    water_time_ms = 20000;
+    //Serial.println("TempBottom 1"); //For Debugging
+  }
+  else if(temperature >= 45.0F)
+  {
+    water_time_ms = 15000;
+    //Serial.println("TempBottom 2"); //For Debugging
+  }
+  else if(temperature >= 35.0F)
+  {
+    water_time_ms = 10000;
+    //Serial.println("TempBottom 3"); //For Debugging
+  }
+  else if(temperature >= 25.0F)
+  {
+    water_time_ms = 8000;
+    //Serial.println("TempBottom 4"); //For Debugging
+  }
+  else if(temperature >= 18.0F)
+  {
+    water_time_ms = 4000;
+    //Serial.println("TempBottom 5"); //For Debugging
+  }
+  else
+  {
+    water_time_ms = 0;
+    //Serial.println("TempBottom 6"); //For Debugging
+  }
+  return water_time_ms;
 }

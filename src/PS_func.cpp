@@ -156,7 +156,7 @@ int WaterSystem::Pump_Water_Clock(TIME& t_curr, TIME& t1_water, TIME& t2_water)
     {
       Serial.print("Temperature = ");
       Serial.print(getTemperature());
-      Serial.println(" °C");
+      Serial.println(" Celsius");
       Serial.print("WaterTimeTop = ");
       Serial.print(getWaterTimeTop());
       Serial.println(" ms");
@@ -204,7 +204,7 @@ int WaterSystem::Pump_Water_Clock(TIME& t_curr, TIME& t1_water, TIME& t2_water)
     {
       Serial.print("Temperature = ");
       Serial.print(getTemperature());
-      Serial.println(" °C");
+      Serial.println(" Celsius");
       Serial.print("WaterTimeTop = ");
       Serial.print(getWaterTimeTop());
       Serial.println(" ms");
@@ -227,7 +227,7 @@ int WaterSystem::Pump_Water_Clock(TIME& t_curr, TIME& t1_water, TIME& t2_water)
     {
       Serial.print("Temperature = ");
       Serial.print(getTemperature());
-      Serial.println(" °C");
+      Serial.println(" Celsius");
       Serial.print("WaterTimeTop = ");
       Serial.print(getWaterTimeTop());
       Serial.println(" ms");

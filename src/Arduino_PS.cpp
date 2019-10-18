@@ -69,7 +69,13 @@ void setup() // Enable on Hardware
 void loop() // Enable on Hardware
 { // Enable on Hardware
 */
-  
+  Serial.println("\nStart of Program:");
+  Serial.println("-----------------\n");
+  Serial.print("Temperature = ");
+  PumpControl.updateTemperature();
+  Serial.print(PumpControl.getTemperature());
+  Serial.println(" Celsius");
+
   //configuration settings - change time here
   timer_on = true; // software switch for pump timer function
 
