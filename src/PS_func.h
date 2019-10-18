@@ -80,7 +80,11 @@ class WaterSystem
     TIME get_pre_pause2(){return pre_pause2;}
     TIME get_pause1_water(){return pause1_water;}
     TIME get_pause2_water(){return pause2_water;}
-    float getTemperature(){return(measured_temperature);}
+    float getTemperature()
+    {
+        updateTemperature();
+        return(measured_temperature);
+    }
     bool getWateringEnabled(){return watering_enabled;}
     bool isAutomaticWateringEnabled();
 };

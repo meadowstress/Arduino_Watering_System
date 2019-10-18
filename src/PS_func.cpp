@@ -91,6 +91,16 @@ int WaterSystem::Hold_State_Clock(unsigned long  hold_time, TIME t, unsigned lon
       water_activations += Pump_Water(pump_time, VALVETOP, t_valve);
     }
 
+    //Enable on Hardware for control
+    /*
+    if( ((millis() - start_time) % 60000)==0 )
+    {
+      Serial.print("\nTemperature = ");
+      Serial.print(getTemperature());
+      Serial.println(" Celsius\n");
+    }
+    */
+
   } while (state_flag);
 
   return water_activations;

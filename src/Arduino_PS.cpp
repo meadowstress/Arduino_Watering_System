@@ -73,7 +73,6 @@ void loop() // Enable on Hardware
   Serial.println("\nStart of Program:");
   Serial.println("-----------------\n");
   Serial.print("Temperature = ");
-  PumpControl.updateTemperature();
   Serial.print(PumpControl.getTemperature());
   Serial.println(" Celsius");
 

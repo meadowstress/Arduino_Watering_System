@@ -1,6 +1,7 @@
 //#include "mock_arduino.h" //Enable for testing
 #include "time.h"
 #include "PS_func.h"
+#include "parameter.h"
 
 //pins
 const short PUMP = 8;
@@ -49,7 +50,6 @@ void setup() // Enable on Hardware
   pinMode(WATERLEVEL, INPUT_PULLUP);  // Enable on Hardware
   Serial.begin(9600);  // Enable on Hardware
   dht.begin();
-  
 
   digitalWrite(PUMP, HIGH); //default no pumping enabled
   digitalWrite(VALVETOP, HIGH); //default no pumping enabled
@@ -69,12 +69,11 @@ void setup() // Enable on Hardware
 void loop() // Enable on Hardware
 { // Enable on Hardware
 
-    Serial.println("\nStart of Program:");
-    Serial.println("-----------------\n");
-    Serial.print("Temperature = ");
-    PumpControl.updateTemperature();
-    Serial.print(PumpControl.getTemperature());
-    Serial.println(" Celsius");
+  Serial.println("\nStart of Program:");
+  Serial.println("-----------------\n");
+  Serial.print("Temperature = ");
+  Serial.print(PumpControl.getTemperature());
+  Serial.println(" Celsius");
 
   //configuration settings - change time here
   timer_on = true; // software switch for pump timer function
@@ -92,7 +91,7 @@ void loop() // Enable on Hardware
   }
 
   //setup timer
-  TIME t_curr(10, 0), t1(10, 1), t2(10, 2);
+  TIME t_curr(17, 33), t1(17, 45), t2(18, 15);
 
   if (timer_on)
   {
