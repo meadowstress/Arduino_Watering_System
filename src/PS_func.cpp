@@ -1,5 +1,6 @@
 #include "PS_func.h"
 #include "mock_arduino.h" //Enable for Testing
+#include "parameter.h"
 /*
 #include <Arduino.h> //Enable on Hardware
 #include <HardwareSerial.h> //Enable on Hardware
@@ -321,35 +322,29 @@ unsigned int WaterSystem::getWaterTimeTop()
   updateTemperature();
   temperature = getTemperature();
   
-  if(temperature >= 35.0F)
+  if(temperature >= par::maxTemp)
   {
-    water_time_ms = 60000;
-    //Serial.println("TempTop 1"); //For Debugging
+    water_time_ms = par::timeMaxTempTop;
   }
-  else if(temperature >= 30.0F)
+  else if(temperature >= par::temp2)
   {
-    water_time_ms = 40000;
-    //Serial.println("TempTop 2"); //For Debugging
+    water_time_ms = par::timeTemp2Top;
   }
-  else if(temperature >= 25.0F)
+  else if(temperature >= par::temp3)
   {
-    water_time_ms = 30000;
-    //Serial.println("TempTop 3"); //For Debugging
+    water_time_ms = par::timeTemp3Top;
   }
-  else if(temperature >= 20.0F)
+  else if(temperature >= par::temp4)
   {
-    water_time_ms = 20000;
-    //Serial.println("TempTop 4"); //For Debugging
+    water_time_ms = par::timeTemp4Top;
   }
-  else if(temperature >= 18.0F)
+  else if(temperature >= par::lowTemp)
   {
-    water_time_ms = 8000;
-    //Serial.println("TempTop 5"); //For Debugging
+    water_time_ms = par::timeLowTempTop;
   }
   else
   {
     water_time_ms = 0;
-    //Serial.println("TempTop 6"); //For Debugging
   }
   return water_time_ms;
 }
@@ -362,35 +357,29 @@ unsigned int WaterSystem::getWaterTimeBottom()
   updateTemperature();
   temperature = getTemperature();
   
-  if(temperature >= 35.0F)
+  if(temperature >= par::maxTemp)
   {
-    water_time_ms = 20000;
-    //Serial.println("TempBottom 1"); //For Debugging
+    water_time_ms = par::timeMaxTempBottom;
   }
-  else if(temperature >= 30.0F)
+  else if(temperature >= par::temp2)
   {
-    water_time_ms = 15000;
-    //Serial.println("TempBottom 2"); //For Debugging
+    water_time_ms = par::timeTemp2Bottom;
   }
-  else if(temperature >= 25.0F)
+  else if(temperature >= par::temp3)
   {
-    water_time_ms = 10000;
-    //Serial.println("TempBottom 3"); //For Debugging
+    water_time_ms = par::timeTemp3Bottom;
   }
-  else if(temperature >= 20.0F)
+  else if(temperature >= par::temp4)
   {
-    water_time_ms = 8000;
-    //Serial.println("TempBottom 4"); //For Debugging
+    water_time_ms = par::timeTemp4Bottom;
   }
-  else if(temperature >= 18.0F)
+  else if(temperature >= par::lowTemp)
   {
-    water_time_ms = 4000;
-    //Serial.println("TempBottom 5"); //For Debugging
+    water_time_ms = par::timeLowTempBottom;
   }
   else
   {
     water_time_ms = 0;
-    //Serial.println("TempBottom 6"); //For Debugging
   }
   return water_time_ms;
 }

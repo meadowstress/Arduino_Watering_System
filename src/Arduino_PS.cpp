@@ -1,6 +1,7 @@
 #include "mock_arduino.h" //Enable for testing
 #include "time.h"
 #include "PS_func.h"
+#include "parameter.h"
 
 //pins
 const short PUMP = 8;

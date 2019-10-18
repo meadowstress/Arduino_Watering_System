@@ -2,6 +2,7 @@
 #include "time.h"
 #include "mock_arduino.h"
 #include "PS_func.h"
+#include "parameter.h"
 
 const short PUMP = 8;
 const short VALVETOP = 9;
@@ -721,92 +722,92 @@ TEST(Pump_Water_Clock, After_pause2_water)
     ASSERT_TRUE(t==p);
 }
 
-TEST(Temperature, getWaterTimeTop_Temp1)
+TEST(Temperature, timeMaxTempTop)
 {
     WaterSystem PS;
     unsigned int time = 0;
 
-    temperature_value = 35.0F;
+    temperature_value = par::maxTemp;
     time = PS.getWaterTimeTop();
 
-    ASSERT_FLOAT_EQ(time, 60000);
+    ASSERT_FLOAT_EQ(time, par::timeMaxTempTop);
 
-    temperature_value = 36.0F;
+    temperature_value = par::maxTemp + 1.0F;
     time = PS.getWaterTimeTop();
 
-    ASSERT_EQ(time, 60000);
+    ASSERT_EQ(time, par::timeMaxTempTop);
 }
 
-TEST(Temperature, getWaterTimeTop_Temp2)
+TEST(Temperature, timeTemp2Top)
 {
     WaterSystem PS;
     unsigned int time = 0;
 
-    temperature_value = 30.0F;
+    temperature_value = par::temp2;
     time = PS.getWaterTimeTop();
 
-    ASSERT_EQ(time, 40000);
+    ASSERT_EQ(time, par::timeTemp2Top);
 
-    temperature_value = 31.0F;
+    temperature_value = par::temp2 + 1.0F;
     time = PS.getWaterTimeTop();
 
-    ASSERT_EQ(time, 40000);
+    ASSERT_EQ(time, par::timeTemp2Top);
 }
 
-TEST(Temperature, getWaterTimeTop_Temp3)
+TEST(Temperature, timeTemp3Top)
 {
     WaterSystem PS;
     unsigned int time = 0;
 
-    temperature_value = 25.0F;
+    temperature_value = par::temp3;
     time = PS.getWaterTimeTop();
 
-    ASSERT_EQ(time, 30000);
+    ASSERT_EQ(time, par::timeTemp3Top);
 
-    temperature_value = 26.0F;
+    temperature_value = par::temp3 + 1.0F;
     time = PS.getWaterTimeTop();
 
-    ASSERT_EQ(time, 30000);
+    ASSERT_EQ(time, par::timeTemp3Top);
 }
 
-TEST(Temperature, getWaterTimeTop_Temp4)
+TEST(Temperature, timeTemp4Top)
 {
     WaterSystem PS;
     unsigned int time = 0;
 
-    temperature_value = 20.0F;
+    temperature_value = par::temp4;
     time = PS.getWaterTimeTop();
 
-    ASSERT_EQ(time, 20000);
+    ASSERT_EQ(time, par::timeTemp4Top);
 
-    temperature_value = 21.0F;
+    temperature_value = par::temp4 + 1.0F;
     time = PS.getWaterTimeTop();
 
-    ASSERT_EQ(time, 20000);
+    ASSERT_EQ(time, par::timeTemp4Top);
 }
 
-TEST(Temperature, getWaterTimeTop_Temp5)
+TEST(Temperature, timeLowTempTop)
 {
     WaterSystem PS;
     unsigned int time = 0;
 
-    temperature_value = 18.0F;
+    temperature_value = par::lowTemp;
     time = PS.getWaterTimeTop();
 
-    ASSERT_EQ(time, 8000);
+    ASSERT_EQ(time, par::timeLowTempTop);
 
-    temperature_value = 19.0F;
+    temperature_value = par::lowTemp + 1.0F;
     time = PS.getWaterTimeTop();
 
-    ASSERT_EQ(time, 8000);
+    ASSERT_EQ(time, par::timeLowTempTop);
 }
 
-TEST(Temperature, getWaterTimeTop_Temp6)
+TEST(Temperature, belowLowTempTop)
 {
     WaterSystem PS;
     unsigned int time = 0;
 
-    temperature_value = 17.0F;
+    temperature_value = par::lowTemp - 1.0F;
     time = PS.getWaterTimeTop();
 
     ASSERT_EQ(time, 0);
@@ -817,92 +818,92 @@ TEST(Temperature, getWaterTimeTop_Temp6)
     ASSERT_EQ(time, 0);
 }
 
-TEST(Temperature, getWaterTimeBottom_Temp1)
+TEST(Temperature, timeMaxTempBottom)
 {
     WaterSystem PS;
     unsigned int time = 0;
 
-    temperature_value = 35.0F;
+    temperature_value = par::maxTemp;
     time = PS.getWaterTimeBottom();
 
-    ASSERT_FLOAT_EQ(time, 20000);
+    ASSERT_FLOAT_EQ(time, par::timeMaxTempBottom);
 
-    temperature_value = 36.0F;
+    temperature_value = par::maxTemp + 1.0F;
     time = PS.getWaterTimeBottom();
 
-    ASSERT_EQ(time, 20000);
+    ASSERT_EQ(time, par::timeMaxTempBottom);
 }
 
-TEST(Temperature, getWaterTimeBottom_Temp2)
+TEST(Temperature, timeTemp2Bottom)
 {
     WaterSystem PS;
     unsigned int time = 0;
 
-    temperature_value = 30.0F;
+    temperature_value = par::temp2;
     time = PS.getWaterTimeBottom();
 
-    ASSERT_EQ(time, 15000);
+    ASSERT_EQ(time, par::timeTemp2Bottom);
 
-    temperature_value = 31.0F;
+    temperature_value = par::temp2 + 1.0F;
     time = PS.getWaterTimeBottom();
 
-    ASSERT_EQ(time, 15000);
+    ASSERT_EQ(time, par::timeTemp2Bottom);
 }
 
-TEST(Temperature, getWaterTimeBottom_Temp3)
+TEST(Temperature, timeTemp3Bottom)
 {
     WaterSystem PS;
     unsigned int time = 0;
 
-    temperature_value = 25.0F;
+    temperature_value = par::temp3;
     time = PS.getWaterTimeBottom();
 
-    ASSERT_EQ(time, 10000);
+    ASSERT_EQ(time, par::timeTemp3Bottom);
 
-    temperature_value = 26.0F;
+    temperature_value = par::temp3 + 1.0F;
     time = PS.getWaterTimeBottom();
 
-    ASSERT_EQ(time, 10000);
+    ASSERT_EQ(time, par::timeTemp3Bottom);
 }
 
-TEST(Temperature, getWaterTimeBottom_Temp4)
+TEST(Temperature, timeTemp4Bottom)
 {
     WaterSystem PS;
     unsigned int time = 0;
 
-    temperature_value = 20.0F;
+    temperature_value = par::temp4;
     time = PS.getWaterTimeBottom();
 
-    ASSERT_EQ(time, 8000);
+    ASSERT_EQ(time, par::timeTemp4Bottom);
 
-    temperature_value = 21.0F;
+    temperature_value = par::temp4 + 1.0F;
     time = PS.getWaterTimeBottom();
 
-    ASSERT_EQ(time, 8000);
+    ASSERT_EQ(time, par::timeTemp4Bottom);
 }
 
-TEST(Temperature, getWaterTimeBottom_Temp5)
+TEST(Temperature, lowTempBottom)
 {
     WaterSystem PS;
     unsigned int time = 0;
 
-    temperature_value = 18.0F;
+    temperature_value = par::lowTemp;
     time = PS.getWaterTimeBottom();
 
-    ASSERT_EQ(time, 4000);
+    ASSERT_EQ(time, par::timeLowTempBottom);
 
-    temperature_value = 19.0F;
+    temperature_value = par::lowTemp + 1.0F;
     time = PS.getWaterTimeBottom();
 
-    ASSERT_EQ(time, 4000);
+    ASSERT_EQ(time, par::timeLowTempBottom);
 }
 
-TEST(Temperature, getWaterTimeBottom_Temp6)
+TEST(Temperature, belowLowTempBottom)
 {
     WaterSystem PS;
     unsigned int time = 0;
 
-    temperature_value = 17.0F;
+    temperature_value = par::lowTemp - 1.0F;
     time = PS.getWaterTimeBottom();
 
     ASSERT_EQ(time, 0);
