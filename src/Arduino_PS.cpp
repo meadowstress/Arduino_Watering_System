@@ -70,7 +70,7 @@ void setup() // Enable on Hardware
 void loop() // Enable on Hardware
 { // Enable on Hardware
 */
-  Serial.println("\nStart of Program:");
+  Serial.println("\n\nStart of Program:");
   Serial.println("-----------------\n");
   Serial.print("Temperature = ");
   Serial.print(PumpControl.getTemperature());

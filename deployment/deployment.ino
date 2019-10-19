@@ -69,7 +69,7 @@ void setup() // Enable on Hardware
 void loop() // Enable on Hardware
 { // Enable on Hardware
 
-  Serial.println("\nStart of Program:");
+  Serial.println("\n\nStart of Program:");
   Serial.println("-----------------\n");
   Serial.print("Temperature = ");
   Serial.print(PumpControl.getTemperature());
@@ -91,7 +91,7 @@ void loop() // Enable on Hardware
   }
 
   //setup timer
-  TIME t_curr(18, 40), t1(11, 30), t2(15, 30);
+  TIME t_curr(12, 32), t1(11, 30), t2(15, 30);
 
   if (timer_on)
   {

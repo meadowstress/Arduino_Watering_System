@@ -93,11 +93,11 @@ int WaterSystem::Hold_State_Clock(unsigned long  hold_time, TIME t, unsigned lon
 
     //Enable on Hardware for control
     
-    if( ((millis() - start_time) % 3600000)==0 )
+    if( ((millis() - start_time) % 60000)==0 )
     {
-      Serial.print("\nTemperature = ");
+      Serial.print("Temperature = ");
       Serial.print(getTemperature());
-      Serial.println(" Celsius\n");
+      Serial.println(" Celsius");
     }
 
   } while (state_flag);
