@@ -208,14 +208,6 @@ RTCDateTime DS3231::getDateTime()
   
   RTCDateTime t;
 
-  // set internal state
-  year = current_local_time.year;
-  month = current_local_time.month;
-  day = current_local_time.day;
-  hour = current_local_time.hour;
-  minute = current_local_time.minute;
-  second = current_local_time.second;
-
   // set return value
   t.year = current_local_time.year;
   t.month = current_local_time.month;

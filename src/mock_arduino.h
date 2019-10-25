@@ -88,16 +88,7 @@ struct RTCDateTime
 };
 
 class DS3231
-{
-  public:
-
-  unsigned int year;
-  unsigned int month;
-  unsigned int day;
-  unsigned int hour;
-  unsigned int minute;
-  unsigned int second;
-  
+{ 
   public:
 
   RTCDateTime getDateTime();
