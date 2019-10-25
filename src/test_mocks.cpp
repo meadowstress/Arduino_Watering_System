@@ -1,6 +1,6 @@
-#include<iostream>
-#include"mock_arduino.h"
-#include<unistd.h>
+#include <iostream>
+#include "mock_arduino.h"
+#include <unistd.h>
 #include <gtest/gtest.h>
 
 const short PUMP = 8;
@@ -191,6 +191,39 @@ TEST(millis, 10s)
     cout <<"Start!\n";
     while((millis()-start) < 3000);
     cout <<"Stop! - 3 s\n";
+}
+
+TEST(clock, setClock)
+{
+    DS3231 clock;
+    clock.setDateTime(2019, 10, 21, 22, 6, 30);
+    ASSERT_EQ(current_local_time.year, 2019);
+    ASSERT_EQ(current_local_time.month, 10);
+    ASSERT_EQ(current_local_time.day, 21);
+    ASSERT_EQ(current_local_time.hour, 22);
+    ASSERT_EQ(current_local_time.minute, 6);
+    ASSERT_EQ(current_local_time.second, 30);
+}
+
+TEST(clock, getLocalTime)
+{
+    DS3231 clock;
+    RTCDateTime time;
+    current_local_time.year = 2019;
+    current_local_time.month = 10;
+    current_local_time.day = 25;
+    current_local_time.hour = 22;
+    current_local_time.minute = 5;
+    current_local_time.second = 20;
+
+    time = clock.getDateTime();
+
+    ASSERT_EQ(time.year, 2019);
+    ASSERT_EQ(time.month, 10);
+    ASSERT_EQ(time.day,25);
+    ASSERT_EQ(time.hour, 22);
+    ASSERT_EQ(time.minute,5);
+    ASSERT_EQ(time.second, 20);
 }
  
 int main(int argc, char **argv) 

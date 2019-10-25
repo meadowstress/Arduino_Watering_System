@@ -1,7 +1,12 @@
 #ifndef PS_FUNC_H
 #define PS_FUNC_H
 
-//#include"DHT.h" //Enable on Hardware
+/*
+#include"DHT.h" //Enable on Hardware
+#include <Wire.h>
+#include <DS3231.h>
+*/
+
 #include"mock_arduino.h" //Enable for Testing
 #include"time.h"
 
@@ -49,6 +54,8 @@ class WaterSystem
     TIME pause2_water;
     bool watering_enabled;
     float measured_temperature;
+    DS3231 clock;
+    RTCDateTime local_time;
 
     public:
         WaterSystem()
@@ -62,6 +69,7 @@ class WaterSystem
         }
         ~WaterSystem(){}
     
+    int Pump_Water_Clock();
     int Pump_Water_Clock(TIME& t_curr, TIME& t1_water, TIME& t2_water);
     int Hold_State_Clock(unsigned long  hold_time, TIME t,
     unsigned long pump_time);
@@ -87,6 +95,7 @@ class WaterSystem
     }
     bool getWateringEnabled(){return watering_enabled;}
     bool isAutomaticWateringEnabled();
+    TIME getCurrentLocalTime();
 };
 
 extern WaterSystem PumpControl;

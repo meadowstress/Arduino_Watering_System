@@ -77,4 +77,36 @@ class DHT
 
 extern DHT dht;
 
+struct RTCDateTime
+{
+  unsigned int year;
+  unsigned int month;
+  unsigned int day;
+  unsigned int hour;
+  unsigned int minute;
+  unsigned int second;
+};
+
+class DS3231
+{
+  public:
+
+  unsigned int year;
+  unsigned int month;
+  unsigned int day;
+  unsigned int hour;
+  unsigned int minute;
+  unsigned int second;
+  
+  public:
+
+  RTCDateTime getDateTime();
+  void setDateTime(unsigned int iYear, unsigned int iMonth,
+  unsigned int iDay, unsigned int iHour, unsigned int iMinute, 
+  unsigned int iSecond);
+
+};
+
+extern RTCDateTime current_local_time;
+
 #endif

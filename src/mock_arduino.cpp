@@ -1,6 +1,7 @@
 #include <sys/timeb.h>
 #include "mock_arduino.h"
 #include <iostream>
+#include <ctime>
 
 using namespace std;
 
@@ -14,6 +15,16 @@ bool water_level_state = false;
 bool measure_current_wl = false;
 float temperature_value = 20;
 
+//artificial local time
+RTCDateTime current_local_time{2019,10,25,0,0,0};
+/*
+current_local_time.year = 2019;
+current_local_time.month = 10;
+current_local_time.day = 25;
+current_local_time.hour = 0;
+current_local_time.minute = 0;
+current_local_time.second = 0;
+*/
 /*
 This definition of HIGH and LOW is very volatile and is only valid for 
 switches connected to pulldown resistors. Currently there are 3 switches
@@ -172,4 +183,46 @@ void Output::println(float data)
 float DHT::readTemperature()
 {
   return(temperature_value);
+}
+
+
+
+void DS3231::setDateTime(unsigned int iYear, unsigned int iMonth,
+unsigned int iDay, unsigned int iHour, unsigned int iMinute, 
+unsigned int iSecond)
+{
+  current_local_time.year = iYear;
+  current_local_time.month = iMonth;
+  current_local_time.day = iDay;
+  current_local_time.hour = iHour;
+  current_local_time.minute = iMinute;
+  current_local_time.second = iSecond;
+}
+
+RTCDateTime DS3231::getDateTime()
+{
+  
+  //  mocking with computer system time
+  // time_t current_time_epoch = time(0);
+  // tm *current_local_time = localtime(&current_time_epoch);
+  
+  RTCDateTime t;
+
+  // set internal state
+  year = current_local_time.year;
+  month = current_local_time.month;
+  day = current_local_time.day;
+  hour = current_local_time.hour;
+  minute = current_local_time.minute;
+  second = current_local_time.second;
+
+  // set return value
+  t.year = current_local_time.year;
+  t.month = current_local_time.month;
+  t.day = current_local_time.day;
+  t.hour = current_local_time.hour;
+  t.minute = current_local_time.minute;
+  t.second = current_local_time.second;
+
+  return t;
 }

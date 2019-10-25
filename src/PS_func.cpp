@@ -5,6 +5,8 @@
 #include <Arduino.h> //Enable on Hardware
 #include <HardwareSerial.h> //Enable on Hardware
 #include "DHT.h"
+#include <Wire.h>
+#include <DS3231.h>
 */
 
 // Hold logic
@@ -256,6 +258,35 @@ int WaterSystem::Pump_Water_Clock(TIME& t_curr, TIME& t1_water, TIME& t2_water)
   return(water_counter);
 }
 
+int WaterSystem::Pump_Water_Clock()
+{
+  int water_counter = 0;
+ 
+  if(getCurrentLocalTime() == par::t1_water || getCurrentLocalTime() == par::t2_water)
+  {
+    switch_on = isSystemSwitchedOn();
+    water_level_ok = isWaterLevelOk();
+
+    if (switch_on && water_level_ok && isAutomaticWateringEnabled())
+    {
+      Serial.print("Temperature = ");
+      Serial.print(getTemperature());
+      Serial.println(" Celsius");
+      Serial.print("WaterTimeTop = ");
+      Serial.print(getWaterTimeTop());
+      Serial.println(" ms");
+      Serial.print("WaterTimeBottom = ");
+      Serial.print(getWaterTimeBottom());
+      Serial.println(" ms");
+      
+      water_counter += Pump_Water(getWaterTimeTop(), VALVETOP, par::t_valve);
+      water_counter += Pump_Water(getWaterTimeBottom(), VALVEBOTTOM, par::t_valve);
+    }
+  }
+
+  return(water_counter);
+}
+
 bool WaterSystem::isWaterLevelOk()
 {
     //Deactivation of water level feature
@@ -392,4 +423,14 @@ unsigned int WaterSystem::getWaterTimeBottom()
     water_time_ms = 0;
   }
   return water_time_ms;
+}
+
+TIME WaterSystem::getCurrentLocalTime()
+{
+  TIME t(0,0);
+  local_time = clock.getDateTime();
+
+  t.set_H(local_time.hour);
+  t.set_Min(local_time.minute);
+  return(t);
 }
