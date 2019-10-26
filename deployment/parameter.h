@@ -1,6 +1,8 @@
 #ifndef PARAMETER_H
 #define PARAMETER_H
 
+#include "time.h"
+
 namespace par
 {
     //Watering parameters for top plants
@@ -23,6 +25,12 @@ namespace par
     const float lowTemp = 18.0F;
     const unsigned int timeLowTempTop = 8000;
     const unsigned int timeLowTempBottom = 4000;
+
+    //Water Times
+    const TIME t1_water(11,30);
+    const TIME t2_water(15,30);
+    const unsigned int t_valve = 100;
+    const unsigned int t_half_can = 15000;
 }
 
 #endif

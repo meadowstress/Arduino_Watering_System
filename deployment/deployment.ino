@@ -22,21 +22,15 @@ bool water_on = false;
 bool timer_on = false;
 bool water_level_ok = false;
 
-unsigned long const t_half_can = 15000;
-unsigned long const t_vol = 60000;
-unsigned long const t_half_vol = 40000;
-unsigned long const t_quater_vol = 20000;
-unsigned long const t_valve = 100;
-
-unsigned long const t_bottom_vol = 6000;
-unsigned long const t_bottom_low_temp_vol = 1000;
 
 WaterSystem PumpControl;
+RTCDateTime DateTime;
 /*
 int main(void) //Enable for Testing
 { // Enable for Testing
+for(int i = 0; i < 2; i++) //enable for Testing
+{ //enable for Testing
 */
-
 
 void setup() // Enable on Hardware
 {
@@ -50,6 +44,7 @@ void setup() // Enable on Hardware
   pinMode(WATERLEVEL, INPUT_PULLUP);  // Enable on Hardware
   Serial.begin(9600);  // Enable on Hardware
   dht.begin();
+  
 
   digitalWrite(PUMP, HIGH); //default no pumping enabled
   digitalWrite(VALVETOP, HIGH); //default no pumping enabled
@@ -61,6 +56,12 @@ void setup() // Enable on Hardware
     pre_state_water = true;
     current_state_water = true;
   }
+  
+  //set external time
+  //PumpControl.setCurrentLocalTime(2019, 10, 26, 22, 53, 10);
+
+  Serial.println("\n\nStart of Program:");
+  Serial.println("-----------------\n");
 } //Enable on Hardware
 
 
@@ -69,8 +70,17 @@ void setup() // Enable on Hardware
 void loop() // Enable on Hardware
 { // Enable on Hardware
 
-  Serial.println("\n\nStart of Program:");
-  Serial.println("-----------------\n");
+  DateTime = PumpControl.getCurrentLocalDateTime();
+  Serial.print(DateTime.day);
+  Serial.print(".");
+  Serial.print(DateTime.month);
+  Serial.print(".");
+  Serial.print(DateTime.year);
+  Serial.print(": ");
+  Serial.print(DateTime.hour);
+  Serial.print(":");
+  Serial.print(DateTime.minute);
+  Serial.print("   ");
   Serial.print("Temperature = ");
   Serial.print(PumpControl.getTemperature());
   Serial.println(" Celsius");
@@ -86,16 +96,15 @@ void loop() // Enable on Hardware
   if (switch_on && water_on)
   {
     Serial.println("Pump_Water single Function!");
-    PumpControl.Pump_Water(t_half_can, VALVETOP, t_valve);
-    PumpControl.Pump_Water(t_bottom_vol, VALVEBOTTOM, t_valve);
+    PumpControl.Pump_Water(par::t_half_can, VALVETOP, par::t_valve);
+    //PumpControl.Pump_Water(t_bottom_vol, VALVEBOTTOM, t_valve);
   }
-
-  //setup timer
-  TIME t_curr(12, 32), t1(11, 30), t2(15, 30);
 
   if (timer_on)
   {
     Serial.println("Start Timer:");
-    PumpControl.Pump_Water_Clock(t_curr, t1, t2);
+    PumpControl.Pump_Water_Clock();
   }
+
+  //} // Enable for Testing
 }

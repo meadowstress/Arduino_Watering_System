@@ -1,11 +1,13 @@
 #include "PS_func.h"
-//#include "mock_arduino.h" //Enable for Testing
+#include "mock_arduino.h" //Enable for Testing
 #include "parameter.h"
-
+/*
 #include <Arduino.h> //Enable on Hardware
 #include <HardwareSerial.h> //Enable on Hardware
 #include "DHT.h"
-
+#include <Wire.h>
+#include <DS3231.h>
+*/
 
 // Hold logic
 
@@ -68,97 +70,12 @@ unsigned long valve_time)
     return(0);
 }
 
-int WaterSystem::Hold_State_Clock(unsigned long  hold_time, TIME t, unsigned long pump_time)
-{
-  int water_activations = 0;
-  
-  Serial.println("Clock: hold_time:");
-  Serial.println(hold_time);
-  t.print();
-
-  bool state_flag = true;
-  unsigned long start_time = millis();
-
-  do
-  {
-    if ((millis() - start_time > hold_time) )
-    {
-      state_flag = false;
-    }
-    
-    if (isWaterActivated() && isWaterLevelOk())
-    {
-      water_activations += Pump_Water(pump_time, VALVETOP, t_valve);
-    }
-
-    //Enable on Hardware for control
-    
-    if( ((millis() - start_time) % 60000)==0 )
-    {
-      Serial.print("Temperature = ");
-      Serial.print(getTemperature());
-      Serial.println(" Celsius");
-    }
-
-  } while (state_flag);
-
-  return water_activations;
-}
-
-int WaterSystem::Pump_Water_Clock(TIME& t_curr, TIME& t1_water, TIME& t2_water)
+int WaterSystem::Pump_Water_Clock()
 {
   int water_counter = 0;
-  TIME eleven_pm(23, 0), one_am(1, 0);
-  unsigned long pTime = 0;
-
-  if (t1_water <= t2_water)
+ 
+  if(getCurrentLocalTime() == par::t1_water || getCurrentLocalTime() == par::t2_water)
   {
-    pause1_water = t2_water - t1_water;
-    pause2_water = ((eleven_pm - t2_water) + one_am) + t1_water;
-  }
-  else if (t1_water > t2_water)
-  {
-    pause1_water = t1_water - t2_water;
-    pause2_water = ((eleven_pm - t1_water) + one_am) + t2_water;
-  }
-  else
-    Serial.println("Fehler bei Berechnung von pause1_water und pause2_water!");
-
-  //Kontrollausgaben für Timer
-  Serial.println("pause1_water:");
-  Serial.println(pause1_water.Time2Ticks());
-  pause1_water.print();
-  Serial.println("pause2_water:");
-  Serial.println(pause2_water.Time2Ticks());
-  pause2_water.print();
-
-  if (t_curr <= t1_water)
-  {
-    pre_pause1 = t1_water - t_curr;
-
-    Serial.println("pre_pause1:");
-    Serial.println(pre_pause1.Time2Ticks());
-    pre_pause1.print();
-
-    Hold_State_Clock(pre_pause1.Time2Ticks(), pre_pause1, t_half_can);
-  }
-
-  else if (t_curr > t1_water && t_curr <= t2_water)
-  {
-    pre_pause1 = t2_water - t_curr;
-    pre_pause2 = ((eleven_pm - t2_water) + one_am) + t1_water;
-
-    Serial.println("pre_pause1:");
-    Serial.println(pre_pause1.Time2Ticks());
-    pre_pause1.print();
-
-    Serial.println("pre_pause2:");
-    Serial.println(pre_pause2.Time2Ticks());
-    pre_pause2.print();
-
-    Hold_State_Clock(pre_pause1.Time2Ticks(), pre_pause1, t_half_can);
-
-    pTime = 0;
     switch_on = isSystemSwitchedOn();
     water_level_ok = isWaterLevelOk();
 
@@ -174,84 +91,11 @@ int WaterSystem::Pump_Water_Clock(TIME& t_curr, TIME& t1_water, TIME& t2_water)
       Serial.print(getWaterTimeBottom());
       Serial.println(" ms");
       
-      water_counter += Pump_Water(getWaterTimeTop(), VALVETOP, t_valve);
-      water_counter += Pump_Water(getWaterTimeBottom(), VALVEBOTTOM, t_valve);
-      pTime = getWaterTimeTop() + getWaterTimeBottom() + 2L * t_valve;
+      water_counter += Pump_Water(getWaterTimeTop(), VALVETOP, par::t_valve);
+      water_counter += Pump_Water(getWaterTimeBottom(), VALVEBOTTOM, par::t_valve);
     }
-
-    Hold_State_Clock(pre_pause2.Time2Ticks() - pTime, pre_pause2, t_half_can);
   }
 
-  else if (t_curr > t2_water)
-  {
-    pre_pause1 = ((eleven_pm - t_curr) + one_am) + t1_water;
-
-    Serial.println("pre_pause1:");
-    Serial.println(pre_pause1.Time2Ticks());
-    pre_pause1.print();
-
-    Hold_State_Clock(pre_pause1.Time2Ticks(), pre_pause1, t_half_can);
-  }
-
-  else
-    Serial.println("Fehler bei Berechnung von pre_pause!");
-  
-  /*
-  for(int i=0; i < 2; i++) // Enable for Testing
-  { // Enable for Testing
-  */
-
-  
-  while (timer_on) //Enalbe on Hardware
-  { // Enable on Hardware
-
-
-    switch_on = isSystemSwitchedOn();
-    water_level_ok = isWaterLevelOk();
-
-    pTime = 0;
-    if (switch_on && water_level_ok && isAutomaticWateringEnabled())
-    {
-      Serial.print("Temperature = ");
-      Serial.print(getTemperature());
-      Serial.println(" Celsius");
-      Serial.print("WaterTimeTop = ");
-      Serial.print(getWaterTimeTop());
-      Serial.println(" ms");
-      Serial.print("WaterTimeBottom = ");
-      Serial.print(getWaterTimeBottom());
-      Serial.println(" ms");
-      
-      water_counter += Pump_Water(getWaterTimeTop(), VALVETOP, t_valve);
-      water_counter += Pump_Water(getWaterTimeBottom(), VALVEBOTTOM, t_valve);
-      pTime = getWaterTimeTop() + getWaterTimeBottom() + 2L * t_valve;
-    }
-
-    Hold_State_Clock(pause1_water.Time2Ticks() - pTime, pause1_water, t_half_can);
-
-    switch_on = isSystemSwitchedOn();
-    water_level_ok = isWaterLevelOk();
-
-    pTime = 0;
-    if (switch_on && water_level_ok && isAutomaticWateringEnabled())
-    {
-      Serial.print("Temperature = ");
-      Serial.print(getTemperature());
-      Serial.println(" Celsius");
-      Serial.print("WaterTimeTop = ");
-      Serial.print(getWaterTimeTop());
-      Serial.println(" ms");
-      Serial.print("WaterTimeBottom = ");
-      Serial.print(getWaterTimeBottom());
-      Serial.println(" ms");
-      
-      water_counter += Pump_Water(getWaterTimeTop(), VALVETOP, t_valve);
-      water_counter += Pump_Water(getWaterTimeBottom(), VALVEBOTTOM, t_valve);
-      pTime = getWaterTimeTop() + getWaterTimeBottom() + 2L * t_valve;
-    }
-
-    Hold_State_Clock(pause2_water.Time2Ticks() - pTime, pause2_water, t_half_can);
-  }
   return(water_counter);
 }
 
@@ -391,4 +235,27 @@ unsigned int WaterSystem::getWaterTimeBottom()
     water_time_ms = 0;
   }
   return water_time_ms;
+}
+
+TIME WaterSystem::getCurrentLocalTime()
+{
+  TIME t(0,0);
+  local_time = clock.getDateTime();
+
+  t.set_H(local_time.hour);
+  t.set_Min(local_time.minute);
+  return(t);
+}
+
+RTCDateTime WaterSystem::getCurrentLocalDateTime()
+{
+  local_time = clock.getDateTime();
+  return(local_time);
+}
+
+void WaterSystem::setCurrentLocalTime(unsigned int iYear, unsigned int iMonth,
+unsigned int iDay, unsigned int iHour, unsigned int iMinute, 
+unsigned int iSecond)
+{
+  clock.setDateTime(iYear, iMonth, iDay, iHour, iMinute, iSecond);
 }
