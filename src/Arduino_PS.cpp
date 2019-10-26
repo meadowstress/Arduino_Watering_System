@@ -37,7 +37,8 @@ WaterSystem PumpControl;
 
 int main(void) //Enable for Testing
 { // Enable for Testing
-
+for(int i = 0; i < 2; i++) //enable for Testing
+{ //enable for Testing
 
 /*
 void setup() // Enable on Hardware
@@ -64,6 +65,9 @@ void setup() // Enable on Hardware
     pre_state_water = true;
     current_state_water = true;
   }
+  
+  //set external time
+  //PumpControl.setCurrentLocalTime(2019, 10, 26, 22, 53, 10);
 // } //Enable on Hardware
 
 
@@ -90,15 +94,14 @@ void loop() // Enable on Hardware
   {
     Serial.println("Pump_Water single Function!");
     PumpControl.Pump_Water(t_half_can, VALVETOP, t_valve);
-    PumpControl.Pump_Water(t_bottom_vol, VALVEBOTTOM, t_valve);
+    //PumpControl.Pump_Water(t_bottom_vol, VALVEBOTTOM, t_valve);
   }
-
-  //setup timer
-  TIME t_curr(8, 0), t1(10, 0), t2(15, 0);
 
   if (timer_on)
   {
     Serial.println("Start Timer:");
-    PumpControl.Pump_Water_Clock(t_curr, t1, t2);
+    PumpControl.Pump_Water_Clock();
   }
+
+  } // Enable for Testing
 }

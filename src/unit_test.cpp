@@ -281,447 +281,6 @@ TEST(Pump_Water,SwitchOffLowLevel)
 }
 */
 
-TEST(PS_func, Hold_State_Clock)
-{
-    WaterSystem PS;
-    int activations = 0;
-
-    unsigned long hold_time = 600000;
-    TIME t(0,1);
-    unsigned long pump_time = 300000;
-
-    water_level_ok = true;
-
-    activations = PS.Hold_State_Clock(hold_time, t, pump_time);
-    ASSERT_EQ(activations, 0);
-}
-
-TEST(Pump_Water_Clock, Before_Water_Counter)
-{
-    int water_counter = 0;
-    water_level_state = true;
-    switch_state = true;
-    WaterSystem PS;
-    temperature_value = 20.0F;
-    
-    TIME t_curr(8,0), t1_water(10,0), t2_water(15,0);
-    
-    water_counter = PS.Pump_Water_Clock(t_curr, t1_water, t2_water);
-
-    ASSERT_EQ(water_counter, 8);
-}
-
-//Detection of water level feature
-/*
-TEST(Pump_Water_Clock, Before_Water_Counter_LowLevel)
-{
-    int water_counter = 0;
-    unsigned long pump_time_top = 3000;
-    unsigned long pump_time_bottom = 3000;
-    water_level_state = false;
-    switch_state = true;
-    WaterSystem PS;
-    
-    TIME t_curr(8,0), t1_water(10,0), t2_water(15,0);
-    
-    water_counter = PS.Pump_Water_Clock(pump_time_top, pump_time_bottom,
-    t_curr, t1_water, t2_water);
-
-    ASSERT_EQ(water_counter, 0);
-}
-*/
-
-TEST(Pump_Water_Clock, Before_Water_Counter_Off)
-{
-    int water_counter = 0;
-    unsigned long pump_time_top = 3000;
-    unsigned long pump_time_bottom = 3000;
-    water_level_state = true;
-    switch_state = false;
-    WaterSystem PS;
-    temperature_value = 20.0F;
-    
-    TIME t_curr(8,0), t1_water(10,0), t2_water(15,0);
-    
-    water_counter = PS.Pump_Water_Clock(t_curr, t1_water, t2_water);
-
-    ASSERT_EQ(water_counter, 0);
-}
-
-//Deactivation of water level feature
-/*
-TEST(Pump_Water_Clock, Before_Water_Counter_Off_LowLevel)
-{
-    int water_counter = 0;
-    unsigned long pump_time_top = 3000;
-    unsigned long pump_time_bottom = 3000;
-    water_level_state = false;
-    switch_state = false;
-    WaterSystem PS;
-    
-    TIME t_curr(8,0), t1_water(10,0), t2_water(15,0);
-    
-    water_counter = PS.Pump_Water_Clock(pump_time_top, pump_time_bottom,
-    t_curr, t1_water, t2_water);
-
-    ASSERT_EQ(water_counter, 0);
-}
-*/
-
-TEST(Pump_Water_Clock, Between_Water_Counter)
-{
-    int water_counter = 0;
-    unsigned long pump_time_top = 3000;
-    unsigned long pump_time_bottom = 3000;
-    water_level_state = true;
-    switch_state = true;
-    WaterSystem PS;
-    temperature_value = 20.0F;
-
-    TIME t_curr(12,0), t1_water(10,0), t2_water(15,0);
-    
-    water_counter = PS.Pump_Water_Clock(t_curr, t1_water, t2_water);
-
-    ASSERT_EQ(water_counter, 10);
-}
-
-//Deactivation of water level feature
-/*
-TEST(Pump_Water_Clock, Between_Water_Counter_LowLevel)
-{
-    int water_counter = 0;
-    unsigned long pump_time_top = 3000;
-    unsigned long pump_time_bottom = 3000;
-    water_level_state = false;
-    switch_state = true;
-    WaterSystem PS;
-    
-    TIME t_curr(12,0), t1_water(10,0), t2_water(15,0);
-    
-    water_counter = PS.Pump_Water_Clock(pump_time_top, pump_time_bottom,
-    t_curr, t1_water, t2_water);
-
-    ASSERT_EQ(water_counter, 0);
-}
-*/
-
-TEST(Pump_Water_Clock, Between_Water_Counter_Off)
-{
-    int water_counter = 0;
-    unsigned long pump_time_top = 3000;
-    unsigned long pump_time_bottom = 3000;
-    water_level_state = true;
-    switch_state = false;
-    WaterSystem PS;
-    temperature_value = 20.0F;
-    
-    TIME t_curr(12,0), t1_water(10,0), t2_water(15,0);
-    
-    water_counter = PS.Pump_Water_Clock(t_curr, t1_water, t2_water);
-
-    ASSERT_EQ(water_counter, 0);
-}
-
-//Deactivation of water level feature
-/*
-TEST(Pump_Water_Clock, Between_Water_Counter_Off_LowLevel)
-{
-    int water_counter = 0;
-    unsigned long pump_time_top = 3000;
-    unsigned long pump_time_bottom = 3000;
-    water_level_state = false;
-    switch_state = false;
-    WaterSystem PS;
-    
-    TIME t_curr(12,0), t1_water(10,0), t2_water(15,0);
-    
-    water_counter = PS.Pump_Water_Clock(pump_time_top, pump_time_bottom,
-    t_curr, t1_water, t2_water);
-
-    ASSERT_EQ(water_counter, 0);
-}
-*/
-
-TEST(Pump_Water_Clock, After_Water_Counter)
-{
-    int water_counter = 0;
-    unsigned long pump_time_top = 3000;
-    unsigned long pump_time_bottom = 3000;
-    water_level_state = true;
-    switch_state = true;
-    WaterSystem PS;
-    temperature_value = 20.0F;
-    
-    TIME t_curr(18,0), t1_water(10,0), t2_water(15,0);
-    
-    water_counter = PS.Pump_Water_Clock(t_curr, t1_water, t2_water);
-
-    ASSERT_EQ(water_counter, 8);
-}
-
-//Deactivation of water level feature
-/*
-TEST(Pump_Water_Clock, After_Water_Counter_LowLevel)
-{
-    int water_counter = 0;
-    unsigned long pump_time_top = 3000;
-    unsigned long pump_time_bottom = 3000;
-    water_level_state = false;
-    switch_state = true;
-    WaterSystem PS;
-    
-    TIME t_curr(18,0), t1_water(10,0), t2_water(15,0);
-    
-    water_counter = PS.Pump_Water_Clock(pump_time_top, pump_time_bottom,
-    t_curr, t1_water, t2_water);
-
-    ASSERT_EQ(water_counter, 0);
-}
-*/
-
-TEST(Pump_Water_Clock, After_Water_Counter_Off)
-{
-    int water_counter = 0;
-    unsigned long pump_time_top = 3000;
-    unsigned long pump_time_bottom = 3000;
-    water_level_state = true;
-    switch_state = false;
-    WaterSystem PS;
-    temperature_value = 20.0F;
-    
-    TIME t_curr(18,0), t1_water(10,0), t2_water(15,0);
-    
-    water_counter = PS.Pump_Water_Clock(t_curr, t1_water, t2_water);
-
-    ASSERT_EQ(water_counter, 0);
-}
-
-//Deactivation of water level feature
-/*
-TEST(Pump_Water_Clock, After_Water_Counter_Off_LowLevel)
-{
-    int water_counter = 0;
-    unsigned long pump_time_top = 3000;
-    unsigned long pump_time_bottom = 3000;
-    water_level_state = false;
-    switch_state = false;
-    WaterSystem PS;
-    
-    TIME t_curr(18,0), t1_water(10,0), t2_water(15,0);
-    
-    water_counter = PS.Pump_Water_Clock(pump_time_top, pump_time_bottom,
-    t_curr, t1_water, t2_water);
-
-    ASSERT_EQ(water_counter, 0);
-}
-*/
-
-TEST(Pump_Water_Clock, Before_pre_pause1)
-{
-    int water_counter = 0;
-    unsigned long pump_time_top = 3000;
-    unsigned long pump_time_bottom = 3000;
-
-    water_level_state = true;
-    switch_state = true;
-    WaterSystem PS;
-    temperature_value = 20.0F;
-    
-    TIME t_curr(8,0), t1_water(10,0), t2_water(15,0);
-    
-    water_counter = PS.Pump_Water_Clock(t_curr, t1_water, t2_water);
-
-    TIME p(2,0);
-    TIME t = PS.get_pre_pause1();
-
-    ASSERT_TRUE(p==t);
-}
-
-TEST(Pump_Water_Clock, Between_pre_pause1)
-{
-    int water_counter = 0;
-    unsigned long pump_time_top = 3000;
-    unsigned long pump_time_bottom = 3000;
-    
-    water_level_state = true;
-    switch_state = true;
-    WaterSystem PS;
-    temperature_value = 20.0F;
-
-    TIME t_curr(12,0), t1_water(10,0), t2_water(15,0);
-    
-    water_counter = PS.Pump_Water_Clock(t_curr, t1_water, t2_water);
-
-    unsigned long p = 3*3600*1000;
-    unsigned long t = PS.get_pre_pause1().Time2Ticks();
-
-    ASSERT_EQ(t, p);
-}
-
-TEST(Pump_Water_Clock, After_pre_pause1)
-{
-    int water_counter = 0;
-    unsigned long pump_time_top = 3000;
-    unsigned long pump_time_bottom = 3000;
-    
-    water_level_state = true;
-    switch_state = true;
-    WaterSystem PS;
-    temperature_value = 20.0F;
-
-    TIME t_curr(18,0), t1_water(10,0), t2_water(15,0);
-    
-    water_counter = PS.Pump_Water_Clock(t_curr, t1_water, t2_water);
-
-    unsigned long p = 16*3600*1000;
-    unsigned long t = PS.get_pre_pause1().Time2Ticks();
-
-    ASSERT_EQ(t, p);
-}
-
-TEST(Pump_Water_Clock, Between_pre_pause2)
-{
-    int water_counter = 0;
-    unsigned long pump_time_top = 3000;
-    unsigned long pump_time_bottom = 3000;
-
-    water_level_state = true;
-    switch_state = true;
-    WaterSystem PS;
-    temperature_value = 20.0F;
-    
-    TIME t_curr(12,0), t1_water(10,0), t2_water(15,0);
-    
-    water_counter = PS.Pump_Water_Clock(t_curr, t1_water, t2_water);
-    
-    TIME p(19,0);
-    TIME t = PS.get_pre_pause2();
-    ASSERT_TRUE(t==p);
-}
-
-TEST(Pump_Water_Clock, Before_pause1_water)
-{
-    int water_counter = 0;
-    unsigned long pump_time_top = 3000;
-    unsigned long pump_time_bottom = 3000;
-
-    water_level_state = true;
-    switch_state = true;
-    WaterSystem PS;
-    temperature_value = 20.0F;
-    
-    TIME t_curr(8,0), t1_water(10,0), t2_water(15,0);
-    
-    water_counter = PS.Pump_Water_Clock(t_curr, t1_water, t2_water);
-
-    TIME p(5,0);
-    TIME t = PS.get_pause1_water();
-
-    ASSERT_TRUE(t==p);
-}
-
-TEST(Pump_Water_Clock, Between_pause1_water)
-{
-    int water_counter = 0;
-    unsigned long pump_time_top = 3000;
-    unsigned long pump_time_bottom = 3000;
-
-    water_level_state = true;
-    switch_state = true;
-    WaterSystem PS;
-    temperature_value = 20.0F;
-    
-    TIME t_curr(12,0), t1_water(10,0), t2_water(15,0);
-    
-    water_counter = PS.Pump_Water_Clock(t_curr, t1_water, t2_water);
-
-    TIME p(5,0);
-    TIME t = PS.get_pause1_water();
-
-    ASSERT_TRUE(t==p);
-}
-
-TEST(Pump_Water_Clock, After_pause1_water)
-{
-    int water_counter = 0;
-    unsigned long pump_time_top = 3000;
-    unsigned long pump_time_bottom = 3000;
-
-    water_level_state = true;
-    switch_state = true;
-    WaterSystem PS;
-    temperature_value = 20.0F;
-    
-    TIME t_curr(18,0), t1_water(10,0), t2_water(15,0);
-    
-    water_counter = PS.Pump_Water_Clock(t_curr, t1_water, t2_water);
-
-    TIME p(5,0);
-    TIME t = PS.get_pause1_water();
-
-    ASSERT_TRUE(t==p);
-}
-
-TEST(Pump_Water_Clock, Before_pause2_water)
-{
-    int water_counter = 0;
-    unsigned long pump_time_top = 3000;
-    unsigned long pump_time_bottom = 3000;
-
-    water_level_state = true;
-    switch_state = true;
-    WaterSystem PS;
-    temperature_value = 20.0F;
-    
-    TIME t_curr(8,0), t1_water(10,0), t2_water(15,0);
-    
-    water_counter = PS.Pump_Water_Clock(t_curr, t1_water, t2_water);
-
-    TIME p(19,0);
-    TIME t = PS.get_pause2_water();
-    ASSERT_TRUE(t==p);
-}
-
-TEST(Pump_Water_Clock, Between_pause2_water)
-{
-    int water_counter = 0;
-    unsigned long pump_time_top = 3000;
-    unsigned long pump_time_bottom = 3000;
-
-    water_level_state = true;
-    switch_state = true;
-    WaterSystem PS;
-    temperature_value = 20.0F;
-    
-    TIME t_curr(12,0), t1_water(10,0), t2_water(15,0);
-    
-    water_counter = PS.Pump_Water_Clock(t_curr, t1_water, t2_water);
-
-    TIME p(19,0);
-    TIME t = PS.get_pause2_water();
-    ASSERT_TRUE(t==p);
-}
-
-TEST(Pump_Water_Clock, After_pause2_water)
-{
-    int water_counter = 0;
-    unsigned long pump_time_top = 3000;
-    unsigned long pump_time_bottom = 3000;
-
-    water_level_state = true;
-    switch_state = true;
-    WaterSystem PS;
-    temperature_value = 20.0F;
-    
-    TIME t_curr(18,0), t1_water(10,0), t2_water(15,0);
-    
-    water_counter = PS.Pump_Water_Clock(t_curr, t1_water, t2_water);
-
-    TIME p(19,0);
-    TIME t = PS.get_pause2_water();
-    ASSERT_TRUE(t==p);
-}
-
 TEST(Temperature, timeMaxTempTop)
 {
     WaterSystem PS;
@@ -932,6 +491,117 @@ TEST(isWateringEnabled, false)
     ASSERT_FALSE(PS.isAutomaticWateringEnabled());
     temperature_value = 5.0F;
     ASSERT_FALSE(PS.isAutomaticWateringEnabled());
+}
+
+TEST(Pump_Water_Clock, watering_true_t1)
+{
+    WaterSystem PS;
+
+    temperature_value = 20.0F;
+    switch_state = true;
+
+    current_local_time.hour = 11;
+    current_local_time.minute = 30;
+    ASSERT_EQ(PS.Pump_Water_Clock(), 2);
+}
+
+TEST(Pump_Water_Clock, watering_true_t2)
+{
+    WaterSystem PS;
+
+    temperature_value = 20.0F;
+    switch_state = true;
+
+    current_local_time.hour = 15;
+    current_local_time.minute = 30;
+    ASSERT_EQ(PS.Pump_Water_Clock(), 2);
+}
+
+TEST(Pump_Water_Clock, watering_false_t1)
+{
+    WaterSystem PS;
+
+    temperature_value = 20.0F;
+    switch_state = true;
+
+    current_local_time.hour = 10;
+    current_local_time.minute = 30;
+    ASSERT_EQ(PS.Pump_Water_Clock(), 0);
+
+    current_local_time.hour = 12;
+    current_local_time.minute = 30;
+    ASSERT_EQ(PS.Pump_Water_Clock(), 0);
+
+    current_local_time.hour = 14;
+    current_local_time.minute = 30;
+    ASSERT_EQ(PS.Pump_Water_Clock(), 0);
+
+    current_local_time.hour = 16;
+    current_local_time.minute = 30;
+    ASSERT_EQ(PS.Pump_Water_Clock(), 0);
+
+    current_local_time.hour = 0;
+    current_local_time.minute = 0;
+    ASSERT_EQ(PS.Pump_Water_Clock(), 0);
+}
+
+
+TEST(Pump_Water_Clock, switch_off)
+{
+    WaterSystem PS;
+
+    temperature_value = 20.0F;
+    switch_state = false;
+
+    current_local_time.hour = 11;
+    current_local_time.minute = 30;
+    ASSERT_EQ(PS.Pump_Water_Clock(), 0);
+}
+
+TEST(Pump_Water_Clock, low_temperature)
+{
+    WaterSystem PS;
+
+    temperature_value = 16.0F;
+    switch_state = true;
+
+    current_local_time.hour = 11;
+    current_local_time.minute = 30;
+    ASSERT_EQ(PS.Pump_Water_Clock(), 0);
+}
+
+TEST(systemTime, setLocalTime)
+{
+    WaterSystem PS;
+
+    temperature_value = 20.0F;
+    switch_state = true;
+
+    PS.setCurrentLocalTime(2011, 9, 19, 15, 13, 40);
+
+    ASSERT_EQ(current_local_time.year, 2011);
+    ASSERT_EQ(current_local_time.month, 9);
+    ASSERT_EQ(current_local_time.day, 19);
+    ASSERT_EQ(current_local_time.hour, 15);
+    ASSERT_EQ(current_local_time.minute, 13);
+    ASSERT_EQ(current_local_time.second, 40);
+}
+
+TEST(systemTime, getLocalTime)
+{
+    WaterSystem PS;
+    TIME t(0,0);
+
+    temperature_value = 20.0F;
+    switch_state = true;
+
+    current_local_time.hour = 15;
+    current_local_time.minute = 13;
+
+
+    t = PS.getCurrentLocalTime();
+    ASSERT_EQ(t.get_H(), 15);
+    ASSERT_EQ(t.get_Min(), 13);
 }
 
 

@@ -70,7 +70,6 @@ class WaterSystem
         ~WaterSystem(){}
     
     int Pump_Water_Clock();
-    int Pump_Water_Clock(TIME& t_curr, TIME& t1_water, TIME& t2_water);
     int Hold_State_Clock(unsigned long  hold_time, TIME t,
     unsigned long pump_time);
     int Pump_Water(unsigned long pump_time, 
@@ -96,6 +95,9 @@ class WaterSystem
     bool getWateringEnabled(){return watering_enabled;}
     bool isAutomaticWateringEnabled();
     TIME getCurrentLocalTime();
+    void setCurrentLocalTime(unsigned int iYear, unsigned int iMonth,
+    unsigned int iDay, unsigned int iHour, unsigned int iMinute, 
+    unsigned int iSecond);
 };
 
 extern WaterSystem PumpControl;
