@@ -247,6 +247,12 @@ TIME WaterSystem::getCurrentLocalTime()
   return(t);
 }
 
+RTCDateTime WaterSystem::getCurrentLocalDateTime()
+{
+  local_time = clock.getDateTime();
+  return(local_time);
+}
+
 void WaterSystem::setCurrentLocalTime(unsigned int iYear, unsigned int iMonth,
 unsigned int iDay, unsigned int iHour, unsigned int iMinute, 
 unsigned int iSecond)

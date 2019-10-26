@@ -95,6 +95,7 @@ class WaterSystem
     bool getWateringEnabled(){return watering_enabled;}
     bool isAutomaticWateringEnabled();
     TIME getCurrentLocalTime();
+    RTCDateTime getCurrentLocalDateTime();
     void setCurrentLocalTime(unsigned int iYear, unsigned int iMonth,
     unsigned int iDay, unsigned int iHour, unsigned int iMinute, 
     unsigned int iSecond);

@@ -604,7 +604,24 @@ TEST(systemTime, getLocalTime)
     ASSERT_EQ(t.get_Min(), 13);
 }
 
+TEST(systemTime, getLocalDateTime)
+{
+    WaterSystem PS;
+    RTCDateTime td;
 
+    temperature_value = 20.0F;
+    switch_state = true;
+
+    PS.setCurrentLocalTime(2013, 12, 11, 11, 17, 12);
+    td = PS.getCurrentLocalDateTime();
+
+    ASSERT_EQ(td.year, 2013);
+    ASSERT_EQ(td.month, 12);
+    ASSERT_EQ(td.day, 11);
+    ASSERT_EQ(td.hour, 11);
+    ASSERT_EQ(td.minute, 17);
+    ASSERT_EQ(td.second, 12);
+}
 
 int main(int argc, char **argv) 
 {

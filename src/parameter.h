@@ -30,6 +30,7 @@ namespace par
     const TIME t1_water(11,30);
     const TIME t2_water(15,30);
     const unsigned int t_valve = 100;
+    const unsigned int t_half_can = 15000;
 }
 
 #endif
