@@ -45,9 +45,9 @@ void setup() // Enable on Hardware
   pinMode(PUMP, OUTPUT);  // Enable on Hardware
   pinMode(VALVETOP, OUTPUT);  // Enable on Hardware
   pinMode(VALVEBOTTOM, OUTPUT);  // Enable on Hardware
-  pinMode(SWITCH, INPUT_PULLUP);  // Enable on Hardware
-  pinMode(WATER, INPUT_PULLUP);  // Enable on Hardware
-  pinMode(WATERLEVEL, INPUT_PULLUP);  // Enable on Hardware
+  pinMode(SWITCH, INPUT);  // Enable on Hardware
+  pinMode(WATER, INPUT);  // Enable on Hardware
+  pinMode(WATERLEVEL, INPUT);  // Enable on Hardware
   Serial.begin(9600);  // Enable on Hardware
   dht.begin();
 
