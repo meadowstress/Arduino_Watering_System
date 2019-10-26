@@ -1,13 +1,13 @@
 #ifndef PS_FUNC_H
 #define PS_FUNC_H
 
-/*
+
 #include"DHT.h" //Enable on Hardware
 #include <Wire.h>
 #include <DS3231.h>
-*/
 
-#include"mock_arduino.h" //Enable for Testing
+
+//#include"mock_arduino.h" //Enable for Testing
 #include"time.h"
 
 //pins
@@ -27,12 +27,6 @@ extern bool switch_on;
 extern bool water_on;
 extern bool timer_on;
 extern bool water_level_ok;
-
-extern unsigned long const t_half_can;
-extern unsigned long const t_half_vol;
-extern unsigned long const t_quater_vol;
-extern unsigned long const t_valve;
-extern unsigned long const t_bottom_vol;
 
 //function headers
 bool State_Switch(int input);

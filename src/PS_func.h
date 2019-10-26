@@ -28,12 +28,6 @@ extern bool water_on;
 extern bool timer_on;
 extern bool water_level_ok;
 
-extern unsigned long const t_half_can;
-extern unsigned long const t_half_vol;
-extern unsigned long const t_quater_vol;
-extern unsigned long const t_valve;
-extern unsigned long const t_bottom_vol;
-
 //function headers
 bool State_Switch(int input);
 void State_Water();
