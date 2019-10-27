@@ -28,6 +28,8 @@ WaterSystem PumpControl;
 DS3231 clock_var;
 RTCDateTime DateTime;
 
+bool timer_water_flag = true;
+
 int main(void) //Enable for Testing
 { // Enable for Testing
 for(int i = 0; i < 2; i++) //enable for Testing
@@ -71,6 +73,7 @@ void setup() // Enable on Hardware
 
 
 unsigned long counter = 0;
+TIME t_min(0,1), t1(0,0), t2(0,0), t_buffer(0,0);
 
 /*
 void loop() // Enable on Hardware
@@ -111,9 +114,21 @@ void loop() // Enable on Hardware
     //PumpControl.Pump_Water(t_bottom_vol, VALVEBOTTOM, t_valve);
   }
 
-  if (timer_on)
+  if (timer_on &&  ((PumpControl.getCurrentLocalTime() == par::t1_water) || (PumpControl.getCurrentLocalTime() == par::t2_water)) && timer_water_flag)
   {
     PumpControl.Pump_Water_Clock();
+    timer_water_flag = false;
+  }
+
+  
+  t_buffer = par::t1_water;
+  t1 = t_buffer + t_min;
+  t_buffer = par::t2_water;
+  t2 = t_buffer + t_min;
+
+  if( (PumpControl.getCurrentLocalTime() == t1) || (PumpControl.getCurrentLocalTime() == t2) )
+  {
+    timer_water_flag = true;
   }
 
   } // Enable for Testing
