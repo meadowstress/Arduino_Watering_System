@@ -48,7 +48,7 @@ void setup() // Enable on Hardware
   pinMode(WATERLEVEL, INPUT);  // Enable on Hardware
   Serial.begin(9600);  // Enable on Hardware
   dht.begin();
-  clock.begin();
+  clock_var.begin();
   // Manual (YYYY, MM, DD, HH, II, SS
   //clock.setDateTime(2019, 10, 27, 8, 42, 15);
   */
@@ -63,9 +63,6 @@ void setup() // Enable on Hardware
     pre_state_water = true;
     current_state_water = true;
   }
-  
-  //set external time
-  //PumpControl.setCurrentLocalTime(2019, 10, 26, 22, 53, 10);
 
   Serial.println("\n\nStart of Program:");
   Serial.println("-----------------\n");

@@ -27,8 +27,8 @@ namespace par
     const unsigned int timeLowTempBottom = 4000;
 
     //Water Times
-    const TIME t1_water(18,30);
-    const TIME t2_water(18,35);
+    const TIME t1_water(21,15);
+    const TIME t2_water(21,17);
     const unsigned int t_valve = 100;
     const unsigned int t_half_can = 15000;
 }

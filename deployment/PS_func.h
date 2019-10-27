@@ -3,8 +3,8 @@
 
 
 #include"DHT.h" //Enable on Hardware
-#include <Wire.h>
-#include <DS3231.h>
+#include <Wire.h> //Enable on Hardware
+#include <DS3231.h> //Enable on Hardware
 
 
 //#include"mock_arduino.h" //Enable for Testing
@@ -19,7 +19,7 @@ extern const short WATER;
 extern const short WATERLEVEL;
 extern const short MEASURE_WL;
 extern DHT dht;
-extern DS3231 clock;
+extern DS3231 clock_var;
 extern RTCDateTime DateTime;
 
 //states

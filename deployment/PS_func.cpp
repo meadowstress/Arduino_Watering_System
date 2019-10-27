@@ -4,9 +4,9 @@
 
 #include <Arduino.h> //Enable on Hardware
 #include <HardwareSerial.h> //Enable on Hardware
-#include "DHT.h"
-#include <Wire.h>
-#include <DS3231.h>
+#include "DHT.h" //Enable on Hardware
+#include <Wire.h> //Enable on Hardware
+#include <DS3231.h> //Enable on Hardware
 
 
 // Hold logic
@@ -81,6 +81,17 @@ int WaterSystem::Pump_Water_Clock()
 
     if (switch_on && water_level_ok && isAutomaticWateringEnabled())
     {
+      DateTime = clock_var.getDateTime();
+      Serial.print(DateTime.day);
+      Serial.print(".");
+      Serial.print(DateTime.month);
+      Serial.print(".");
+      Serial.print(DateTime.year);
+      Serial.print(": ");
+      Serial.print(DateTime.hour);
+      Serial.print(":");
+      Serial.print(DateTime.minute);
+      Serial.print("   ");
       Serial.print("Temperature = ");
       Serial.print(getTemperature());
       Serial.println(" Celsius");
@@ -240,7 +251,7 @@ unsigned int WaterSystem::getWaterTimeBottom()
 TIME WaterSystem::getCurrentLocalTime()
 {
   TIME t(0,0);
-  DateTime = clock.getDateTime();
+  DateTime = clock_var.getDateTime();
 
   t.set_H(DateTime.hour);
   t.set_Min(DateTime.minute);

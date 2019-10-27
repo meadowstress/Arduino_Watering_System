@@ -25,8 +25,11 @@ bool water_level_ok = false;
 
 WaterSystem PumpControl;
 
-DS3231 clock;
+DS3231 clock_var;
 RTCDateTime DateTime;
+
+bool timer_water_flag = true;
+
 /*
 int main(void) //Enable for Testing
 { // Enable for Testing
@@ -46,9 +49,9 @@ void setup() // Enable on Hardware
   pinMode(WATERLEVEL, INPUT);  // Enable on Hardware
   Serial.begin(9600);  // Enable on Hardware
   dht.begin();
-  clock.begin();
+  clock_var.begin();
   // Manual (YYYY, MM, DD, HH, II, SS
-   //clock.setDateTime(2019, 10, 27, 8, 42, 15);
+  //clock.setDateTime(2019, 10, 27, 8, 42, 15);
 
   digitalWrite(PUMP, HIGH); //default no pumping enabled
   digitalWrite(VALVETOP, HIGH); //default no pumping enabled
@@ -60,9 +63,6 @@ void setup() // Enable on Hardware
     pre_state_water = true;
     current_state_water = true;
   }
-  
-  //set external time
-  //PumpControl.setCurrentLocalTime(2019, 10, 26, 22, 53, 10);
 
   Serial.println("\n\nStart of Program:");
   Serial.println("-----------------\n");
@@ -70,13 +70,16 @@ void setup() // Enable on Hardware
 
 
 unsigned long counter = 0;
+TIME t_min(0,1), t1(0,0), t2(0,0), t_buffer(0,0);
+
 
 void loop() // Enable on Hardware
 { // Enable on Hardware
+
   counter++;
-  if( (counter%4000) == 0)
+  if( (counter%2000) == 0)
   {
-    DateTime = clock.getDateTime();
+    DateTime = clock_var.getDateTime();
     Serial.print(DateTime.day);
     Serial.print(".");
     Serial.print(DateTime.month);
@@ -108,9 +111,21 @@ void loop() // Enable on Hardware
     //PumpControl.Pump_Water(t_bottom_vol, VALVEBOTTOM, t_valve);
   }
 
-  if (timer_on)
+  if (timer_on &&  ((PumpControl.getCurrentLocalTime() == par::t1_water) || (PumpControl.getCurrentLocalTime() == par::t2_water)) && timer_water_flag)
   {
     PumpControl.Pump_Water_Clock();
+    timer_water_flag = false;
+  }
+
+  
+  t_buffer = par::t1_water;
+  t1 = t_buffer + t_min;
+  t_buffer = par::t2_water;
+  t2 = t_buffer + t_min;
+
+  if( (PumpControl.getCurrentLocalTime() == t1) || (PumpControl.getCurrentLocalTime() == t2) )
+  {
+    timer_water_flag = true;
   }
 
   //} // Enable for Testing

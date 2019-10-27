@@ -81,6 +81,17 @@ int WaterSystem::Pump_Water_Clock()
 
     if (switch_on && water_level_ok && isAutomaticWateringEnabled())
     {
+      DateTime = clock_var.getDateTime();
+      Serial.print(DateTime.day);
+      Serial.print(".");
+      Serial.print(DateTime.month);
+      Serial.print(".");
+      Serial.print(DateTime.year);
+      Serial.print(": ");
+      Serial.print(DateTime.hour);
+      Serial.print(":");
+      Serial.print(DateTime.minute);
+      Serial.print("   ");
       Serial.print("Temperature = ");
       Serial.print(getTemperature());
       Serial.println(" Celsius");
