@@ -17,14 +17,7 @@ float temperature_value = 20;
 
 //artificial local time
 RTCDateTime current_local_time{2019,10,25,0,0,0};
-/*
-current_local_time.year = 2019;
-current_local_time.month = 10;
-current_local_time.day = 25;
-current_local_time.hour = 0;
-current_local_time.minute = 0;
-current_local_time.second = 0;
-*/
+
 /*
 This definition of HIGH and LOW is very volatile and is only valid for 
 switches connected to pulldown resistors. Currently there are 3 switches

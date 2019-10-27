@@ -20,11 +20,8 @@ bool water_on = false;
 bool timer_on = false;
 bool water_level_ok = false;
 
-unsigned long const t_half_can = 15000;
-unsigned long const t_half_vol = 40000;
-unsigned long const t_quater_vol = 20000;
-unsigned long const t_valve = 100;
-unsigned long const t_bottom_vol = 6000;
+DS3231 clock_var;
+RTCDateTime DateTime;
 
 class TimeTest: public ::testing::Test 
 { 
@@ -223,9 +220,9 @@ TEST(Hold_State, LowLevel)
 TEST(Pump_Water, SwitchOn)
 {
     WaterSystem PS;
-    unsigned long pump_time = t_half_can; 
+    unsigned long pump_time = par::t_half_can; 
     unsigned short valve_pin = VALVETOP; 
-    unsigned long valve_time = t_valve;
+    unsigned long valve_time = par::t_valve;
 
     water_level_state = true;
     switch_state = true;
@@ -236,9 +233,9 @@ TEST(Pump_Water, SwitchOn)
 TEST(Pump_Water, SwitchOff)
 {
     WaterSystem PS;
-    unsigned long pump_time = t_half_can; 
+    unsigned long pump_time = par::t_half_can; 
     unsigned short valve_pin = VALVETOP; 
-    unsigned long valve_time = t_valve;
+    unsigned long valve_time = par::t_valve;
     int result = 0;
 
     water_level_state = true;
@@ -570,22 +567,6 @@ TEST(Pump_Water_Clock, low_temperature)
     ASSERT_EQ(PS.Pump_Water_Clock(), 0);
 }
 
-TEST(systemTime, setLocalTime)
-{
-    WaterSystem PS;
-
-    temperature_value = 20.0F;
-    switch_state = true;
-
-    PS.setCurrentLocalTime(2011, 9, 19, 15, 13, 40);
-
-    ASSERT_EQ(current_local_time.year, 2011);
-    ASSERT_EQ(current_local_time.month, 9);
-    ASSERT_EQ(current_local_time.day, 19);
-    ASSERT_EQ(current_local_time.hour, 15);
-    ASSERT_EQ(current_local_time.minute, 13);
-    ASSERT_EQ(current_local_time.second, 40);
-}
 
 TEST(systemTime, getLocalTime)
 {
@@ -604,24 +585,7 @@ TEST(systemTime, getLocalTime)
     ASSERT_EQ(t.get_Min(), 13);
 }
 
-TEST(systemTime, getLocalDateTime)
-{
-    WaterSystem PS;
-    RTCDateTime td;
 
-    temperature_value = 20.0F;
-    switch_state = true;
-
-    PS.setCurrentLocalTime(2013, 12, 11, 11, 17, 12);
-    td = PS.getCurrentLocalDateTime();
-
-    ASSERT_EQ(td.year, 2013);
-    ASSERT_EQ(td.month, 12);
-    ASSERT_EQ(td.day, 11);
-    ASSERT_EQ(td.hour, 11);
-    ASSERT_EQ(td.minute, 17);
-    ASSERT_EQ(td.second, 12);
-}
 
 int main(int argc, char **argv) 
 {

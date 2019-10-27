@@ -19,6 +19,8 @@ extern const short WATER;
 extern const short WATERLEVEL;
 extern const short MEASURE_WL;
 extern DHT dht;
+extern DS3231 clock;
+extern RTCDateTime DateTime;
 
 //states
 extern bool pre_state_water;
@@ -48,8 +50,6 @@ class WaterSystem
     TIME pause2_water;
     bool watering_enabled;
     float measured_temperature;
-    DS3231 clock;
-    RTCDateTime local_time;
 
     public:
         WaterSystem()
@@ -89,10 +89,6 @@ class WaterSystem
     bool getWateringEnabled(){return watering_enabled;}
     bool isAutomaticWateringEnabled();
     TIME getCurrentLocalTime();
-    RTCDateTime getCurrentLocalDateTime();
-    void setCurrentLocalTime(unsigned int iYear, unsigned int iMonth,
-    unsigned int iDay, unsigned int iHour, unsigned int iMinute, 
-    unsigned int iSecond);
 };
 
 extern WaterSystem PumpControl;

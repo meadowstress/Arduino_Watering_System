@@ -24,6 +24,8 @@ bool water_level_ok = false;
 
 
 WaterSystem PumpControl;
+
+DS3231 clock;
 RTCDateTime DateTime;
 /*
 int main(void) //Enable for Testing
@@ -39,12 +41,14 @@ void setup() // Enable on Hardware
   pinMode(PUMP, OUTPUT);  // Enable on Hardware
   pinMode(VALVETOP, OUTPUT);  // Enable on Hardware
   pinMode(VALVEBOTTOM, OUTPUT);  // Enable on Hardware
-  pinMode(SWITCH, INPUT_PULLUP);  // Enable on Hardware
-  pinMode(WATER, INPUT_PULLUP);  // Enable on Hardware
-  pinMode(WATERLEVEL, INPUT_PULLUP);  // Enable on Hardware
+  pinMode(SWITCH, INPUT);  // Enable on Hardware
+  pinMode(WATER, INPUT);  // Enable on Hardware
+  pinMode(WATERLEVEL, INPUT);  // Enable on Hardware
   Serial.begin(9600);  // Enable on Hardware
   dht.begin();
-  
+  clock.begin();
+  // Manual (YYYY, MM, DD, HH, II, SS
+   //clock.setDateTime(2019, 10, 27, 8, 42, 15);
 
   digitalWrite(PUMP, HIGH); //default no pumping enabled
   digitalWrite(VALVETOP, HIGH); //default no pumping enabled
@@ -65,26 +69,30 @@ void setup() // Enable on Hardware
 } //Enable on Hardware
 
 
-
+unsigned long counter = 0;
 
 void loop() // Enable on Hardware
 { // Enable on Hardware
+  counter++;
+  if( (counter%4000) == 0)
+  {
+    DateTime = clock.getDateTime();
+    Serial.print(DateTime.day);
+    Serial.print(".");
+    Serial.print(DateTime.month);
+    Serial.print(".");
+    Serial.print(DateTime.year);
+    Serial.print(": ");
+    Serial.print(DateTime.hour);
+    Serial.print(":");
+    Serial.print(DateTime.minute);
+    Serial.print("   ");
+    Serial.print("Temperature = ");
+    Serial.print(PumpControl.getTemperature());
+    Serial.println(" Celsius");
+  }
 
-  DateTime = PumpControl.getCurrentLocalDateTime();
-  Serial.print(DateTime.day);
-  Serial.print(".");
-  Serial.print(DateTime.month);
-  Serial.print(".");
-  Serial.print(DateTime.year);
-  Serial.print(": ");
-  Serial.print(DateTime.hour);
-  Serial.print(":");
-  Serial.print(DateTime.minute);
-  Serial.print("   ");
-  Serial.print("Temperature = ");
-  Serial.print(PumpControl.getTemperature());
-  Serial.println(" Celsius");
-
+  
   //configuration settings - change time here
   timer_on = true; // software switch for pump timer function
 
@@ -102,7 +110,6 @@ void loop() // Enable on Hardware
 
   if (timer_on)
   {
-    Serial.println("Start Timer:");
     PumpControl.Pump_Water_Clock();
   }
 

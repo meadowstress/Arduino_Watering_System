@@ -4,9 +4,9 @@
 /*
 #include <Arduino.h> //Enable on Hardware
 #include <HardwareSerial.h> //Enable on Hardware
-#include "DHT.h"
-#include <Wire.h>
-#include <DS3231.h>
+#include "DHT.h" //Enable on Hardware
+#include <Wire.h> //Enable on Hardware
+#include <DS3231.h> //Enable on Hardware
 */
 
 // Hold logic
@@ -240,22 +240,9 @@ unsigned int WaterSystem::getWaterTimeBottom()
 TIME WaterSystem::getCurrentLocalTime()
 {
   TIME t(0,0);
-  local_time = clock.getDateTime();
+  DateTime = clock_var.getDateTime();
 
-  t.set_H(local_time.hour);
-  t.set_Min(local_time.minute);
+  t.set_H(DateTime.hour);
+  t.set_Min(DateTime.minute);
   return(t);
-}
-
-RTCDateTime WaterSystem::getCurrentLocalDateTime()
-{
-  local_time = clock.getDateTime();
-  return(local_time);
-}
-
-void WaterSystem::setCurrentLocalTime(unsigned int iYear, unsigned int iMonth,
-unsigned int iDay, unsigned int iHour, unsigned int iMinute, 
-unsigned int iSecond)
-{
-  clock.setDateTime(iYear, iMonth, iDay, iHour, iMinute, iSecond);
 }
