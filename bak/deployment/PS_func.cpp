@@ -47,7 +47,7 @@ void State_Water()
 
 // Hold logic
 
-bool Hold_State(unsigned long  hold_time)
+bool holdState(unsigned long  hold_time)
 {
 
   bool state_flag = true;
@@ -77,7 +77,7 @@ bool Hold_State(unsigned long  hold_time)
     return false;
 }
 
-int Pump_Water(unsigned long pump_time, unsigned short valve_pin, 
+int pumpWater(unsigned long pump_time, unsigned short valve_pin, 
 unsigned long valve_time)
 {
   bool water_flag = false;
@@ -89,11 +89,11 @@ unsigned long valve_time)
   {
     Serial.println("Open Valve!");
     digitalWrite(valve_pin, LOW);
-    Hold_State(valve_time);
+    holdState(valve_time);
 
     Serial.println("Pump Water!");
     digitalWrite(PUMP, LOW); //pumping starts
-    water_flag = Hold_State(pump_time);
+    water_flag = holdState(pump_time);
     digitalWrite(PUMP, HIGH); // pumping ends
 
     digitalWrite(valve_pin, HIGH); //closing Valve
@@ -125,7 +125,7 @@ void Hold_State_Clock(unsigned long  hold_time, TIME t, unsigned long pump_time)
     State_Water();
     if (water_on)
     {
-      Pump_Water(pump_time, VALVETOP, t_valve);
+      pumpWater(pump_time, VALVETOP, t_valve);
     }
 
   } while (state_flag);
@@ -193,8 +193,8 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
     water_level_ok = State_Switch(digitalRead(WATERLEVEL));
     if (switch_on && water_level_ok)
     {
-      water_counter += Pump_Water(pump_time_top, VALVETOP, t_valve);
-      water_counter += Pump_Water(pump_time_bottom, VALVEBOTTOM, t_valve);
+      water_counter += pumpWater(pump_time_top, VALVETOP, t_valve);
+      water_counter += pumpWater(pump_time_bottom, VALVEBOTTOM, t_valve);
       pTime = pump_time_top + pump_time_bottom + 2L * t_valve;
     }
 
@@ -231,8 +231,8 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
     pTime = 0;
     if (switch_on && water_level_ok)
     {
-      water_counter += Pump_Water(pump_time_top, VALVETOP, t_valve);
-      water_counter += Pump_Water(pump_time_bottom, VALVEBOTTOM, t_valve);
+      water_counter += pumpWater(pump_time_top, VALVETOP, t_valve);
+      water_counter += pumpWater(pump_time_bottom, VALVEBOTTOM, t_valve);
       pTime = pump_time_top + pump_time_bottom + 2L * t_valve;
     }
 
@@ -244,8 +244,8 @@ unsigned long pump_time_bottom, TIME& t_curr, TIME& t1_water, TIME& t2_water)
     pTime = 0;
     if (switch_on && water_level_ok)
     {
-      water_counter += Pump_Water(pump_time_top, VALVETOP, t_valve);
-      water_counter += Pump_Water(pump_time_bottom, VALVEBOTTOM, t_valve);
+      water_counter += pumpWater(pump_time_top, VALVETOP, t_valve);
+      water_counter += pumpWater(pump_time_bottom, VALVEBOTTOM, t_valve);
       pTime = pump_time_top + pump_time_bottom + 2L * t_valve;
     }
 

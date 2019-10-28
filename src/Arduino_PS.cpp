@@ -106,14 +106,14 @@ void loop() // Enable on Hardware
   // function execution
   if (switch_on && water_on)
   {
-    Serial.println("Pump_Water single Function!");
-    PumpControl.Pump_Water(par::t_half_can, VALVETOP, par::t_valve);
-    //PumpControl.Pump_Water(t_bottom_vol, VALVEBOTTOM, t_valve);
+    Serial.println("pumpWater single Function!");
+    PumpControl.pumpWater(par::t_half_can, VALVETOP, par::t_valve);
+    //PumpControl.pumpWater(t_bottom_vol, VALVEBOTTOM, t_valve);
   }
 
   if (timer_on &&  ((PumpControl.getCurrentLocalTime() == par::t1_water) || (PumpControl.getCurrentLocalTime() == par::t2_water)) && timer_water_flag)
   {
-    PumpControl.Pump_Water_Clock();
+    PumpControl.pumpWaterClock();
     timer_water_flag = false;
   }
 

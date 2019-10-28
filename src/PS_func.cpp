@@ -11,7 +11,7 @@
 
 // Hold logic
 
-bool WaterSystem::Hold_State(unsigned long  hold_time)
+bool WaterSystem::holdState(unsigned long  hold_time)
 {
 
   bool state_flag = true;
@@ -41,7 +41,7 @@ bool WaterSystem::Hold_State(unsigned long  hold_time)
     return false;
 }
 
-int WaterSystem::Pump_Water(unsigned long pump_time, unsigned short valve_pin, 
+int WaterSystem::pumpWater(unsigned long pump_time, unsigned short valve_pin, 
 unsigned long valve_time)
 {
   bool water_flag = false;
@@ -53,11 +53,11 @@ unsigned long valve_time)
   {
     Serial.println("Open Valve!");
     digitalWrite(valve_pin, LOW);
-    Hold_State(valve_time);
+    holdState(valve_time);
 
     Serial.println("Pump Water!");
     digitalWrite(PUMP, LOW); //pumping starts
-    water_flag = Hold_State(pump_time);
+    water_flag = holdState(pump_time);
     digitalWrite(PUMP, HIGH); // pumping ends
 
     digitalWrite(valve_pin, HIGH); //closing Valve
@@ -70,7 +70,7 @@ unsigned long valve_time)
     return(0);
 }
 
-int WaterSystem::Pump_Water_Clock()
+int WaterSystem::pumpWaterClock()
 {
   int water_counter = 0;
  
@@ -102,8 +102,8 @@ int WaterSystem::Pump_Water_Clock()
       Serial.print(getWaterTimeBottom());
       Serial.println(" ms");
       
-      water_counter += Pump_Water(getWaterTimeTop(), VALVETOP, par::t_valve);
-      water_counter += Pump_Water(getWaterTimeBottom(), VALVEBOTTOM, par::t_valve);
+      water_counter += pumpWater(getWaterTimeTop(), VALVETOP, par::t_valve);
+      water_counter += pumpWater(getWaterTimeBottom(), VALVEBOTTOM, par::t_valve);
     }
   }
 

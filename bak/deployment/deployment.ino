@@ -81,9 +81,9 @@ void loop() // Enable on Hardware
   // function execution
   if (switch_on && water_on)
   {
-    Serial.println("Pump_Water single Function!");
-    Pump_Water(t_half_can, VALVETOP, t_valve);
-    Pump_Water(t_bottom_vol, VALVEBOTTOM, t_valve);
+    Serial.println("pumpWater single Function!");
+    pumpWater(t_half_can, VALVETOP, t_valve);
+    pumpWater(t_bottom_vol, VALVEBOTTOM, t_valve);
   }
 
   //setup timer

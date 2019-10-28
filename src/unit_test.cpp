@@ -187,37 +187,37 @@ TEST(PS_func, isWaterActivatedFalseTT)
 }
 
  
-TEST(Hold_State, SwitchOn)
+TEST(holdState, SwitchOn)
 {
     WaterSystem PS;
     switch_state = true;
     water_level_state = true;
     measure_current_wl = true;
-    ASSERT_TRUE(PS.Hold_State(3000));
+    ASSERT_TRUE(PS.holdState(3000));
 }
 
-TEST(Hold_State, SwitchOff)
+TEST(holdState, SwitchOff)
 {
     WaterSystem PS;
     switch_state = false;
     water_level_state = true;
     measure_current_wl = true;
-    ASSERT_FALSE(PS.Hold_State(3000));
+    ASSERT_FALSE(PS.holdState(3000));
 }
 
 //Deactivation of water level feature
 /* 
-TEST(Hold_State, LowLevel)
+TEST(holdState, LowLevel)
 {
     WaterSystem PS;
     switch_state = true;
     water_level_state = false;
     measure_current_wl = true;
-    ASSERT_FALSE(PS.Hold_State(3000));
+    ASSERT_FALSE(PS.holdState(3000));
 }
 */
 
-TEST(Pump_Water, SwitchOn)
+TEST(pumpWater, SwitchOn)
 {
     WaterSystem PS;
     unsigned long pump_time = par::t_half_can; 
@@ -227,10 +227,10 @@ TEST(Pump_Water, SwitchOn)
     water_level_state = true;
     switch_state = true;
 
-    ASSERT_EQ(PS.Pump_Water(pump_time, valve_pin, valve_time), 1);
+    ASSERT_EQ(PS.pumpWater(pump_time, valve_pin, valve_time), 1);
 }
 
-TEST(Pump_Water, SwitchOff)
+TEST(pumpWater, SwitchOff)
 {
     WaterSystem PS;
     unsigned long pump_time = par::t_half_can; 
@@ -241,13 +241,13 @@ TEST(Pump_Water, SwitchOff)
     water_level_state = true;
     switch_state = false;
 
-    result = PS.Pump_Water(pump_time, valve_pin, valve_time);
+    result = PS.pumpWater(pump_time, valve_pin, valve_time);
     ASSERT_EQ(result, 0);
 }
 
 //Deactivation of water level feature
 /*
-TEST(Pump_Water,LowLevel)
+TEST(pumpWater,LowLevel)
 {
     WaterSystem PS;
     unsigned long pump_time = t_half_can; 
@@ -258,11 +258,11 @@ TEST(Pump_Water,LowLevel)
     water_level_state = false;
     switch_state = true;
 
-    result = PS.Pump_Water(pump_time, valve_pin, valve_time);
+    result = PS.pumpWater(pump_time, valve_pin, valve_time);
     ASSERT_EQ(result, 0);
 }
 
-TEST(Pump_Water,SwitchOffLowLevel)
+TEST(pumpWater,SwitchOffLowLevel)
 {
     WaterSystem PS;
     unsigned long pump_time = t_half_can; 
@@ -273,7 +273,7 @@ TEST(Pump_Water,SwitchOffLowLevel)
     water_level_state = false;
     switch_state = false;
 
-    result = PS.Pump_Water(pump_time, valve_pin, valve_time);
+    result = PS.pumpWater(pump_time, valve_pin, valve_time);
     ASSERT_EQ(result, 0);
 }
 */
@@ -499,7 +499,7 @@ TEST(Pump_Water_Clock, watering_true_t1)
 
     current_local_time.hour = 11;
     current_local_time.minute = 30;
-    ASSERT_EQ(PS.Pump_Water_Clock(), 2);
+    ASSERT_EQ(PS.pumpWaterClock(), 2);
 }
 
 TEST(Pump_Water_Clock, watering_true_t2)
@@ -511,7 +511,7 @@ TEST(Pump_Water_Clock, watering_true_t2)
 
     current_local_time.hour = 15;
     current_local_time.minute = 30;
-    ASSERT_EQ(PS.Pump_Water_Clock(), 2);
+    ASSERT_EQ(PS.pumpWaterClock(), 2);
 }
 
 TEST(Pump_Water_Clock, watering_false_t1)
@@ -523,23 +523,23 @@ TEST(Pump_Water_Clock, watering_false_t1)
 
     current_local_time.hour = 10;
     current_local_time.minute = 30;
-    ASSERT_EQ(PS.Pump_Water_Clock(), 0);
+    ASSERT_EQ(PS.pumpWaterClock(), 0);
 
     current_local_time.hour = 12;
     current_local_time.minute = 30;
-    ASSERT_EQ(PS.Pump_Water_Clock(), 0);
+    ASSERT_EQ(PS.pumpWaterClock(), 0);
 
     current_local_time.hour = 14;
     current_local_time.minute = 30;
-    ASSERT_EQ(PS.Pump_Water_Clock(), 0);
+    ASSERT_EQ(PS.pumpWaterClock(), 0);
 
     current_local_time.hour = 16;
     current_local_time.minute = 30;
-    ASSERT_EQ(PS.Pump_Water_Clock(), 0);
+    ASSERT_EQ(PS.pumpWaterClock(), 0);
 
     current_local_time.hour = 0;
     current_local_time.minute = 0;
-    ASSERT_EQ(PS.Pump_Water_Clock(), 0);
+    ASSERT_EQ(PS.pumpWaterClock(), 0);
 }
 
 
@@ -552,7 +552,7 @@ TEST(Pump_Water_Clock, switch_off)
 
     current_local_time.hour = 11;
     current_local_time.minute = 30;
-    ASSERT_EQ(PS.Pump_Water_Clock(), 0);
+    ASSERT_EQ(PS.pumpWaterClock(), 0);
 }
 
 TEST(Pump_Water_Clock, low_temperature)
@@ -564,7 +564,7 @@ TEST(Pump_Water_Clock, low_temperature)
 
     current_local_time.hour = 11;
     current_local_time.minute = 30;
-    ASSERT_EQ(PS.Pump_Water_Clock(), 0);
+    ASSERT_EQ(PS.pumpWaterClock(), 0);
 }
 
 

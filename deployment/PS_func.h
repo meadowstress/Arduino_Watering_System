@@ -33,11 +33,11 @@ extern bool water_level_ok;
 //function headers
 bool State_Switch(int input);
 void State_Water();
-bool Hold_State(unsigned long  hold_time);
+bool holdState(unsigned long  hold_time);
 void Hold_State_Clock(unsigned long  hold_time, TIME t,
 unsigned long pump_time);
 
-int Pump_Water(unsigned long pump_time, unsigned short valve_pin,
+int pumpWater(unsigned long pump_time, unsigned short valve_pin,
 unsigned long valve_time);
 
 class WaterSystem
@@ -63,12 +63,12 @@ class WaterSystem
         }
         ~WaterSystem(){}
     
-    int Pump_Water_Clock();
+    int pumpWaterClock();
     int Hold_State_Clock(unsigned long  hold_time, TIME t,
     unsigned long pump_time);
-    int Pump_Water(unsigned long pump_time, 
+    int pumpWater(unsigned long pump_time, 
     unsigned short valve_pin, unsigned long valve_time);
-    bool Hold_State(unsigned long  hold_time);
+    bool holdState(unsigned long  hold_time);
 
     bool isWaterLevelOk();
     bool isSystemSwitchedOn();
