@@ -131,5 +131,5 @@ void loop() // Enable on Hardware
       timer_water_flag = true;
     }
 
-  } // Enable for Testing - test
+  } // Enable for Testing
 }
