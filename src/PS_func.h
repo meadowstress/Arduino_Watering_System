@@ -43,10 +43,6 @@ int pumpWater(unsigned long pump_time, unsigned short valve_pin,
 class WaterSystem
 {
 private:
-    TIME pre_pause1;
-    TIME pre_pause2;
-    TIME pause1_water;
-    TIME pause2_water;
     bool watering_enabled;
     float measured_temperature;
 
