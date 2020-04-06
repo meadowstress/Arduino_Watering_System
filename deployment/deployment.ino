@@ -28,12 +28,9 @@ DS3231 clock_var;
 RTCDateTime DateTime;
 
 bool timer_water_flag = true;
-/*
-int main(void)                //Enable for Testing
-{                             // Enable for Testing
-  for (int i = 0; i < 2; i++) //enable for Testing
-  {                           //enable for Testing
-*/
+
+// int main(void) //Enable for Testing
+// {              // Enable for Testing
 
 void setup() // Enable on Hardware
 {
@@ -47,8 +44,11 @@ void setup() // Enable on Hardware
   Serial.begin(9600);           // Enable on Hardware
   dht.begin();
   clock_var.begin();
+
+  // Since battery of the external clock is currently not working the
+  // time needs to be set here for every flash on the hardware
   // Manual (YYYY, MM, DD, HH, II, SS
-  //clock.setDateTime(2019, 10, 27, 8, 42, 15);
+  clock_var.setDateTime(2020, 04, 06, 19, 40, 00);
 
   digitalWrite(PUMP, HIGH);        //default no pumping enabled
   digitalWrite(VALVETOP, HIGH);    //default no pumping enabled
@@ -67,6 +67,9 @@ void setup() // Enable on Hardware
 
 unsigned long counter = 0;
 TIME t_min(0, 1), t1(0, 0), t2(0, 0), t_buffer(0, 0);
+
+//  for (int i = 0; i < 3; i++) //enable for Testing
+//  {                           //enable for Testing
 
 void loop() // Enable on Hardware
 {           // Enable on Hardware
@@ -128,5 +131,5 @@ void loop() // Enable on Hardware
     timer_water_flag = true;
   }
 
-  // } // Enable for Testing
+  //  } // Enable for Testing
 }
