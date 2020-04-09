@@ -45,11 +45,6 @@ void setup() // Enable on Hardware
   dht.begin();
   clock_var.begin();
 
-  // Since battery of the external clock is currently not working the
-  // time needs to be set here for every flash on the hardware
-  // Manual (YYYY, MM, DD, HH, II, SS
-  clock_var.setDateTime(2020, 04, 06, 19, 40, 00);
-
   digitalWrite(PUMP, HIGH);        //default no pumping enabled
   digitalWrite(VALVETOP, HIGH);    //default no pumping enabled
   digitalWrite(VALVEBOTTOM, HIGH); //default no pumping enabled
