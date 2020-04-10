@@ -62,6 +62,7 @@ int WaterSystem::pumpWater(unsigned long pump_time, unsigned short valve_pin,
     holdState(valve_time);
     digitalWrite(valve_pin, HIGH); //closing Valve
     water_on = false;              // state for interupt!
+    Serial.println("");
   }
 
   if (water_flag == true)
@@ -82,6 +83,7 @@ int WaterSystem::pumpWaterClock()
     if (switch_on && water_level_ok && isAutomaticWateringEnabled())
     {
       DateTime = clock_var.getDateTime();
+      Serial.println("");
       Serial.print(DateTime.day);
       Serial.print(".");
       Serial.print(DateTime.month);
@@ -101,6 +103,7 @@ int WaterSystem::pumpWaterClock()
       Serial.print("WaterTimeBottom = ");
       Serial.print(getWaterTimeBottom());
       Serial.println(" ms");
+      Serial.println("");
 
       water_counter += pumpWater(getWaterTimeTop(), VALVETOP, par::t_valve);
       water_counter += pumpWater(getWaterTimeBottom(), VALVEBOTTOM, par::t_valve);
