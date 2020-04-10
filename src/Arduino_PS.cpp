@@ -65,8 +65,8 @@ void setup() // Enable on Hardware
   unsigned long counter = 0;
   TIME t_min(0, 1), t1(0, 0), t2(0, 0), t_buffer(0, 0);
 
-  for (int i = 0; i < 3; i++) //enable for Testing
-  {                           //enable for Testing
+  for (int i = 0; i < 12000; i++) //enable for Testing
+  {                               //enable for Testing
     /*
 void loop() // Enable on Hardware
 { // Enable on Hardware
@@ -74,6 +74,7 @@ void loop() // Enable on Hardware
     counter++;
     if ((counter % 4000) == 0)
     {
+      // print Date and Time
       DateTime = clock_var.getDateTime();
       Serial.print(DateTime.day);
       Serial.print(".");
@@ -85,9 +86,22 @@ void loop() // Enable on Hardware
       Serial.print(":");
       Serial.print(DateTime.minute);
       Serial.print("   ");
+
+      // Temperature
       Serial.print("Temperature = ");
       Serial.print(PumpControl.getTemperature());
       Serial.println(" Celsius");
+
+      // Watering Parameters
+      Serial.print("Watering Parameters: ");
+      Serial.print("t1_water = ");
+      t1 = par::t1_water;
+      t1.print(); // print function not defined for const times
+      Serial.print("; ");
+      Serial.print("t2_water = ");
+      t2 = par::t2_water;
+      t2.println(); // print function not defined for const times
+      Serial.println("");
     }
 
     //configuration settings - change time here
@@ -118,9 +132,9 @@ void loop() // Enable on Hardware
     // buffer needed because par::t1::water is const and overloading of
     // + operator is is not defined for const
     t_buffer = par::t1_water;
-    t1 = t_buffer + t_min;
+    t1 = t_buffer + t_min; // add operator not defined for const times
     t_buffer = par::t2_water;
-    t2 = t_buffer + t_min;
+    t2 = t_buffer + t_min; // add operator not defined for const times
 
     // reset timer_water_flag after the minute of watering is past
     if ((PumpControl.getCurrentLocalTime() == t1) || (PumpControl.getCurrentLocalTime() == t2))
