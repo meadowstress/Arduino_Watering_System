@@ -43,7 +43,14 @@ const unsigned int timeLowTempTop = 8000;
 const unsigned int timeLowTempBottom = 4000;
 
 //Water Times
-const TIME t1_water(9, 5);
-const TIME t2_water(9, 10);
+const TIME t1_water(11, 30);
+const TIME t2_water(15, 30);
 const unsigned int t_valve = 100;
 const unsigned int t_half_can = 15000;
+
+
+Expectations for Unit Tests
+===========================
+
+The unit test expect the following point of times for watering:
+11:30 Uhr and 15:30 Uhr otherwiste the unit tests will fail.

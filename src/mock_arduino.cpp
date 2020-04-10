@@ -16,7 +16,7 @@ bool measure_current_wl = false;
 float temperature_value = 20;
 
 //artificial local time
-RTCDateTime current_local_time{2020, 04, 06, 19, 40, 00};
+RTCDateTime current_local_time{2020, 04, 06, 11, 30, 00};
 
 /*
 This definition of HIGH and LOW is very volatile and is only valid for 

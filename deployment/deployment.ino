@@ -101,12 +101,7 @@ void loop() // Enable on Hardware
   if (switch_on && water_on)
   {
     Serial.println("pumpWater single Function!");
-    //PumpControl.pumpWater(par::t_half_can, VALVETOP, par::t_valve);
-
-    // Application purposes: manual function should pour the amount of water
-    // of the automatic function.
-    PumpControl.pumpWater(par::timeTemp3Top, VALVETOP, par::t_valve);
-    //PumpControl.pumpWater(10000, VALVEBOTTOM, par::t_valve);
+    PumpControl.pumpWater(par::t_half_can, VALVETOP, par::t_valve);
   }
 
   // Watering according to timer
@@ -115,7 +110,7 @@ void loop() // Enable on Hardware
   if (timer_on && ((PumpControl.getCurrentLocalTime() == par::t1_water) || (PumpControl.getCurrentLocalTime() == par::t2_water)) && timer_water_flag)
   {
     //Disable automatic watering function for application purposes
-    //PumpControl.pumpWaterClock();
+    PumpControl.pumpWaterClock();
     timer_water_flag = false;
   }
 

@@ -11,7 +11,7 @@
 
 // Hold logic
 
-bool WaterSystem::holdState(unsigned long  hold_time)
+bool WaterSystem::holdState(unsigned long hold_time)
 {
 
   bool state_flag = true;
@@ -26,8 +26,8 @@ bool WaterSystem::holdState(unsigned long  hold_time)
     water_level_ok = isWaterLevelOk(); //has to be evaluated if test test for waterlevel is applicable
 
     elapsed_time = (millis() - start_time);
-    if ( (elapsed_time > hold_time) || switch_on == false || 
-    water_level_ok == false)
+    if ((elapsed_time > hold_time) || switch_on == false ||
+        water_level_ok == false)
     {
       state_flag = false;
     }
@@ -35,21 +35,21 @@ bool WaterSystem::holdState(unsigned long  hold_time)
 
   // test if hold time has been elapsed regularly
   // var i is only necessary for time simulation with high factors
-  if((elapsed_time > hold_time) && i > 1)
+  if ((elapsed_time > hold_time) && i > 1)
     return true;
   else
     return false;
 }
 
-int WaterSystem::pumpWater(unsigned long pump_time, unsigned short valve_pin, 
-unsigned long valve_time)
+int WaterSystem::pumpWater(unsigned long pump_time, unsigned short valve_pin,
+                           unsigned long valve_time)
 {
   bool water_flag = false;
 
   switch_on = isSystemSwitchedOn();
   water_level_ok = isWaterLevelOk();
 
-  if(switch_on && water_level_ok)
+  if (switch_on && water_level_ok)
   {
     Serial.println("Open Valve!");
     digitalWrite(valve_pin, LOW);
@@ -60,21 +60,22 @@ unsigned long valve_time)
     water_flag = holdState(pump_time);
     digitalWrite(PUMP, HIGH); // pumping ends
 
+    holdState(valve_time);
     digitalWrite(valve_pin, HIGH); //closing Valve
-    water_on = false; // state for interupt!
+    water_on = false;              // state for interupt!
   }
 
-  if(water_flag==true)
-    return(1);
+  if (water_flag == true)
+    return (1);
   else
-    return(0);
+    return (0);
 }
 
 int WaterSystem::pumpWaterClock()
 {
   int water_counter = 0;
- 
-  if(getCurrentLocalTime() == par::t1_water || getCurrentLocalTime() == par::t2_water)
+
+  if (getCurrentLocalTime() == par::t1_water || getCurrentLocalTime() == par::t2_water)
   {
     switch_on = isSystemSwitchedOn();
     water_level_ok = isWaterLevelOk();
@@ -101,19 +102,19 @@ int WaterSystem::pumpWaterClock()
       Serial.print("WaterTimeBottom = ");
       Serial.print(getWaterTimeBottom());
       Serial.println(" ms");
-      
+
       water_counter += pumpWater(getWaterTimeTop(), VALVETOP, par::t_valve);
       water_counter += pumpWater(getWaterTimeBottom(), VALVEBOTTOM, par::t_valve);
     }
   }
 
-  return(water_counter);
+  return (water_counter);
 }
 
 bool WaterSystem::isWaterLevelOk()
 {
-    //Deactivation of water level feature
-    /*
+  //Deactivation of water level feature
+  /*
     int level_Ok = false;
     digitalWrite(MEASURE_WL, LOW); //measurement current switched on
     level_Ok = digitalRead(WATERLEVEL);
@@ -128,7 +129,7 @@ bool WaterSystem::isWaterLevelOk()
       return false;
     }
     */
-   return true;
+  return true;
 }
 
 bool WaterSystem::isSystemSwitchedOn()
@@ -163,19 +164,19 @@ bool WaterSystem::isWaterActivated()
 
 void WaterSystem::updateTemperature()
 {
-   measured_temperature = dht.readTemperature();
+  measured_temperature = dht.readTemperature();
 }
 
 bool WaterSystem::isAutomaticWateringEnabled()
 {
   updateTemperature();
 
-  if(getTemperature() >= 18.0F)
+  if (getTemperature() >= 18.0F)
     watering_enabled = true;
   else
     watering_enabled = false;
-  
-  return(watering_enabled);
+
+  return (watering_enabled);
 }
 
 unsigned int WaterSystem::getWaterTimeTop()
@@ -185,24 +186,24 @@ unsigned int WaterSystem::getWaterTimeTop()
 
   updateTemperature();
   temperature = getTemperature();
-  
-  if(temperature >= par::maxTemp)
+
+  if (temperature >= par::maxTemp)
   {
     water_time_ms = par::timeMaxTempTop;
   }
-  else if(temperature >= par::temp2)
+  else if (temperature >= par::temp2)
   {
     water_time_ms = par::timeTemp2Top;
   }
-  else if(temperature >= par::temp3)
+  else if (temperature >= par::temp3)
   {
     water_time_ms = par::timeTemp3Top;
   }
-  else if(temperature >= par::temp4)
+  else if (temperature >= par::temp4)
   {
     water_time_ms = par::timeTemp4Top;
   }
-  else if(temperature >= par::lowTemp)
+  else if (temperature >= par::lowTemp)
   {
     water_time_ms = par::timeLowTempTop;
   }
@@ -220,24 +221,24 @@ unsigned int WaterSystem::getWaterTimeBottom()
 
   updateTemperature();
   temperature = getTemperature();
-  
-  if(temperature >= par::maxTemp)
+
+  if (temperature >= par::maxTemp)
   {
     water_time_ms = par::timeMaxTempBottom;
   }
-  else if(temperature >= par::temp2)
+  else if (temperature >= par::temp2)
   {
     water_time_ms = par::timeTemp2Bottom;
   }
-  else if(temperature >= par::temp3)
+  else if (temperature >= par::temp3)
   {
     water_time_ms = par::timeTemp3Bottom;
   }
-  else if(temperature >= par::temp4)
+  else if (temperature >= par::temp4)
   {
     water_time_ms = par::timeTemp4Bottom;
   }
-  else if(temperature >= par::lowTemp)
+  else if (temperature >= par::lowTemp)
   {
     water_time_ms = par::timeLowTempBottom;
   }
@@ -250,10 +251,10 @@ unsigned int WaterSystem::getWaterTimeBottom()
 
 TIME WaterSystem::getCurrentLocalTime()
 {
-  TIME t(0,0);
+  TIME t(0, 0);
   DateTime = clock_var.getDateTime();
 
   t.set_H(DateTime.hour);
   t.set_Min(DateTime.minute);
-  return(t);
+  return (t);
 }
