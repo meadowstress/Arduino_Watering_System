@@ -105,6 +105,11 @@ void loop() // Enable on Hardware
     ms = PumpControl.getWaterTimeTop();
     Serial.print("Current chosen ms for top watering: ");
     Serial.println(ms);
+    ms = PumpControl.getWaterTimeBottom();
+    Serial.print("Current chosen ms for bottom watering: ");
+    Serial.println(ms);
+
+    // distance to next cyclic message
     Serial.println("");
   }
 
