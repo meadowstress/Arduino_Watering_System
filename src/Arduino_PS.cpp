@@ -64,6 +64,7 @@ void setup() // Enable on Hardware
 
   unsigned long counter = 0;
   TIME t_min(0, 1), t1(0, 0), t2(0, 0), t_buffer(0, 0);
+  unsigned int ms = 0;
 
   for (int i = 0; i < 12000; i++) //enable for Testing
   {                               //enable for Testing
@@ -101,6 +102,11 @@ void loop() // Enable on Hardware
       Serial.print("t2_water = ");
       t2 = par::t2_water;
       t2.println(); // print function not defined for const times
+
+      // Currently selected Temperature Range
+      ms = PumpControl.getWaterTimeTop();
+      Serial.print("Current chosen ms for top watering: ");
+      Serial.println(ms);
       Serial.println("");
     }
 
