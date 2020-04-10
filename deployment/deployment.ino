@@ -100,7 +100,6 @@ void loop() // Enable on Hardware
     Serial.print("t2_water = ");
     t2 = par::t2_water;
     t2.println(); // print function not defined for const times
-    Serial.println("");
 
     // Currently selected Temperature Range
     ms = PumpControl.getWaterTimeTop();
