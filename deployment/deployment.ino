@@ -105,7 +105,8 @@ void loop() // Enable on Hardware
 
     // Application purposes: manual function should pour the amount of water
     // of the automatic function.
-    PumpControl.pumpWater(par::timeTemp4Top, VALVETOP, par::t_valve);
+    PumpControl.pumpWater(par::timeTemp3Top, VALVETOP, par::t_valve);
+    //PumpControl.pumpWater(10000, VALVEBOTTOM, par::t_valve);
   }
 
   // Watering according to timer

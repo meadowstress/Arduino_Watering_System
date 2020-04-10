@@ -31,7 +31,7 @@ void setup()
   // serial monitor if the time has been continuing
 
   // Manual (YYYY, MM, DD, HH, II, SS
-  // clock_var.setDateTime(2020, 4, 9, 8, 31, 45);
+  //clock_var.setDateTime(2020, 4, 9, 20, 10, 30);
 }
 
 void loop()
