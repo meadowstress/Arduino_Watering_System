@@ -8,23 +8,23 @@ namespace par
 //Watering parameters for top plants
 const float maxTemp = 55.0F;
 const unsigned int timeMaxTempTop = 60000;
-const unsigned int timeMaxTempBottom = 10000;
+const unsigned int timeMaxTempBottom = 12000;
 
 const float temp2 = 45.0F;
 const unsigned int timeTemp2Top = 40000;
-const unsigned int timeTemp2Bottom = 8000;
+const unsigned int timeTemp2Bottom = 10000;
 
 const float temp3 = 35.0F;
 const unsigned int timeTemp3Top = 30000;
-const unsigned int timeTemp3Bottom = 5000;
+const unsigned int timeTemp3Bottom = 7000;
 
 const float temp4 = 25.0F;
 const unsigned int timeTemp4Top = 20000;
-const unsigned int timeTemp4Bottom = 4000;
+const unsigned int timeTemp4Bottom = 6000;
 
 const float lowTemp = 18.0F;
 const unsigned int timeLowTempTop = 8000;
-const unsigned int timeLowTempBottom = 2000;
+const unsigned int timeLowTempBottom = 4000;
 
 //Water Times
 const TIME t1_water(11, 30);
