@@ -1,109 +1,91 @@
-#include <iostream>
-#include "mock_arduino.h"
-#include <unistd.h>
-#include <gtest/gtest.h>
-
-const short PUMP = 8;
-const short VALVETOP = 9;
-const short VALVEBOTTOM = 10;
-const short SWITCH = 7;
-const short WATER = 3;
-const short WATERLEVEL = 4;
-const short MEASURE_WL = 5;
-const short TEMPERATURE = 6;
-
-bool switch_on = false;
-bool water_on = false;
-bool timer_on = false;
-
-TEST(digitalWrite, PUMP_LOW ) 
-{ 
+TEST(digitalWrite, PUMP_LOW)
+{
     pump_state = false;
-    digitalWrite(PUMP,LOW);
+    digitalWrite(PUMP, LOW);
     ASSERT_EQ(pump_state, true);
 }
 
-TEST(digitalWrite, PUMP_HIGH ) 
-{ 
+TEST(digitalWrite, PUMP_HIGH)
+{
     pump_state = true;
     digitalWrite(PUMP, HIGH);
     ASSERT_EQ(pump_state, false);
 }
 
-TEST(digitalWrite, VALVETOP_LOW ) 
-{ 
+TEST(digitalWrite, VALVETOP_LOW)
+{
     valve_state_top = false;
-    digitalWrite(VALVETOP,LOW);
+    digitalWrite(VALVETOP, LOW);
     ASSERT_EQ(valve_state_top, true);
 }
 
-TEST(digitalWrite, VALVETOP_HIGH ) 
-{ 
+TEST(digitalWrite, VALVETOP_HIGH)
+{
     valve_state_top = true;
-    digitalWrite(VALVETOP,HIGH);
+    digitalWrite(VALVETOP, HIGH);
     ASSERT_EQ(valve_state_top, false);
 }
 
-TEST(digitalWrite, VALVEBOTTOM_LOW ) 
-{ 
+TEST(digitalWrite, VALVEBOTTOM_LOW)
+{
     valve_state_bottom = false;
-    digitalWrite(VALVEBOTTOM,LOW);
+    digitalWrite(VALVEBOTTOM, LOW);
     ASSERT_EQ(valve_state_bottom, true);
 }
 
-TEST(digitalWrite, VALVEBOTTOM_HIGH ) 
-{ 
+TEST(digitalWrite, VALVEBOTTOM_HIGH)
+{
     valve_state_bottom = true;
-    digitalWrite(VALVEBOTTOM,HIGH);
+    digitalWrite(VALVEBOTTOM, HIGH);
     ASSERT_EQ(valve_state_bottom, false);
 }
 
-TEST(digitalWrite, MEASURE_WL_HIGH ) 
-{ 
+TEST(digitalWrite, MEASURE_WL_HIGH)
+{
     measure_current_wl = true;
-    digitalWrite(MEASURE_WL,HIGH);
+    digitalWrite(MEASURE_WL, HIGH);
     ASSERT_EQ(measure_current_wl, false);
 }
 
-TEST(digitalWrite, MEASURE_WL_LOW ) 
-{ 
+TEST(digitalWrite, MEASURE_WL_LOW)
+{
     measure_current_wl = false;
-    digitalWrite(MEASURE_WL,LOW);
+    digitalWrite(MEASURE_WL, LOW);
     ASSERT_EQ(measure_current_wl, true);
 }
 
-TEST(digitalRead, PUMP_LOW) 
-{ 
+TEST(digitalRead, PUMP_LOW)
+{
     pump_state = true;
     ASSERT_EQ(digitalRead(PUMP), LOW);
 }
 
-TEST(digitalRead, PUMP_HIGH) 
-{ 
+TEST(digitalRead, PUMP_HIGH)
+{
     pump_state = false;
     ASSERT_EQ(digitalRead(PUMP), HIGH);
 }
 
-TEST(digitalRead, VALVETOP_LOW) 
-{ 
+TEST(digitalRead, VALVETOP_LOW)
+{
     valve_state_top = true;
     ASSERT_EQ(digitalRead(VALVETOP), LOW);
 }
 
-TEST(digitalRead, VALVETOP_HIGH) 
-{ 
+TEST(digitalRead, VALVETOP_HIGH)
+{
     valve_state_top = false;
     ASSERT_EQ(digitalRead(VALVETOP), HIGH);
 }
 
-TEST(digitalRead, VALVEBOTTOM_LOW) 
-{ 
+TEST(digitalRead, VALVEBOTTOM_LOW)
+{
     valve_state_bottom = true;
     ASSERT_EQ(digitalRead(VALVEBOTTOM), LOW);
 }
 
-TEST(digitalRead, VALVEBOTTOM_HIGH) 
-{ 
+TEST(digitalRead, VALVEBOTTOM_HIGH)
+{
     valve_state_bottom = false;
     ASSERT_EQ(digitalRead(VALVEBOTTOM), HIGH);
 }
@@ -188,9 +170,10 @@ TEST(millis, 10s)
 {
     unsigned long start = millis();
 
-    cout <<"Start!\n";
-    while((millis()-start) < 3000);
-    cout <<"Stop! - 3 s\n";
+    cout << "Start!\n";
+    while ((millis() - start) < 3000)
+        ;
+    cout << "Stop! - 3 s\n";
 }
 
 TEST(clock, setClock)
@@ -220,14 +203,8 @@ TEST(clock, getLocalTime)
 
     ASSERT_EQ(time.year, 2019);
     ASSERT_EQ(time.month, 10);
-    ASSERT_EQ(time.day,25);
+    ASSERT_EQ(time.day, 25);
     ASSERT_EQ(time.hour, 22);
-    ASSERT_EQ(time.minute,5);
+    ASSERT_EQ(time.minute, 5);
     ASSERT_EQ(time.second, 20);
-}
- 
-int main(int argc, char **argv) 
-{
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
 }

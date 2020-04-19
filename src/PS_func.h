@@ -7,7 +7,7 @@
 #include <DS3231.h> //Enable on Hardware
 */
 
-#include "mock_arduino.h" //Enable for Testing
+#include "mock/mock_arduino.h" //Enable for Testing
 #include "time.h"
 
 //pins

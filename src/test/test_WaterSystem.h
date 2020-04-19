@@ -1,168 +1,55 @@
-#include <gtest/gtest.h>
-#include "time.h"
-#include "mock_arduino.h"
-#include "PS_func.h"
-#include "parameter.h"
-
-const short PUMP = 8;
-const short VALVETOP = 9;
-const short VALVEBOTTOM = 10;
-const short SWITCH = 7;
-const short WATER = 3;
-const short WATERLEVEL = 4;
-const short MEASURE_WL = 5;
-const short TEMPERATURE = 6;
-
-bool pre_state_water = false;
-bool current_state_water = false;
-bool switch_on = false;
-bool water_on = false;
-bool timer_on = false;
-bool water_level_ok = false;
-
-DS3231 clock_var;
-RTCDateTime DateTime;
-
-class TimeTest : public ::testing::Test
+class WaterSystemTest : public ::testing::Test
 {
 protected:
-    TimeTest()
-    {
-        // initialization code here
-    }
-
     void SetUp()
     {
         // code here will execute just before the test ensues
-        t = new TIME(1, 0);
     }
 
     void TearDown()
     {
         // code here will be called just after the test completes
         // ok to through exceptions from here if need be
-        delete (t);
-    }
-
-    ~TimeTest()
-    {
-        // cleanup any pending stuff, but no exceptions allowed
     }
 
     // put in any custom data members that you need
-    TIME *t;
+    WaterSystem PS_;
 };
 
-TEST_F(TimeTest, Time2TicksTest)
+TEST_F(WaterSystemTest, PS_func_readTemperature)
 {
-    ASSERT_EQ(t->Time2Ticks(), 3600000);
+    PS_.updateTemperature();
+    ASSERT_FLOAT_EQ(PS_.getTemperature(), 20.0F);
 }
 
-TEST(Time, Time2Ticks)
+TEST_F(WaterSystemTest, PS_func_isSystemSwitchedOnTrue)
 {
-    TIME t(0, 1);
-    ASSERT_EQ(t.Time2Ticks(), 60000);
-}
-
-TEST(Time, operator_GT)
-{
-    TIME t1(15, 30), t2(14, 45);
-    ASSERT_TRUE(t1 > t2);
-    ASSERT_FALSE(t2 > t1);
-}
-
-TEST(Time, operator_GTE)
-{
-    TIME t1(15, 30), t2(14, 45), t3(15, 30);
-    ASSERT_TRUE(t1 >= t2);
-    ASSERT_FALSE(t2 >= t1);
-    ASSERT_TRUE(t1 >= t3);
-    ASSERT_TRUE(t3 >= t1);
-}
-
-TEST(Time, operator_LT)
-{
-    TIME t2(15, 30), t1(14, 45);
-    ASSERT_TRUE(t1 < t2);
-    ASSERT_FALSE(t2 < t1);
-}
-
-TEST(Time, operator_LTE)
-{
-    TIME t2(15, 30), t1(14, 45), t3(15, 30);
-    ASSERT_TRUE(t1 <= t2);
-    ASSERT_FALSE(t2 <= t1);
-    ASSERT_TRUE(t2 <= t3);
-    ASSERT_TRUE(t3 <= t2);
-}
-
-TEST(Time, operator_EQ)
-{
-    TIME t1(15, 30), t2(15, 30);
-    ASSERT_TRUE(t1 == t2);
-}
-
-TEST(Time, operator_plus)
-{
-    TIME t1(14, 45), t2(15, 30), t3(6, 15);
-    ASSERT_TRUE((t1 + t2) == t3);
-    t1.set_Time(5, 0);
-    t2.set_Time(6, 30);
-    t3.set_Time(11, 30);
-    ASSERT_TRUE((t1 + t2) == t3);
-}
-
-TEST(Time, operator_minus)
-{
-    TIME t2(14, 45), t1(15, 30), t3(0, 45);
-    ASSERT_TRUE((t1 - t2) == t3);
-    t2.set_Time(5, 0);
-    t1.set_Time(6, 30);
-    t3.set_Time(1, 30);
-    ASSERT_TRUE((t1 - t2) == t3);
-}
-
-TEST(PS_func, readTemperature)
-{
-    WaterSystem PS;
-    PS.updateTemperature();
-    ASSERT_FLOAT_EQ(PS.getTemperature(), 20.0F);
-}
-
-TEST(PS_func, isSystemSwitchedOnTrue)
-{
-    WaterSystem PS;
     switch_state = true;
-    ASSERT_TRUE(PS.isSystemSwitchedOn());
+    ASSERT_TRUE(PS_.isSystemSwitchedOn());
 }
 
-TEST(PS_func, isSystemSwitchedOnFalse)
+TEST_F(WaterSystemTest, PS_func_isSystemSwitchedOnFalse)
 {
-    WaterSystem PS;
     switch_state = false;
-    ASSERT_FALSE(PS.isSystemSwitchedOn());
+    ASSERT_FALSE(PS_.isSystemSwitchedOn());
 }
 
-TEST(PS_func, isWaterActivatedTrueFF)
+TEST_F(WaterSystemTest, PS_func_isWaterActivatedTrueFF)
 {
-    WaterSystem PS;
-
     pre_state_water = false;
     current_state_water = false;
 
     water_state = true;
-    ASSERT_TRUE(PS.isWaterActivated());
+    ASSERT_TRUE(PS_.isWaterActivated());
 }
 
-TEST(PS_func, isWaterActivatedFalseFF)
+TEST_F(WaterSystemTest, PS_func_isWaterActivatedFalseFF)
 {
-    WaterSystem PS;
-
     pre_state_water = false;
     current_state_water = false;
 
     water_state = false;
-    ASSERT_FALSE(PS.isWaterActivated());
+    ASSERT_FALSE(PS_.isWaterActivated());
 }
 
 TEST(PS_func, isWaterActivatedTrueTT)
@@ -580,10 +467,4 @@ TEST(systemTime, getLocalTime)
     t = PS.getCurrentLocalTime();
     ASSERT_EQ(t.get_H(), 15);
     ASSERT_EQ(t.get_Min(), 13);
-}
-
-int main(int argc, char **argv)
-{
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
 }
