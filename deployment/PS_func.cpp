@@ -8,8 +8,51 @@
 #include <Wire.h>           //Enable on Hardware
 #include <DS3231.h>         //Enable on Hardware
 
-// Hold logic
+//support function
+void printCyclicSystemInfo(RTCDateTime DateTime, WaterSystem &PumpControl)
+{
+  TIME t1(0, 0), t2(0, 0);
+  unsigned int ms = 0;
 
+  Serial.print(DateTime.day);
+  Serial.print(".");
+  Serial.print(DateTime.month);
+  Serial.print(".");
+  Serial.print(DateTime.year);
+  Serial.print(": ");
+  Serial.print(DateTime.hour);
+  Serial.print(":");
+  Serial.print(DateTime.minute);
+  Serial.print("   ");
+
+  // Temperature
+  Serial.print("Temperature = ");
+  Serial.print(PumpControl.getTemperature());
+  Serial.println(" Celsius");
+
+  // Watering Parameters
+  Serial.print("Watering Parameters: ");
+  Serial.print("t1_water = ");
+  t1 = par::t1_water;
+  t1.print(); // print function not defined for const times
+  Serial.print("; ");
+  Serial.print("t2_water = ");
+  t2 = par::t2_water;
+  t2.println(); // print function not defined for const times
+
+  // Currently selected Temperature Range
+  ms = PumpControl.getWaterTimeTop();
+  Serial.print("Current chosen ms for top watering: ");
+  Serial.println(ms);
+  ms = PumpControl.getWaterTimeBottom();
+  Serial.print("Current chosen ms for bottom watering: ");
+  Serial.println(ms);
+
+  // distance to next cyclic message
+  Serial.println("");
+}
+
+// Hold logic
 bool WaterSystem::holdState(unsigned long hold_time)
 {
 
@@ -55,9 +98,9 @@ int WaterSystem::pumpWater(unsigned long pump_time, unsigned short valve_pin,
     holdState(valve_time);
 
     Serial.println("Pump Water!");
-    digitalWrite(PUMP, LOW); //pumping starts
+    digitalWrite(par::PUMP, LOW); //pumping starts
     water_flag = holdState(pump_time);
-    digitalWrite(PUMP, HIGH); // pumping ends
+    digitalWrite(par::PUMP, HIGH); // pumping ends
 
     holdState(valve_time);
     digitalWrite(valve_pin, HIGH); //closing Valve
@@ -105,8 +148,8 @@ int WaterSystem::pumpWaterClock()
       Serial.println(" ms");
       Serial.println("");
 
-      water_counter += pumpWater(getWaterTimeTop(), VALVETOP, par::t_valve);
-      water_counter += pumpWater(getWaterTimeBottom(), VALVEBOTTOM, par::t_valve);
+      water_counter += pumpWater(getWaterTimeTop(), par::VALVETOP, par::t_valve);
+      water_counter += pumpWater(getWaterTimeBottom(), par::VALVEBOTTOM, par::t_valve);
     }
   }
 
@@ -118,9 +161,9 @@ bool WaterSystem::isWaterLevelOk()
   //Deactivation of water level feature
   /*
     int level_Ok = false;
-    digitalWrite(MEASURE_WL, LOW); //measurement current switched on
+    digitalWrite(par::MEASURE_WL, LOW); //measurement current switched on
     level_Ok = digitalRead(WATERLEVEL);
-    digitalWrite(MEASURE_WL, HIGH); //measurement current switched off
+    digitalWrite(par::MEASURE_WL, HIGH); //measurement current switched off
     
     if(level_Ok == LOW)
     {
@@ -137,7 +180,7 @@ bool WaterSystem::isWaterLevelOk()
 bool WaterSystem::isSystemSwitchedOn()
 {
   bool state = false;
-  state = (bool)digitalRead(SWITCH);
+  state = (bool)digitalRead(par::SWITCH);
   if (state == LOW)
     return true;
   else
@@ -146,7 +189,7 @@ bool WaterSystem::isSystemSwitchedOn()
 
 bool WaterSystem::isWaterActivated()
 {
-  if (digitalRead(WATER) == LOW)
+  if (digitalRead(par::WATER) == LOW)
   {
     current_state_water = true;
   }

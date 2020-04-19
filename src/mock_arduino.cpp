@@ -2,6 +2,7 @@
 #include "mock_arduino.h"
 #include <iostream>
 #include <ctime>
+#include "parameter.h"
 
 using namespace std;
 
@@ -44,7 +45,7 @@ unsigned long millis()
 
 void digitalWrite(const short &pin, const bool &state)
 {
-  if (pin == PUMP)
+  if (pin == par::PUMP)
   {
     if (state == HIGH)
       pump_state = false;
@@ -54,7 +55,7 @@ void digitalWrite(const short &pin, const bool &state)
       std::cout << "Throw Error: digitalWrite(PUMP)\n";
   }
 
-  else if (pin == VALVETOP)
+  else if (pin == par::VALVETOP)
   {
     if (state == HIGH)
       valve_state_top = false;
@@ -64,7 +65,7 @@ void digitalWrite(const short &pin, const bool &state)
       std::cout << "Throw Error: digitalWrite(VALVETOP)\n";
   }
 
-  else if (pin == VALVEBOTTOM)
+  else if (pin == par::VALVEBOTTOM)
   {
     if (state == HIGH)
       valve_state_bottom = false;
@@ -74,7 +75,7 @@ void digitalWrite(const short &pin, const bool &state)
       std::cout << "Throw Error: digitalWrite(VALVEBOTTOM)\n";
   }
 
-  else if (pin == WATERLEVEL)
+  else if (pin == par::WATERLEVEL)
   {
     if (state == HIGH)
       water_level_state = false;
@@ -84,7 +85,7 @@ void digitalWrite(const short &pin, const bool &state)
       std::cout << "Throw Error: digitalWrite(WATERLEVEL)\n";
   }
 
-  else if (pin == MEASURE_WL)
+  else if (pin == par::MEASURE_WL)
   {
     if (state == HIGH)
       measure_current_wl = false;
@@ -97,25 +98,25 @@ void digitalWrite(const short &pin, const bool &state)
 
 bool digitalRead(const short &pin)
 {
-  if (pin == PUMP)
+  if (pin == par::PUMP)
     return (pump_state);
 
-  else if (pin == VALVETOP)
+  else if (pin == par::VALVETOP)
     return (valve_state_top);
 
-  else if (pin == VALVEBOTTOM)
+  else if (pin == par::VALVEBOTTOM)
     return (valve_state_bottom);
 
-  else if (pin == SWITCH)
+  else if (pin == par::SWITCH)
     return (switch_state);
 
-  else if (pin == WATER)
+  else if (pin == par::WATER)
     return (water_state);
 
-  else if (pin == WATERLEVEL)
+  else if (pin == par::WATERLEVEL)
     return (water_level_state && measure_current_wl);
 
-  else if (pin == MEASURE_WL)
+  else if (pin == par::MEASURE_WL)
     return (measure_current_wl);
 
   else
