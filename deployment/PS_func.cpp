@@ -237,20 +237,20 @@ unsigned int WaterSystem::getWaterTimeTop()
     water_time_ms = par::timeMaxTempTop;
     Serial.println("Chosen Time Constant = par::timeMaxTempTop");
   }
-  else if (temperature >= par::temp2)
+  else if (temperature >= par::temp4)
   {
-    water_time_ms = par::timeTemp2Top;
-    Serial.println("Chosen Time Constant = par::timeTemp2Top");
+    water_time_ms = par::timeTemp4Top;
+    Serial.println("Chosen Time Constant = par::timeTemp4Top");
   }
   else if (temperature >= par::temp3)
   {
     water_time_ms = par::timeTemp3Top;
     Serial.println("Chosen Time Constant = par::timeTemp3Top");
   }
-  else if (temperature >= par::temp4)
+  else if (temperature >= par::temp2)
   {
-    water_time_ms = par::timeTemp4Top;
-    Serial.println("Chosen Time Constant = par::timeTemp4Top");
+    water_time_ms = par::timeTemp2Top;
+    Serial.println("Chosen Time Constant = par::timeTemp2Top");
   }
   else if (temperature >= par::lowTemp)
   {
@@ -278,20 +278,20 @@ unsigned int WaterSystem::getWaterTimeBottom()
     water_time_ms = par::timeMaxTempBottom;
     Serial.println("Chosen Time Constant = par::timeMaxTempBottom");
   }
-  else if (temperature >= par::temp2)
+  else if (temperature >= par::temp4)
   {
-    water_time_ms = par::timeTemp2Bottom;
-    Serial.println("Chosen Time Constant = par::timeTemp2Bottom");
+    water_time_ms = par::timeTemp4Bottom;
+    Serial.println("Chosen Time Constant = par::timeTemp4Bottom");
   }
   else if (temperature >= par::temp3)
   {
     water_time_ms = par::timeTemp3Bottom;
     Serial.println("Chosen Time Constant = par::timeTemp3Bottom");
   }
-  else if (temperature >= par::temp4)
+  else if (temperature >= par::temp2)
   {
-    water_time_ms = par::timeTemp4Bottom;
-    Serial.println("Chosen Time Constant = par::timeTemp4Bottom");
+    water_time_ms = par::timeTemp2Bottom;
+    Serial.println("Chosen Time Constant = par::timeTemp2Bottom");
   }
   else if (temperature >= par::lowTemp)
   {

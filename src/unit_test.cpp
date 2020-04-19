@@ -23,38 +23,35 @@ bool water_level_ok = false;
 DS3231 clock_var;
 RTCDateTime DateTime;
 
-class TimeTest: public ::testing::Test 
-{ 
-    protected: 
+class TimeTest : public ::testing::Test
+{
+protected:
+    TimeTest()
+    {
+        // initialization code here
+    }
 
-        TimeTest( ) 
-        { 
-            // initialization code here
-        } 
+    void SetUp()
+    {
+        // code here will execute just before the test ensues
+        t = new TIME(1, 0);
+    }
 
-        void SetUp( ) 
-        { 
-            // code here will execute just before the test ensues 
-            t = new TIME(1,0);
-        }
+    void TearDown()
+    {
+        // code here will be called just after the test completes
+        // ok to through exceptions from here if need be
+        delete (t);
+    }
 
-        void TearDown( ) 
-        { 
-            // code here will be called just after the test completes
-            // ok to through exceptions from here if need be
-            delete(t);
-        }
-         
+    ~TimeTest()
+    {
+        // cleanup any pending stuff, but no exceptions allowed
+    }
 
-        ~TimeTest( )
-        { 
-            // cleanup any pending stuff, but no exceptions allowed
-        }
-
-        // put in any custom data members that you need
-        TIME* t;
+    // put in any custom data members that you need
+    TIME *t;
 };
-
 
 TEST_F(TimeTest, Time2TicksTest)
 {
@@ -63,80 +60,84 @@ TEST_F(TimeTest, Time2TicksTest)
 
 TEST(Time, Time2Ticks)
 {
-    TIME t(0,1);
+    TIME t(0, 1);
     ASSERT_EQ(t.Time2Ticks(), 60000);
 }
 
 TEST(Time, operator_GT)
 {
-    TIME t1(15,30), t2(14,45);
-    ASSERT_TRUE(t1>t2);
-    ASSERT_FALSE(t2>t1);
+    TIME t1(15, 30), t2(14, 45);
+    ASSERT_TRUE(t1 > t2);
+    ASSERT_FALSE(t2 > t1);
 }
 
 TEST(Time, operator_GTE)
 {
-    TIME t1(15,30), t2(14,45), t3(15,30);
-    ASSERT_TRUE(t1>=t2);
-    ASSERT_FALSE(t2>=t1);
-    ASSERT_TRUE(t1>=t3);
-    ASSERT_TRUE(t3>=t1);
+    TIME t1(15, 30), t2(14, 45), t3(15, 30);
+    ASSERT_TRUE(t1 >= t2);
+    ASSERT_FALSE(t2 >= t1);
+    ASSERT_TRUE(t1 >= t3);
+    ASSERT_TRUE(t3 >= t1);
 }
 
 TEST(Time, operator_LT)
 {
-    TIME t2(15,30), t1(14,45);
-    ASSERT_TRUE(t1<t2);
-    ASSERT_FALSE(t2<t1);
+    TIME t2(15, 30), t1(14, 45);
+    ASSERT_TRUE(t1 < t2);
+    ASSERT_FALSE(t2 < t1);
 }
 
 TEST(Time, operator_LTE)
 {
-    TIME t2(15,30), t1(14,45), t3(15,30);
-    ASSERT_TRUE(t1<=t2);
-    ASSERT_FALSE(t2<=t1);
-    ASSERT_TRUE(t2<=t3);
-    ASSERT_TRUE(t3<=t2);
+    TIME t2(15, 30), t1(14, 45), t3(15, 30);
+    ASSERT_TRUE(t1 <= t2);
+    ASSERT_FALSE(t2 <= t1);
+    ASSERT_TRUE(t2 <= t3);
+    ASSERT_TRUE(t3 <= t2);
 }
 
 TEST(Time, operator_EQ)
 {
-    TIME t1(15,30), t2(15,30);
-    ASSERT_TRUE(t1==t2);
+    TIME t1(15, 30), t2(15, 30);
+    ASSERT_TRUE(t1 == t2);
 }
 
 TEST(Time, operator_plus)
 {
-    TIME t1(14,45), t2(15,30), t3(6,15);
-    ASSERT_TRUE((t1+t2)==t3);
-    t1.set_Time(5,0); t2.set_Time(6,30); t3.set_Time(11,30);
-    ASSERT_TRUE((t1+t2)==t3);
+    TIME t1(14, 45), t2(15, 30), t3(6, 15);
+    ASSERT_TRUE((t1 + t2) == t3);
+    t1.set_Time(5, 0);
+    t2.set_Time(6, 30);
+    t3.set_Time(11, 30);
+    ASSERT_TRUE((t1 + t2) == t3);
 }
 
 TEST(Time, operator_minus)
 {
-    TIME t2(14,45), t1(15,30), t3(0,45);
-    ASSERT_TRUE((t1-t2)==t3);
-    t2.set_Time(5,0); t1.set_Time(6,30); t3.set_Time(1,30);
-    ASSERT_TRUE((t1-t2)==t3);
+    TIME t2(14, 45), t1(15, 30), t3(0, 45);
+    ASSERT_TRUE((t1 - t2) == t3);
+    t2.set_Time(5, 0);
+    t1.set_Time(6, 30);
+    t3.set_Time(1, 30);
+    ASSERT_TRUE((t1 - t2) == t3);
 }
 
-TEST(PS_func, readTemperature) 
-{ 
+TEST(PS_func, readTemperature)
+{
     WaterSystem PS;
     PS.updateTemperature();
     ASSERT_FLOAT_EQ(PS.getTemperature(), 20.0F);
 }
 
-TEST(PS_func, isSystemSwitchedOnTrue) 
-{ 
+TEST(PS_func, isSystemSwitchedOnTrue)
+{
     WaterSystem PS;
     switch_state = true;
     ASSERT_TRUE(PS.isSystemSwitchedOn());
 }
 
-TEST(PS_func, isSystemSwitchedOnFalse) 
-{ 
+TEST(PS_func, isSystemSwitchedOnFalse)
+{
     WaterSystem PS;
     switch_state = false;
     ASSERT_FALSE(PS.isSystemSwitchedOn());
@@ -186,7 +187,6 @@ TEST(PS_func, isWaterActivatedFalseTT)
     ASSERT_FALSE(PS.isWaterActivated());
 }
 
- 
 TEST(holdState, SwitchOn)
 {
     WaterSystem PS;
@@ -220,8 +220,8 @@ TEST(holdState, LowLevel)
 TEST(pumpWater, SwitchOn)
 {
     WaterSystem PS;
-    unsigned long pump_time = par::t_half_can; 
-    unsigned short valve_pin = VALVETOP; 
+    unsigned long pump_time = par::t_half_can;
+    unsigned short valve_pin = VALVETOP;
     unsigned long valve_time = par::t_valve;
 
     water_level_state = true;
@@ -233,8 +233,8 @@ TEST(pumpWater, SwitchOn)
 TEST(pumpWater, SwitchOff)
 {
     WaterSystem PS;
-    unsigned long pump_time = par::t_half_can; 
-    unsigned short valve_pin = VALVETOP; 
+    unsigned long pump_time = par::t_half_can;
+    unsigned short valve_pin = VALVETOP;
     unsigned long valve_time = par::t_valve;
     int result = 0;
 
@@ -542,7 +542,6 @@ TEST(Pump_Water_Clock, watering_false_t1)
     ASSERT_EQ(PS.pumpWaterClock(), 0);
 }
 
-
 TEST(Pump_Water_Clock, switch_off)
 {
     WaterSystem PS;
@@ -567,11 +566,10 @@ TEST(Pump_Water_Clock, low_temperature)
     ASSERT_EQ(PS.pumpWaterClock(), 0);
 }
 
-
 TEST(systemTime, getLocalTime)
 {
     WaterSystem PS;
-    TIME t(0,0);
+    TIME t(0, 0);
 
     temperature_value = 20.0F;
     switch_state = true;
@@ -579,15 +577,12 @@ TEST(systemTime, getLocalTime)
     current_local_time.hour = 15;
     current_local_time.minute = 13;
 
-
     t = PS.getCurrentLocalTime();
     ASSERT_EQ(t.get_H(), 15);
     ASSERT_EQ(t.get_Min(), 13);
 }
 
-
-
-int main(int argc, char **argv) 
+int main(int argc, char **argv)
 {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
