@@ -1,10 +1,13 @@
 #include <iostream>
+#include <string>
 #include <unistd.h>
 #include <gtest/gtest.h>
 #include "../time.h"
 #include "../mock/mock_arduino.h"
 #include "../PS_func.h"
 #include "../parameter.h"
+
+//include Tests
 #include "test_Time.h"
 #include "test_WaterSystem.h"
 #include "test_mocks.h"

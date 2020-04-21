@@ -34,79 +34,55 @@ TEST_F(WaterSystemTest, PS_func_isSystemSwitchedOnFalse)
     ASSERT_FALSE(PS_.isSystemSwitchedOn());
 }
 
-TEST_F(WaterSystemTest, PS_func_isWaterActivatedTrueFF)
+struct WaterActivationStates
 {
-    pre_state_water = false;
-    current_state_water = false;
+    string title;
+    bool pre_state_water;
+    bool current_state_water;
+    bool water_state;
+    bool result;
+};
 
-    water_state = true;
-    ASSERT_TRUE(PS_.isWaterActivated());
+class WaterActivationTest : public WaterSystemTest, public ::testing::WithParamInterface<WaterActivationStates>
+{
+};
+
+TEST_P(WaterActivationTest, WaterActivationStateTest)
+{
+    cout << endl
+         << GetParam().title << endl;
+    pre_state_water = GetParam().pre_state_water;
+    current_state_water = GetParam().current_state_water;
+    water_state = GetParam().water_state;
+    ASSERT_EQ(PS_.isWaterActivated(), GetParam().result);
 }
 
-TEST_F(WaterSystemTest, PS_func_isWaterActivatedFalseFF)
+const WaterActivationStates TestVectorWaterActivationStates[] = {
+    {"PARAMETER TEST: PS_func_isWaterActivatedTrueFF", false, false, true, true},
+    {"PARAMETER TEST: PS_func_isWaterActivatedFalseFF", false, false, false, false},
+    {"PARAMETER TEST: isWaterActivatedTrueTT", true, true, false, true},
+    {"PARAMETER TEST: isWaterActivatedFalseTT", true, true, true, false}};
+
+INSTANTIATE_TEST_CASE_P(WaterActivationTest_PARAMETER, WaterActivationTest, testing::ValuesIn(TestVectorWaterActivationStates));
+
+TEST_F(WaterSystemTest, HoldStateSwitchOn)
 {
-    pre_state_water = false;
-    current_state_water = false;
-
-    water_state = false;
-    ASSERT_FALSE(PS_.isWaterActivated());
-}
-
-TEST(PS_func, isWaterActivatedTrueTT)
-{
-    WaterSystem PS;
-
-    pre_state_water = true;
-    current_state_water = true;
-
-    water_state = false;
-    ASSERT_TRUE(PS.isWaterActivated());
-}
-
-TEST(PS_func, isWaterActivatedFalseTT)
-{
-    WaterSystem PS;
-
-    pre_state_water = true;
-    current_state_water = true;
-
-    water_state = true;
-    ASSERT_FALSE(PS.isWaterActivated());
-}
-
-TEST(holdState, SwitchOn)
-{
-    WaterSystem PS;
     switch_state = true;
     water_level_state = true;
     measure_current_wl = true;
-    ASSERT_TRUE(PS.holdState(3000));
+    ASSERT_TRUE(PS_.holdState(3000));
 }
 
-TEST(holdState, SwitchOff)
+TEST_F(WaterSystemTest, HoldStateSwitchOff)
 {
-    WaterSystem PS;
     switch_state = false;
     water_level_state = true;
     measure_current_wl = true;
-    ASSERT_FALSE(PS.holdState(3000));
+    ASSERT_FALSE(PS_.holdState(3000));
 }
 
-//Deactivation of water level feature
-/* 
-TEST(holdState, LowLevel)
+TEST_F(WaterSystemTest, PumpWaterSwitchOn)
 {
-    WaterSystem PS;
-    switch_state = true;
-    water_level_state = false;
-    measure_current_wl = true;
-    ASSERT_FALSE(PS.holdState(3000));
-}
-*/
-
-TEST(pumpWater, SwitchOn)
-{
-    WaterSystem PS;
     unsigned long pump_time = par::t_half_can;
     unsigned short valve_pin = VALVETOP;
     unsigned long valve_time = par::t_valve;
@@ -114,12 +90,11 @@ TEST(pumpWater, SwitchOn)
     water_level_state = true;
     switch_state = true;
 
-    ASSERT_EQ(PS.pumpWater(pump_time, valve_pin, valve_time), 1);
+    ASSERT_EQ(PS_.pumpWater(pump_time, valve_pin, valve_time), 1);
 }
 
-TEST(pumpWater, SwitchOff)
+TEST_F(WaterSystemTest, PumpWaterSwitchOff)
 {
-    WaterSystem PS;
     unsigned long pump_time = par::t_half_can;
     unsigned short valve_pin = VALVETOP;
     unsigned long valve_time = par::t_valve;
@@ -128,334 +103,190 @@ TEST(pumpWater, SwitchOff)
     water_level_state = true;
     switch_state = false;
 
-    result = PS.pumpWater(pump_time, valve_pin, valve_time);
+    result = PS_.pumpWater(pump_time, valve_pin, valve_time);
     ASSERT_EQ(result, 0);
 }
 
-//Deactivation of water level feature
-/*
-TEST(pumpWater,LowLevel)
+// Parameter test for Temperature Ranges of top plants
+struct TemperatureRange
 {
-    WaterSystem PS;
-    unsigned long pump_time = t_half_can; 
-    unsigned short valve_pin = VALVETOP; 
-    unsigned long valve_time = t_valve;
-    int result = 0;
+    string title;
+    float temperature_value;
+    float temperature_value_inc;
+    unsigned int time;
+};
 
-    water_level_state = false;
-    switch_state = true;
+class TemperatureRangeTestTop : public WaterSystemTest, public ::testing::WithParamInterface<TemperatureRange>
+{
+};
 
-    result = PS.pumpWater(pump_time, valve_pin, valve_time);
-    ASSERT_EQ(result, 0);
+TEST_P(TemperatureRangeTestTop, TemperatureRangeTestTop)
+{
+    cout << endl
+         << GetParam().title << endl;
+    temperature_value = GetParam().temperature_value;
+    ASSERT_EQ(PS_.getWaterTimeTop(), GetParam().time);
+    temperature_value = GetParam().temperature_value_inc;
+    ASSERT_EQ(PS_.getWaterTimeTop(), GetParam().time);
 }
 
-TEST(pumpWater,SwitchOffLowLevel)
+const TemperatureRange TestVectorTemperatureRangeTop[] = {
+    {"PARAMETER TEST: timeMaxTempTop",
+     par::maxTemp,
+     (par::maxTemp + 1.0F),
+     par::timeMaxTempTop},
+    {"PARAMETER TEST: timeTemp4Top",
+     par::temp4,
+     (par::temp4 + 1.0F),
+     par::timeTemp4Top},
+    {"PARAMETER TEST: timeTemp3Top",
+     par::temp3,
+     (par::temp3 + 1.0F),
+     par::timeTemp3Top},
+    {"PARAMETER TEST: timeTemp2Top",
+     par::temp2,
+     (par::temp2 + 1.0F),
+     par::timeTemp2Top},
+    {"PARAMETER TEST: timeLowTempTop",
+     par::lowTemp,
+     (par::lowTemp + 1.0F),
+     par::timeLowTempTop},
+    {"PARAMETER TEST: belowLowTempTop",
+     0.0F,
+     (par::lowTemp - 1.0F),
+     0U}};
+
+INSTANTIATE_TEST_CASE_P(TemperatureRangeTestTop_PARAMETER, TemperatureRangeTestTop, testing::ValuesIn(TestVectorTemperatureRangeTop));
+
+// Parameter test for Temperature Ranges of top plants
+
+class TemperatureRangeTestBottom : public WaterSystemTest, public ::testing::WithParamInterface<TemperatureRange>
 {
-    WaterSystem PS;
-    unsigned long pump_time = t_half_can; 
-    unsigned short valve_pin = VALVETOP; 
-    unsigned long valve_time = t_valve;
-    int result = 0;
+};
 
-    water_level_state = false;
-    switch_state = false;
-
-    result = PS.pumpWater(pump_time, valve_pin, valve_time);
-    ASSERT_EQ(result, 0);
-}
-*/
-
-TEST(Temperature, timeMaxTempTop)
+TEST_P(TemperatureRangeTestBottom, TemperatureRangeTestBottom)
 {
-    WaterSystem PS;
-    unsigned int time = 0;
+    temperature_value = GetParam().temperature_value;
 
-    temperature_value = par::maxTemp;
-    time = PS.getWaterTimeTop();
+    ASSERT_EQ(PS_.getWaterTimeBottom(), GetParam().time);
 
-    ASSERT_FLOAT_EQ(time, par::timeMaxTempTop);
+    temperature_value = GetParam().temperature_value_inc;
 
-    temperature_value = par::maxTemp + 1.0F;
-    time = PS.getWaterTimeTop();
-
-    ASSERT_EQ(time, par::timeMaxTempTop);
-}
-
-TEST(Temperature, timeTemp2Top)
-{
-    WaterSystem PS;
-    unsigned int time = 0;
-
-    temperature_value = par::temp2;
-    time = PS.getWaterTimeTop();
-
-    ASSERT_EQ(time, par::timeTemp2Top);
-
-    temperature_value = par::temp2 + 1.0F;
-    time = PS.getWaterTimeTop();
-
-    ASSERT_EQ(time, par::timeTemp2Top);
+    ASSERT_EQ(PS_.getWaterTimeBottom(), GetParam().time);
 }
 
-TEST(Temperature, timeTemp3Top)
+const TemperatureRange TestVectorTemperatureRangeBottom[] = {
+    {"PARAMETER TEST: timeMaxTempBottom",
+     par::maxTemp,
+     (par::maxTemp + 1.0F),
+     par::timeMaxTempBottom},
+    {"PARAMETER TEST: timeTemp4Bottom",
+     par::temp4,
+     (par::temp4 + 1.0F),
+     par::timeTemp4Bottom},
+    {"PARAMETER TEST: timeTemp3Bottom",
+     par::temp3,
+     (par::temp3 + 1.0F),
+     par::timeTemp3Bottom},
+    {"PARAMETER TEST: timeTemp2Bottom",
+     par::temp2,
+     (par::temp2 + 1.0F),
+     par::timeTemp2Bottom},
+    {"PARAMETER TEST: lowTempBottom",
+     par::lowTemp,
+     (par::lowTemp + 1.0F),
+     par::timeLowTempBottom},
+    {"PARAMETER TEST: belowLowTempBottom",
+     0.0F,
+     (par::lowTemp - 1.0F),
+     0U}};
+
+INSTANTIATE_TEST_CASE_P(TemperatureRangeTestBottom_PARAMETER, TemperatureRangeTestBottom, testing::ValuesIn(TestVectorTemperatureRangeBottom));
+
+TEST_F(WaterSystemTest, WateringEnabledTrue)
 {
-    WaterSystem PS;
-    unsigned int time = 0;
-
-    temperature_value = par::temp3;
-    time = PS.getWaterTimeTop();
-
-    ASSERT_EQ(time, par::timeTemp3Top);
-
-    temperature_value = par::temp3 + 1.0F;
-    time = PS.getWaterTimeTop();
-
-    ASSERT_EQ(time, par::timeTemp3Top);
-}
-
-TEST(Temperature, timeTemp4Top)
-{
-    WaterSystem PS;
-    unsigned int time = 0;
-
-    temperature_value = par::temp4;
-    time = PS.getWaterTimeTop();
-
-    ASSERT_EQ(time, par::timeTemp4Top);
-
-    temperature_value = par::temp4 + 1.0F;
-    time = PS.getWaterTimeTop();
-
-    ASSERT_EQ(time, par::timeTemp4Top);
-}
-
-TEST(Temperature, timeLowTempTop)
-{
-    WaterSystem PS;
-    unsigned int time = 0;
-
-    temperature_value = par::lowTemp;
-    time = PS.getWaterTimeTop();
-
-    ASSERT_EQ(time, par::timeLowTempTop);
-
-    temperature_value = par::lowTemp + 1.0F;
-    time = PS.getWaterTimeTop();
-
-    ASSERT_EQ(time, par::timeLowTempTop);
-}
-
-TEST(Temperature, belowLowTempTop)
-{
-    WaterSystem PS;
-    unsigned int time = 0;
-
-    temperature_value = par::lowTemp - 1.0F;
-    time = PS.getWaterTimeTop();
-
-    ASSERT_EQ(time, 0);
-
-    temperature_value = 0.0F;
-    time = PS.getWaterTimeTop();
-
-    ASSERT_EQ(time, 0);
-}
-
-TEST(Temperature, timeMaxTempBottom)
-{
-    WaterSystem PS;
-    unsigned int time = 0;
-
-    temperature_value = par::maxTemp;
-    time = PS.getWaterTimeBottom();
-
-    ASSERT_FLOAT_EQ(time, par::timeMaxTempBottom);
-
-    temperature_value = par::maxTemp + 1.0F;
-    time = PS.getWaterTimeBottom();
-
-    ASSERT_EQ(time, par::timeMaxTempBottom);
-}
-
-TEST(Temperature, timeTemp2Bottom)
-{
-    WaterSystem PS;
-    unsigned int time = 0;
-
-    temperature_value = par::temp2;
-    time = PS.getWaterTimeBottom();
-
-    ASSERT_EQ(time, par::timeTemp2Bottom);
-
-    temperature_value = par::temp2 + 1.0F;
-    time = PS.getWaterTimeBottom();
-
-    ASSERT_EQ(time, par::timeTemp2Bottom);
-}
-
-TEST(Temperature, timeTemp3Bottom)
-{
-    WaterSystem PS;
-    unsigned int time = 0;
-
-    temperature_value = par::temp3;
-    time = PS.getWaterTimeBottom();
-
-    ASSERT_EQ(time, par::timeTemp3Bottom);
-
-    temperature_value = par::temp3 + 1.0F;
-    time = PS.getWaterTimeBottom();
-
-    ASSERT_EQ(time, par::timeTemp3Bottom);
-}
-
-TEST(Temperature, timeTemp4Bottom)
-{
-    WaterSystem PS;
-    unsigned int time = 0;
-
-    temperature_value = par::temp4;
-    time = PS.getWaterTimeBottom();
-
-    ASSERT_EQ(time, par::timeTemp4Bottom);
-
-    temperature_value = par::temp4 + 1.0F;
-    time = PS.getWaterTimeBottom();
-
-    ASSERT_EQ(time, par::timeTemp4Bottom);
-}
-
-TEST(Temperature, lowTempBottom)
-{
-    WaterSystem PS;
-    unsigned int time = 0;
-
-    temperature_value = par::lowTemp;
-    time = PS.getWaterTimeBottom();
-
-    ASSERT_EQ(time, par::timeLowTempBottom);
-
-    temperature_value = par::lowTemp + 1.0F;
-    time = PS.getWaterTimeBottom();
-
-    ASSERT_EQ(time, par::timeLowTempBottom);
-}
-
-TEST(Temperature, belowLowTempBottom)
-{
-    WaterSystem PS;
-    unsigned int time = 0;
-
-    temperature_value = par::lowTemp - 1.0F;
-    time = PS.getWaterTimeBottom();
-
-    ASSERT_EQ(time, 0);
-
-    temperature_value = 0.0F;
-    time = PS.getWaterTimeBottom();
-
-    ASSERT_EQ(time, 0);
-}
-
-TEST(WateringEnabled, true)
-{
-    WaterSystem PS;
-
     temperature_value = 18.0F;
-    ASSERT_TRUE(PS.isAutomaticWateringEnabled());
+    ASSERT_TRUE(PS_.isAutomaticWateringEnabled());
     temperature_value = 20.0F;
-    ASSERT_TRUE(PS.isAutomaticWateringEnabled());
+    ASSERT_TRUE(PS_.isAutomaticWateringEnabled());
 }
 
-TEST(isWateringEnabled, false)
+TEST_F(WaterSystemTest, isWateringEnabledFalse)
 {
-    WaterSystem PS;
-
     temperature_value = 0.0F;
-    ASSERT_FALSE(PS.isAutomaticWateringEnabled());
+    ASSERT_FALSE(PS_.isAutomaticWateringEnabled());
     temperature_value = 5.0F;
-    ASSERT_FALSE(PS.isAutomaticWateringEnabled());
+    ASSERT_FALSE(PS_.isAutomaticWateringEnabled());
 }
 
-TEST(Pump_Water_Clock, watering_true_t1)
+TEST_F(WaterSystemTest, Pump_Water_Clock_watering_true_t1)
 {
-    WaterSystem PS;
-
     temperature_value = 20.0F;
     switch_state = true;
 
     current_local_time.hour = 11;
     current_local_time.minute = 30;
-    ASSERT_EQ(PS.pumpWaterClock(), 2);
+    ASSERT_EQ(PS_.pumpWaterClock(), 2);
 }
 
-TEST(Pump_Water_Clock, watering_true_t2)
+TEST_F(WaterSystemTest, Pump_Water_Clock_watering_true_t2)
 {
-    WaterSystem PS;
-
     temperature_value = 20.0F;
     switch_state = true;
 
     current_local_time.hour = 15;
     current_local_time.minute = 30;
-    ASSERT_EQ(PS.pumpWaterClock(), 2);
+    ASSERT_EQ(PS_.pumpWaterClock(), 2);
 }
 
-TEST(Pump_Water_Clock, watering_false_t1)
+TEST_F(WaterSystemTest, Pump_Water_Clock_watering_false)
 {
-    WaterSystem PS;
-
     temperature_value = 20.0F;
     switch_state = true;
 
     current_local_time.hour = 10;
     current_local_time.minute = 30;
-    ASSERT_EQ(PS.pumpWaterClock(), 0);
+    ASSERT_EQ(PS_.pumpWaterClock(), 0);
 
     current_local_time.hour = 12;
     current_local_time.minute = 30;
-    ASSERT_EQ(PS.pumpWaterClock(), 0);
+    ASSERT_EQ(PS_.pumpWaterClock(), 0);
 
     current_local_time.hour = 14;
     current_local_time.minute = 30;
-    ASSERT_EQ(PS.pumpWaterClock(), 0);
+    ASSERT_EQ(PS_.pumpWaterClock(), 0);
 
     current_local_time.hour = 16;
     current_local_time.minute = 30;
-    ASSERT_EQ(PS.pumpWaterClock(), 0);
+    ASSERT_EQ(PS_.pumpWaterClock(), 0);
 
     current_local_time.hour = 0;
     current_local_time.minute = 0;
-    ASSERT_EQ(PS.pumpWaterClock(), 0);
+    ASSERT_EQ(PS_.pumpWaterClock(), 0);
 }
 
-TEST(Pump_Water_Clock, switch_off)
+TEST_F(WaterSystemTest, Pump_Water_Clock_switch_off)
 {
-    WaterSystem PS;
-
     temperature_value = 20.0F;
     switch_state = false;
 
     current_local_time.hour = 11;
     current_local_time.minute = 30;
-    ASSERT_EQ(PS.pumpWaterClock(), 0);
+    ASSERT_EQ(PS_.pumpWaterClock(), 0);
 }
 
-TEST(Pump_Water_Clock, low_temperature)
+TEST_F(WaterSystemTest, Pump_Water_Clock_low_temperature)
 {
-    WaterSystem PS;
-
     temperature_value = 16.0F;
     switch_state = true;
 
     current_local_time.hour = 11;
     current_local_time.minute = 30;
-    ASSERT_EQ(PS.pumpWaterClock(), 0);
+    ASSERT_EQ(PS_.pumpWaterClock(), 0);
 }
 
-TEST(systemTime, getLocalTime)
+TEST_F(WaterSystemTest, systemTime_getLocalTime)
 {
-    WaterSystem PS;
     TIME t(0, 0);
 
     temperature_value = 20.0F;
@@ -464,7 +295,7 @@ TEST(systemTime, getLocalTime)
     current_local_time.hour = 15;
     current_local_time.minute = 13;
 
-    t = PS.getCurrentLocalTime();
+    t = PS_.getCurrentLocalTime();
     ASSERT_EQ(t.get_H(), 15);
     ASSERT_EQ(t.get_Min(), 13);
 }

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <unistd.h>
+#include <string>
 #include <gtest/gtest.h>
 #include "../time.h"
 #include "../mock/mock_arduino.h"
