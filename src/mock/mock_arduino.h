@@ -1,7 +1,7 @@
 #ifndef MOCK_ARDUINO_H
 #define MOCK_ARDUINO_H
 
-#include<string>
+#include <string>
 
 using namespace std;
 
@@ -46,56 +46,54 @@ bool digitalRead(const short& pin);
 
 class Output
 {
-    public:
-        void print(string data);
-        void println(string data);
-        void print(long data);
-        void println(long data);
-        void print(unsigned long data);
-        void println(unsigned long data);
-        void print(float data);
-        void println(float data);
-        void println(unsigned int data);
-        void print(unsigned int data);
+ public:
+    void print(string data);
+    void println(string data);
+    void print(long data);
+    void println(long data);
+    void print(unsigned long data);
+    void println(unsigned long data);
+    void print(float data);
+    void println(float data);
+    void println(unsigned int data);
+    void print(unsigned int data);
 };
 
 extern Output Serial;
 
 class DHT
 {
-  private:
-  float temperature;
+ private:
+    float temperature;
 
-  public:
-  DHT()
-  {
-    temperature = 0.0F;
-  }
-  ~DHT(){}
-  float readTemperature();
+ public:
+    DHT() { temperature = 0.0F; }
+    ~DHT() {}
+    float readTemperature();
 };
 
 extern DHT dht;
 
 struct RTCDateTime
 {
-  unsigned int year;
-  unsigned int month;
-  unsigned int day;
-  unsigned int hour;
-  unsigned int minute;
-  unsigned int second;
+    unsigned int year;
+    unsigned int month;
+    unsigned int day;
+    unsigned int hour;
+    unsigned int minute;
+    unsigned int second;
 };
 
 class DS3231
-{ 
-  public:
-
-  RTCDateTime getDateTime();
-  void setDateTime(unsigned int iYear, unsigned int iMonth,
-  unsigned int iDay, unsigned int iHour, unsigned int iMinute, 
-  unsigned int iSecond);
-
+{
+ public:
+    RTCDateTime getDateTime();
+    void setDateTime(unsigned int iYear,
+                     unsigned int iMonth,
+                     unsigned int iDay,
+                     unsigned int iHour,
+                     unsigned int iMinute,
+                     unsigned int iSecond);
 };
 
 extern RTCDateTime current_local_time;

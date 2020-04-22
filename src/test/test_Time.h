@@ -1,6 +1,6 @@
 class TimeTest : public ::testing::Test
 {
-protected:
+ protected:
     TimeTest()
     {
         // initialization code here
@@ -25,7 +25,7 @@ protected:
     }
 
     // put in any custom data members that you need
-    TIME *t;
+    TIME* t;
 };
 
 TEST_F(TimeTest, Time2TicksTest)

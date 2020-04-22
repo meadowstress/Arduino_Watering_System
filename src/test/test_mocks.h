@@ -116,28 +116,28 @@ TEST(digitalRead, WATER_OFF)
 
 TEST(digitalRead, WATERLEVEL_ONON)
 {
-    water_level_state = true;
+    water_level_state  = true;
     measure_current_wl = true;
     ASSERT_EQ(digitalRead(WATERLEVEL), LOW);
 }
 
 TEST(digitalRead, WATERLEVEL_ONOFF)
 {
-    water_level_state = true;
+    water_level_state  = true;
     measure_current_wl = false;
     ASSERT_EQ(digitalRead(WATERLEVEL), HIGH);
 }
 
 TEST(digitalRead, WATERLEVEL_OFFON)
 {
-    water_level_state = false;
+    water_level_state  = false;
     measure_current_wl = true;
     ASSERT_EQ(digitalRead(WATERLEVEL), HIGH);
 }
 
 TEST(digitalRead, WATERLEVEL_OFFOFF)
 {
-    water_level_state = false;
+    water_level_state  = false;
     measure_current_wl = false;
     ASSERT_EQ(digitalRead(WATERLEVEL), HIGH);
 }
@@ -192,10 +192,10 @@ TEST(clock, getLocalTime)
 {
     DS3231 clock;
     RTCDateTime time;
-    current_local_time.year = 2019;
-    current_local_time.month = 10;
-    current_local_time.day = 25;
-    current_local_time.hour = 22;
+    current_local_time.year   = 2019;
+    current_local_time.month  = 10;
+    current_local_time.day    = 25;
+    current_local_time.hour   = 22;
     current_local_time.minute = 5;
     current_local_time.second = 20;
 

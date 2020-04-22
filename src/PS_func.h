@@ -7,10 +7,10 @@
 #include <DS3231.h> //Enable on Hardware
 */
 
-#include "mock/mock_arduino.h" //Enable for Testing
+#include "mock/mock_arduino.h"  //Enable for Testing
 #include "time.h"
 
-//pins
+// pins
 extern const short PUMP;
 extern const short VALVETOP;
 extern const short VALVEBOTTOM;
@@ -22,7 +22,7 @@ extern DHT dht;
 extern DS3231 clock_var;
 extern RTCDateTime DateTime;
 
-//states
+// states
 extern bool pre_state_water;
 extern bool current_state_water;
 extern bool switch_on;
@@ -32,21 +32,22 @@ extern bool water_level_ok;
 
 class WaterSystem
 {
-private:
+ private:
     bool watering_enabled;
     float measured_temperature;
 
-public:
+ public:
     WaterSystem()
     {
-        watering_enabled = false;
+        watering_enabled     = false;
         measured_temperature = 0.0F;
     }
     ~WaterSystem() {}
 
     int pumpWaterClock();
     int pumpWater(unsigned long pump_time,
-                  unsigned short valve_pin, unsigned long valve_time);
+                  unsigned short valve_pin,
+                  unsigned long valve_time);
     bool holdState(unsigned long hold_time);
 
     bool isWaterLevelOk();
@@ -65,8 +66,8 @@ public:
     TIME getCurrentLocalTime();
 };
 
-//function headers
-void printCyclicSystemInfo(RTCDateTime DateTime, WaterSystem &PumpControl);
+// function headers
+void printCyclicSystemInfo(RTCDateTime DateTime, WaterSystem& PumpControl);
 
 extern WaterSystem PumpControl;
 
