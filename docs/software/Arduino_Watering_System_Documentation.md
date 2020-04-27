@@ -53,4 +53,11 @@ Expectations for Unit Tests
 ===========================
 
 The unit test expect the following point of times for watering:
-11:30 Uhr and 15:30 Uhr otherwiste the unit tests will fail.
+11:30 Uhr and 15:30 Uhr otherwise the unit tests will fail.
+
+Hardware Libraries
+==================
+
+The hardware Libraries for the DHT22 temperature sensor and the DS3231 real time
+clock can be found in the library manager in the arduino development environ-
+ment.
