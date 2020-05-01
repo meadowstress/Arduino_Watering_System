@@ -7,7 +7,7 @@ This repo was created for my own plant watering system on my balcony. Whenever I
 There are several folders in the repo. The most interesting for others is possibly the "deployment" folder. You can have a
 look at the Arduino entry point in the "deployment.ino". All self written libraries are within the "deployment" folder.
 
-If you want to copy my plant watering system or parts of it you can have a look at the "doc" folder. In "circuit_diagram"
+If you want to recreate my plant watering system or parts of it you can have a look at the "doc" folder. In "circuit_diagram"
 you find a Fritzing diagramm of my system. In "software" you'll find some useful tipps on how to handle the code.
 
 All other folders are used for developing this project further and are possibly of minor interest to you:
