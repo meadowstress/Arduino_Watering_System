@@ -15,6 +15,8 @@ const short WATER       = 3;
 const short WATERLEVEL  = 4;
 const short MEASURE_WL  = 5;
 const short TEMPERATURE = 6;
+const short SDSS        = 10;
+const short SDCS        = 4;
 
 // Watering parameters for top plants
 const float maxTemp                  = 55.0F;

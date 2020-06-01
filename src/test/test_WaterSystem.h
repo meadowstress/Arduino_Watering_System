@@ -65,9 +65,9 @@ const WaterActivationStates TestVectorWaterActivationStates[] = {
     {"PARAMETER TEST: isWaterActivatedTrueTT", true, true, false, true},
     {"PARAMETER TEST: isWaterActivatedFalseTT", true, true, true, false}};
 
-INSTANTIATE_TEST_CASE_P(WaterActivationTest_PARAMETER,
-                        WaterActivationTest,
-                        testing::ValuesIn(TestVectorWaterActivationStates));
+INSTANTIATE_TEST_SUITE_P(WaterActivationTest_PARAMETER,
+                         WaterActivationTest,
+                         testing::ValuesIn(TestVectorWaterActivationStates));
 
 TEST_F(WaterSystemTest, HoldStateSwitchOn)
 {
@@ -88,7 +88,7 @@ TEST_F(WaterSystemTest, HoldStateSwitchOff)
 TEST_F(WaterSystemTest, PumpWaterSwitchOn)
 {
     unsigned long pump_time  = par::t_half_can;
-    unsigned short valve_pin = VALVETOP;
+    unsigned short valve_pin = par::VALVETOP;
     unsigned long valve_time = par::t_valve;
 
     water_level_state = true;
@@ -100,7 +100,7 @@ TEST_F(WaterSystemTest, PumpWaterSwitchOn)
 TEST_F(WaterSystemTest, PumpWaterSwitchOff)
 {
     unsigned long pump_time  = par::t_half_can;
-    unsigned short valve_pin = VALVETOP;
+    unsigned short valve_pin = par::VALVETOP;
     unsigned long valve_time = par::t_valve;
     int result               = 0;
 
@@ -147,9 +147,9 @@ const TemperatureRange TestVectorTemperatureRangeTop[] = {
      par::timeLowTempTop},
     {"PARAMETER TEST: belowLowTempTop", 0.0F, (par::lowTemp - 1.0F), 0U}};
 
-INSTANTIATE_TEST_CASE_P(TemperatureRangeTestTop_PARAMETER,
-                        TemperatureRangeTestTop,
-                        testing::ValuesIn(TestVectorTemperatureRangeTop));
+INSTANTIATE_TEST_SUITE_P(TemperatureRangeTestTop_PARAMETER,
+                         TemperatureRangeTestTop,
+                         testing::ValuesIn(TestVectorTemperatureRangeTop));
 
 // Parameter test for Temperature Ranges of top plants
 
@@ -182,9 +182,9 @@ const TemperatureRange TestVectorTemperatureRangeBottom[] = {
      par::timeLowTempBottom},
     {"PARAMETER TEST: belowLowTempBottom", 0.0F, (par::lowTemp - 1.0F), 0U}};
 
-INSTANTIATE_TEST_CASE_P(TemperatureRangeTestBottom_PARAMETER,
-                        TemperatureRangeTestBottom,
-                        testing::ValuesIn(TestVectorTemperatureRangeBottom));
+INSTANTIATE_TEST_SUITE_P(TemperatureRangeTestBottom_PARAMETER,
+                         TemperatureRangeTestBottom,
+                         testing::ValuesIn(TestVectorTemperatureRangeBottom));
 
 TEST_F(WaterSystemTest, WateringEnabledTrue)
 {

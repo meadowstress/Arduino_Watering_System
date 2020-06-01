@@ -103,6 +103,9 @@ int main(void)  // Enable for Testing
         t_buffer = par::t2_water;
         t2 = t_buffer + t_min;  // add operator not defined for const times
 
+        // TODO timer_water_flag solution doesn't work when t1 and t2 is only 1
+        // minute apart - apply fix if possible
+
         // reset timer_water_flag after the minute of watering is past
         if ((PumpControl.getCurrentLocalTime() == t1) ||
             (PumpControl.getCurrentLocalTime() == t2))

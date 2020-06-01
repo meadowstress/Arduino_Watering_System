@@ -8,7 +8,13 @@
 #include <Wire.h> //Enable on Hardware
 #include <DS3231.h> //Enable on Hardware
 */
+/*
+void WaterSystem::initSDCard(uint8 SDPin)
+{}
 
+bool WaterSystem::isSDCardOk()
+{}
+*/
 // support function
 void printCyclicSystemInfo(RTCDateTime DateTime, WaterSystem& PumpControl)
 {

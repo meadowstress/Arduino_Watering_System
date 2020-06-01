@@ -1,157 +1,157 @@
 TEST(digitalWrite, PUMP_LOW)
 {
     pump_state = false;
-    digitalWrite(PUMP, LOW);
+    digitalWrite(par::PUMP, LOW);
     ASSERT_EQ(pump_state, true);
 }
 
 TEST(digitalWrite, PUMP_HIGH)
 {
     pump_state = true;
-    digitalWrite(PUMP, HIGH);
+    digitalWrite(par::PUMP, HIGH);
     ASSERT_EQ(pump_state, false);
 }
 
 TEST(digitalWrite, VALVETOP_LOW)
 {
     valve_state_top = false;
-    digitalWrite(VALVETOP, LOW);
+    digitalWrite(par::VALVETOP, LOW);
     ASSERT_EQ(valve_state_top, true);
 }
 
 TEST(digitalWrite, VALVETOP_HIGH)
 {
     valve_state_top = true;
-    digitalWrite(VALVETOP, HIGH);
+    digitalWrite(par::VALVETOP, HIGH);
     ASSERT_EQ(valve_state_top, false);
 }
 
 TEST(digitalWrite, VALVEBOTTOM_LOW)
 {
     valve_state_bottom = false;
-    digitalWrite(VALVEBOTTOM, LOW);
+    digitalWrite(par::VALVEBOTTOM, LOW);
     ASSERT_EQ(valve_state_bottom, true);
 }
 
 TEST(digitalWrite, VALVEBOTTOM_HIGH)
 {
     valve_state_bottom = true;
-    digitalWrite(VALVEBOTTOM, HIGH);
+    digitalWrite(par::VALVEBOTTOM, HIGH);
     ASSERT_EQ(valve_state_bottom, false);
 }
 
 TEST(digitalWrite, MEASURE_WL_HIGH)
 {
     measure_current_wl = true;
-    digitalWrite(MEASURE_WL, HIGH);
+    digitalWrite(par::MEASURE_WL, HIGH);
     ASSERT_EQ(measure_current_wl, false);
 }
 
 TEST(digitalWrite, MEASURE_WL_LOW)
 {
     measure_current_wl = false;
-    digitalWrite(MEASURE_WL, LOW);
+    digitalWrite(par::MEASURE_WL, LOW);
     ASSERT_EQ(measure_current_wl, true);
 }
 
 TEST(digitalRead, PUMP_LOW)
 {
     pump_state = true;
-    ASSERT_EQ(digitalRead(PUMP), LOW);
+    ASSERT_EQ(digitalRead(par::PUMP), LOW);
 }
 
 TEST(digitalRead, PUMP_HIGH)
 {
     pump_state = false;
-    ASSERT_EQ(digitalRead(PUMP), HIGH);
+    ASSERT_EQ(digitalRead(par::PUMP), HIGH);
 }
 
 TEST(digitalRead, VALVETOP_LOW)
 {
     valve_state_top = true;
-    ASSERT_EQ(digitalRead(VALVETOP), LOW);
+    ASSERT_EQ(digitalRead(par::VALVETOP), LOW);
 }
 
 TEST(digitalRead, VALVETOP_HIGH)
 {
     valve_state_top = false;
-    ASSERT_EQ(digitalRead(VALVETOP), HIGH);
+    ASSERT_EQ(digitalRead(par::VALVETOP), HIGH);
 }
 
 TEST(digitalRead, VALVEBOTTOM_LOW)
 {
     valve_state_bottom = true;
-    ASSERT_EQ(digitalRead(VALVEBOTTOM), LOW);
+    ASSERT_EQ(digitalRead(par::VALVEBOTTOM), LOW);
 }
 
 TEST(digitalRead, VALVEBOTTOM_HIGH)
 {
     valve_state_bottom = false;
-    ASSERT_EQ(digitalRead(VALVEBOTTOM), HIGH);
+    ASSERT_EQ(digitalRead(par::VALVEBOTTOM), HIGH);
 }
 
 TEST(digitalRead, SWITCH_ON)
 {
     switch_state = true;
-    ASSERT_EQ(digitalRead(SWITCH), LOW);
+    ASSERT_EQ(digitalRead(par::SWITCH), LOW);
 }
 
 TEST(digitalRead, SWITCH_OFF)
 {
     switch_state = false;
-    ASSERT_EQ(digitalRead(SWITCH), HIGH);
+    ASSERT_EQ(digitalRead(par::SWITCH), HIGH);
 }
 
 TEST(digitalRead, WATER_ON)
 {
     water_state = true;
-    ASSERT_EQ(digitalRead(WATER), LOW);
+    ASSERT_EQ(digitalRead(par::WATER), LOW);
 }
 
 TEST(digitalRead, WATER_OFF)
 {
     water_state = false;
-    ASSERT_EQ(digitalRead(WATER), HIGH);
+    ASSERT_EQ(digitalRead(par::WATER), HIGH);
 }
 
 TEST(digitalRead, WATERLEVEL_ONON)
 {
     water_level_state  = true;
     measure_current_wl = true;
-    ASSERT_EQ(digitalRead(WATERLEVEL), LOW);
+    ASSERT_EQ(digitalRead(par::WATERLEVEL), LOW);
 }
 
 TEST(digitalRead, WATERLEVEL_ONOFF)
 {
     water_level_state  = true;
     measure_current_wl = false;
-    ASSERT_EQ(digitalRead(WATERLEVEL), HIGH);
+    ASSERT_EQ(digitalRead(par::WATERLEVEL), HIGH);
 }
 
 TEST(digitalRead, WATERLEVEL_OFFON)
 {
     water_level_state  = false;
     measure_current_wl = true;
-    ASSERT_EQ(digitalRead(WATERLEVEL), HIGH);
+    ASSERT_EQ(digitalRead(par::WATERLEVEL), HIGH);
 }
 
 TEST(digitalRead, WATERLEVEL_OFFOFF)
 {
     water_level_state  = false;
     measure_current_wl = false;
-    ASSERT_EQ(digitalRead(WATERLEVEL), HIGH);
+    ASSERT_EQ(digitalRead(par::WATERLEVEL), HIGH);
 }
 
 TEST(digitalRead, MEASURE_WL_ON)
 {
     measure_current_wl = true;
-    ASSERT_EQ(digitalRead(MEASURE_WL), LOW);
+    ASSERT_EQ(digitalRead(par::MEASURE_WL), LOW);
 }
 
 TEST(digitalRead, MEASURE_WL_OFF)
 {
     measure_current_wl = false;
-    ASSERT_EQ(digitalRead(MEASURE_WL), HIGH);
+    ASSERT_EQ(digitalRead(par::MEASURE_WL), HIGH);
 }
 
 TEST(Serial, println)

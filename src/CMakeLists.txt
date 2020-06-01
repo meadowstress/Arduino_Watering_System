@@ -1,15 +1,18 @@
 cmake_minimum_required(VERSION 3.0)
+set(CMAKE_CXX_STANDARD 11)
 
 project(Pump_Control)
+
 
 # Locate GTest
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
+message("GTEST_INCLUDE_DIRS = ${GTEST_INCLUDE_DIRS}")
 
 
 set(CMAKE_BUILD_TYPE debug)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-
+message("CMAKE_CXX_FLAGS = ${CMAKE_CXX_FLAGS}")
 
 add_executable(
     Arduino_PS
@@ -53,6 +56,7 @@ add_executable(
 
 # relevant only for google test
 # Link runTests with what we want to test and the GTest and pthread library
+message("GTEST_LIBRARIES = ${GTEST_LIBRARIES}")
 target_link_libraries(runTest_all ${GTEST_LIBRARIES} pthread)
 target_link_libraries(runTest_Time ${GTEST_LIBRARIES} pthread)
 target_link_libraries(runTest_WaterSystem ${GTEST_LIBRARIES} pthread)
