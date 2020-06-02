@@ -31,11 +31,11 @@ const unsigned int timeTemp3Bottom = 5000;
 
 const float temp2                  = 25.0F;
 const unsigned int timeTemp2Top    = 15000;
-const unsigned int timeTemp2Bottom = 4000;
+const unsigned int timeTemp2Bottom = 3000;
 
 const float lowTemp                  = 20.0F;
 const unsigned int timeLowTempTop    = 8000;
-const unsigned int timeLowTempBottom = 3000;
+const unsigned int timeLowTempBottom = 2000;
 
 // Water Times
 const TIME t1_water(11, 30);
