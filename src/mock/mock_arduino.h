@@ -5,6 +5,15 @@
 
 using namespace std;
 
+// Mocking Analog Pins
+
+const unsigned short A0 = 14;
+const unsigned short A1 = 15;
+const unsigned short A2 = 16;
+const unsigned short A3 = 17;
+const unsigned short A4 = 18;
+const unsigned short A5 = 19;
+
 // artificial states for actuators
 extern bool pump_state;
 extern bool valve_state_top;

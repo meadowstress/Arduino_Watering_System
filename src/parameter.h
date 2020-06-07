@@ -7,16 +7,14 @@ namespace par
 {
 
 // pins
-const short PUMP        = 8;
-const short VALVETOP    = 9;
-const short VALVEBOTTOM = 10;
+const short PUMP        = A0;
+const short VALVETOP    = A1;
+const short VALVEBOTTOM = A2;
 const short SWITCH      = 7;
 const short WATER       = 3;
 const short WATERLEVEL  = 4;
 const short MEASURE_WL  = 5;
 const short TEMPERATURE = 6;
-const short SDSS        = 10;
-const short SDCS        = 4;
 
 // Watering parameters for top plants
 const float maxTemp                  = 55.0F;
