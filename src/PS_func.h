@@ -64,10 +64,14 @@ class WaterSystem
     bool getWateringEnabled() { return watering_enabled; }
     bool isAutomaticWateringEnabled();
     TIME getCurrentLocalTime();
+    bool isSDCardOk();
+    string getSDFileName();
+    void printToSDFile(string input);
+    void printToSDFile(int input);
 };
 
 // function headers
-void printCyclicSystemInfo(RTCDateTime DateTime, WaterSystem& PumpControl);
+void printCyclicSystemInfo(WaterSystem& PumpControl);
 
 extern WaterSystem PumpControl;
 

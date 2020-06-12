@@ -1,7 +1,10 @@
-//#include "mock_arduino.h" //Enable for testing
+#include <Wire.h>
+
+//#include "mock/mock_arduino.h"  //Enable for testing
 #include "time.h"
 #include "PS_func.h"
 #include "parameter.h"
+#include <DS3231.h>  //Enable on Hardware
 
 // global states
 bool pre_state_water     = false;
@@ -17,11 +20,8 @@ DS3231 clock_var;
 RTCDateTime DateTime;
 DHT dht(par::TEMPERATURE, DHT22);  // Enable for Hardware
 
-// global system object
-WaterSystem PumpControl;
-
-// int main(void) //Enable for Testing
-//{              // Enable for Testing
+// int main(void)  // Enable for Testing
+//{               // Enable for Testing
 
 void setup()  // Enable on Hardware
 {
@@ -35,6 +35,7 @@ void setup()  // Enable on Hardware
     Serial.begin(9600);                 // Enable on Hardware
     dht.begin();
     clock_var.begin();
+    pinMode(par::CHIPSELECT, OUTPUT);
 
     digitalWrite(par::PUMP, HIGH);         // default no pumping enabled
     digitalWrite(par::VALVETOP, HIGH);     // default no pumping enabled
@@ -54,8 +55,8 @@ void setup()  // Enable on Hardware
 unsigned long counter = 0;
 TIME t_min(0, 1), t1(0, 0), t2(0, 0), t_buffer(0, 0);
 
-// for (int i = 0; i < 12000; i++) //enable for Testing
-//{                               //enable for Testing
+// for (int i = 0; i < 12000; i++)  // enable for Testing
+//{                                // enable for Testing
 
 void loop()  // Enable on Hardware
 {            // Enable on Hardware
@@ -63,7 +64,7 @@ void loop()  // Enable on Hardware
     counter++;
     if ((counter % 4000) == 0)
     {
-        printCyclicSystemInfo(DateTime, PumpControl);
+        printCyclicSystemInfo(PumpControl);
     }
 
     // configuration settings - change time here
@@ -101,6 +102,9 @@ void loop()  // Enable on Hardware
     t_buffer = par::t2_water;
     t2       = t_buffer + t_min;  // add operator not defined for const times
 
+    // TODO timer_water_flag solution doesn't work when t1 and t2 is only 1
+    // minute apart - apply fix if possible
+
     // reset timer_water_flag after the minute of watering is past
     if ((PumpControl.getCurrentLocalTime() == t1) ||
         (PumpControl.getCurrentLocalTime() == t2))
@@ -108,5 +112,5 @@ void loop()  // Enable on Hardware
         timer_water_flag = true;
     }
 
-    //} // Enable for Testing
+    //}  // Enable for Testing
 }

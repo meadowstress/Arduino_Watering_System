@@ -5,7 +5,7 @@
 #include <Wire.h>    //Enable on Hardware
 #include <DS3231.h>  //Enable on Hardware
 
-//#include "mock_arduino.h" //Enable for Testing
+//#include "mock/mock_arduino.h"  //Enable for Testing
 #include "time.h"
 
 // pins
@@ -62,10 +62,14 @@ class WaterSystem
     bool getWateringEnabled() { return watering_enabled; }
     bool isAutomaticWateringEnabled();
     TIME getCurrentLocalTime();
+    bool isSDCardOk();
+    String getSDFileName();
+    void printToSDFile(String input);
+    void printToSDFile(int input);
 };
 
 // function headers
-void printCyclicSystemInfo(RTCDateTime DateTime, WaterSystem& PumpControl);
+void printCyclicSystemInfo(WaterSystem& PumpControl);
 
 extern WaterSystem PumpControl;
 

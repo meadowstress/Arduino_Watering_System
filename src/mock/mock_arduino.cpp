@@ -122,7 +122,10 @@ bool digitalRead(const short& pin)
         return (measure_current_wl);
 
     else
+    {
         cout << "Throw Error: digitalRead \n";
+        return HIGH;
+    }
 }
 
 void Output::print(string data)
@@ -214,3 +217,7 @@ RTCDateTime DS3231::getDateTime()
 
     return t;
 }
+
+// mock SD Card variable
+sd SD;
+unsigned short FILE_WRITE = 1;

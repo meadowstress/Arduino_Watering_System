@@ -2,6 +2,8 @@
 #include "time.h"
 #include "PS_func.h"
 #include "parameter.h"
+//#include <SPI.h>  //Enable on Hardware
+//#include <SD.h>   //Enable on Hardware
 
 // global states
 bool pre_state_water     = false;
@@ -26,7 +28,6 @@ int main(void)  // Enable for Testing
   void setup() // Enable on Hardware
   {
 
-
     pinMode(par::PUMP, OUTPUT);  // Enable on Hardware
     pinMode(par::VALVETOP, OUTPUT);  // Enable on Hardware
     pinMode(par::VALVEBOTTOM, OUTPUT);  // Enable on Hardware
@@ -36,6 +37,7 @@ int main(void)  // Enable for Testing
     Serial.begin(9600);  // Enable on Hardware
     dht.begin();
     clock_var.begin();
+    pinMode(par::CHIPSELECT, OUTPUT);
     */
 
     digitalWrite(par::PUMP, HIGH);         // default no pumping enabled
@@ -65,7 +67,7 @@ int main(void)  // Enable for Testing
         counter++;
         if ((counter % 4000) == 0)
         {
-            printCyclicSystemInfo(DateTime, PumpControl);
+            printCyclicSystemInfo(PumpControl);
         }
 
         // configuration settings - change time here

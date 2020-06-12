@@ -16,6 +16,9 @@ const short WATERLEVEL  = 4;
 const short MEASURE_WL  = 5;
 const short TEMPERATURE = 6;
 
+// SD-pins
+const short CHIPSELECT = 10;  // SD-Card Pin for Arduino Uno
+
 // Watering parameters for top plants
 const float maxTemp                  = 55.0F;
 const unsigned int timeMaxTempTop    = 60000;

@@ -1,15 +1,69 @@
 #include "PS_func.h"
-//#include "mock_arduino.h" //Enable for Testing
+//#include "mock/mock_arduino.h"  //Enable for Testing
 #include "parameter.h"
+#include <string.h>
 
 #include <Arduino.h>         //Enable on Hardware
 #include <HardwareSerial.h>  //Enable on Hardware
 #include "DHT.h"             //Enable on Hardware
 #include <Wire.h>            //Enable on Hardware
 #include <DS3231.h>          //Enable on Hardware
+#include <SPI.h>
+#include <SD.h>
+
+bool WaterSystem::isSDCardOk()
+{
+    bool isSDCardOk = SD.begin(par::CHIPSELECT);
+    return (isSDCardOk);
+}
+
+String WaterSystem::getSDFileName()
+{
+    // using global time variable for date
+    String year  = String(DateTime.year);
+    String month = String(DateTime.month);
+    String day   = String(DateTime.day);
+
+    String fname = year + month + day;
+    return (fname);
+}
+
+void WaterSystem::printToSDFile(String input)
+{
+    File logFile;
+    String fname = getSDFileName();
+
+    if (isSDCardOk())
+    {
+        logFile = SD.open(fname, FILE_WRITE);
+        logFile.print(input);
+        logFile.close();
+    }
+    else
+    {
+        Serial.println("\nWriting to SD Card not successful!\n");
+    }
+}
+
+void WaterSystem::printToSDFile(int input)
+{
+    File logFile;
+    String fname = getSDFileName();
+
+    if (isSDCardOk())
+    {
+        logFile = SD.open(fname, FILE_WRITE);
+        logFile.print(input);
+        logFile.close();
+    }
+    else
+    {
+        Serial.println("\nWriting to SD Card not successful!\n");
+    }
+}
 
 // support function
-void printCyclicSystemInfo(RTCDateTime DateTime, WaterSystem& PumpControl)
+void printCyclicSystemInfo(WaterSystem& PumpControl)
 {
     TIME t1(0, 0), t2(0, 0);
     unsigned int ms = 0;
@@ -25,10 +79,25 @@ void printCyclicSystemInfo(RTCDateTime DateTime, WaterSystem& PumpControl)
     Serial.print(DateTime.minute);
     Serial.print("   ");
 
+    PumpControl.printToSDFile(DateTime.day);
+    PumpControl.printToSDFile(".");
+    PumpControl.printToSDFile(DateTime.month);
+    PumpControl.printToSDFile(".");
+    PumpControl.printToSDFile(DateTime.year);
+    PumpControl.printToSDFile(": ");
+    PumpControl.printToSDFile(DateTime.hour);
+    PumpControl.printToSDFile(":");
+    PumpControl.printToSDFile(DateTime.minute);
+    PumpControl.printToSDFile("   ");
+
     // Temperature
     Serial.print("Temperature = ");
     Serial.print(PumpControl.getTemperature());
-    Serial.println(" Celsius");
+    Serial.print(" Celsius\n");
+
+    PumpControl.printToSDFile("Temperature = ");
+    PumpControl.printToSDFile(PumpControl.getTemperature());
+    PumpControl.printToSDFile(" Celsius\n");
 
     // Watering Parameters
     Serial.print("Watering Parameters: ");

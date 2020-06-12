@@ -107,4 +107,30 @@ class DS3231
 
 extern RTCDateTime current_local_time;
 
+class File
+{
+ public:
+    void println(string input) {}
+    void println(int input) {}
+    void println(float input) {}
+    void print(string input) {}
+    void print(int input) {}
+    void print(float input) {}
+    void close() {}
+};
+
+class sd
+{
+ public:
+    bool begin(unsigned short chipSelect) { return true; };
+    File open(string fname, unsigned short mode)
+    {
+        File fileHandle;
+        return fileHandle;
+    }
+};
+
+extern sd SD;
+extern unsigned short FILE_WRITE;
+
 #endif
