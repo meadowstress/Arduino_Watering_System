@@ -20,6 +20,9 @@ DS3231 clock_var;
 RTCDateTime DateTime;
 DHT dht(par::TEMPERATURE, DHT22);  // Enable for Hardware
 
+// global system variable
+WaterSystem PumpControl;
+
 // int main(void)  // Enable for Testing
 //{               // Enable for Testing
 
