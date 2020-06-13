@@ -21,17 +21,14 @@ String WaterSystem::getSDFileName()
 {
     // using global time variable for date
 
-    // Enable on Hardware
-    String year  = String(DateTime.year);
-    String month = String(DateTime.month);
-    String day   = String(DateTime.day);
-
-    /*
-    // Enable for Testing
-    String year  = to_string(DateTime.year);
-    String month = to_string(DateTime.month);
-    String day   = to_string(DateTime.day);
-    */
+    String year  = String(DateTime.year);   // Enable on Hardware
+    String month = String(DateTime.month);  // Enable on Hardware
+    String day   = String(DateTime.day);    // Enable on Hardware
+                                            /*
+                                                String year  = to_string(DateTime.year);   // Enable for Testing
+                                                String month = to_string(DateTime.month);  // Enable for Testing
+                                                String day   = to_string(DateTime.day);    // Enable for Testing
+                                            */
     String fname = year + month + day;
     return (fname);
 }
@@ -70,7 +67,7 @@ void WaterSystem::printlnToSDFile(const String input)
     }
 }
 
-void WaterSystem::printToSDFile(const byte input)
+void WaterSystem::printToSDFile(const int input)
 {
     File logFile;
     String fname = getSDFileName();
@@ -87,7 +84,7 @@ void WaterSystem::printToSDFile(const byte input)
     }
 }
 
-void WaterSystem::printlnToSDFile(const byte input)
+void WaterSystem::printlnToSDFile(const int input)
 {
     File logFile;
     String fname = getSDFileName();
@@ -165,9 +162,8 @@ void printCyclicSystemInfo()
     Serial.print(F("Current chosen ms for top watering: "));
     Serial.println(ms);
 
-    PumpControl.printlnToSDFile(ms);
     PumpControl.printToSDFile(F("Current chosen ms for top watering: "));
-    PumpControl.printToSDFile(ms);
+    PumpControl.printlnToSDFile(ms);
 
     ms = PumpControl.getWaterTimeBottom();
     Serial.print(F("Current chosen ms for bottom watering: "));
@@ -176,7 +172,7 @@ void printCyclicSystemInfo()
     Serial.println(F(""));
 
     PumpControl.printToSDFile(F("Current chosen ms for bottom watering: "));
-    PumpControl.printToSDFile(ms);
+    PumpControl.printlnToSDFile(ms);
     PumpControl.printlnToSDFile("");
 }
 

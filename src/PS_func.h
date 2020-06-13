@@ -63,9 +63,9 @@ class WaterSystem
     bool isSDCardOk();
     String getSDFileName();
     void printToSDFile(const String input);
-    void printToSDFile(const byte input);
+    void printToSDFile(const int input);
     void printlnToSDFile(const String input);
-    void printlnToSDFile(const byte input);
+    void printlnToSDFile(const int input);
 };
 
 // function headers

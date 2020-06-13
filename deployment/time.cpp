@@ -1,5 +1,6 @@
 #include "time.h"
 //#include "mock/mock_arduino.h"  // Enable for Testing
+#include "PS_func.h"
 
 #include <Arduino.h>         // Enable on Hardware
 #include <HardwareSerial.h>  // Enable on Hardware
@@ -9,6 +10,10 @@ void TIME::print()
     Serial.print(h);
     Serial.print(":");
     Serial.print(min);
+
+    PumpControl.printToSDFile(h);
+    PumpControl.printToSDFile(":");
+    PumpControl.printToSDFile(min);
 }
 
 void TIME::println()
@@ -16,6 +21,10 @@ void TIME::println()
     Serial.print(h);
     Serial.print(":");
     Serial.println(min);
+
+    PumpControl.printToSDFile(h);
+    PumpControl.printToSDFile(":");
+    PumpControl.printlnToSDFile(min);
 }
 
 unsigned long TIME::Time2Ticks()
