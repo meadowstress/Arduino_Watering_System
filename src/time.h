@@ -1,11 +1,14 @@
+// #include <Arduino.h> // Enable on Hardware
+#include "mock/mock_arduino.h"  //Enable for Test
+
 #ifndef TIME_H_
 #define TIME_H_
 
 class TIME
 {
  private:
-    long h;
-    long min;
+    short h;
+    short min;
 
  public:
     TIME()
@@ -14,15 +17,15 @@ class TIME
         min = 0;
     }
 
-    TIME(long iH, long iMin)
+    TIME(short iH, short iMin)
     {
         h   = iH;
         min = iMin;
     }
-    long get_H() { return h; }
-    long get_Min() { return min; }
+    short get_H() { return h; }
+    short get_Min() { return min; }
 
-    void set_H(long iH)
+    void set_H(short iH)
     {
         if (iH >= 0 && iH < 24)
             h = iH;
@@ -30,7 +33,7 @@ class TIME
             h = 0;
     }
 
-    void set_Min(long iMin)
+    void set_Min(short iMin)
     {
         if (iMin >= 0 && iMin < 60)
             min = iMin;
@@ -38,7 +41,7 @@ class TIME
             min = 0;
     }
 
-    void set_Time(long iH, long iMin)
+    void set_Time(short iH, short iMin)
     {
         TIME t;
         t.set_H(iH);

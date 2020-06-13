@@ -66,6 +66,8 @@ class Output
     void println(float data);
     void println(unsigned int data);
     void print(unsigned int data);
+    void print(short data);
+    void println(short data);
 };
 
 extern Output Serial;
@@ -112,9 +114,11 @@ class File
  public:
     void println(string input) {}
     void println(int input) {}
+    void println(unsigned int input) {}
     void println(float input) {}
     void print(string input) {}
     void print(int input) {}
+    void print(unsigned int input) {}
     void print(float input) {}
     void close() {}
 };
@@ -133,4 +137,8 @@ class sd
 extern sd SD;
 extern unsigned short FILE_WRITE;
 
+typedef unsigned int byte;
+typedef std::string String;
+
+String F(String const input);
 #endif

@@ -1,9 +1,10 @@
+//#include <Wire.h> // Enable on Hardware
+
 #include "mock/mock_arduino.h"  //Enable for testing
 #include "time.h"
 #include "PS_func.h"
 #include "parameter.h"
-//#include <SPI.h>  //Enable on Hardware
-//#include <SD.h>   //Enable on Hardware
+//#include <DS3231.h>  //Enable on Hardware
 
 // global states
 bool pre_state_water     = false;
@@ -17,27 +18,29 @@ bool timer_water_flag    = true;
 // global states of external devices
 DS3231 clock_var;
 RTCDateTime DateTime;
-// DHT dht(par::TEMPERATURE, DHT22); //Enable for Hardware
+// DHT dht(par::TEMPERATURE, DHT22);  // Enable for Hardware
 
-// global system object
+// global system variable
 WaterSystem PumpControl;
 
 int main(void)  // Enable for Testing
 {               // Enable for Testing
-    /*
-  void setup() // Enable on Hardware
-  {
 
-    pinMode(par::PUMP, OUTPUT);  // Enable on Hardware
-    pinMode(par::VALVETOP, OUTPUT);  // Enable on Hardware
-    pinMode(par::VALVEBOTTOM, OUTPUT);  // Enable on Hardware
-    pinMode(par::SWITCH, INPUT);  // Enable on Hardware
-    pinMode(par::WATER, INPUT);  // Enable on Hardware
-    pinMode(par::WATERLEVEL, INPUT);  // Enable on Hardware
-    Serial.begin(9600);  // Enable on Hardware
-    dht.begin();
-    clock_var.begin();
-    pinMode(par::CHIPSELECT, OUTPUT);
+    /*
+    void setup()  // Enable on Hardware
+    {
+
+        pinMode(par::PUMP, OUTPUT);         // Enable on Hardware
+        pinMode(par::VALVETOP, OUTPUT);     // Enable on Hardware
+        pinMode(par::VALVEBOTTOM, OUTPUT);  // Enable on Hardware
+        pinMode(par::SWITCH, INPUT);        // Enable on Hardware
+        pinMode(par::WATER, INPUT);         // Enable on Hardware
+        pinMode(par::WATERLEVEL, INPUT);    // Enable on Hardware
+        Serial.begin(9600);                 // Enable on Hardware
+
+    dht.begin();                            // Enable on Hardware
+    clock_var.begin();                      // Enable on Hardware
+    pinMode(par::CHIPSELECT, OUTPUT);       // Enable on Hardware
     */
 
     digitalWrite(par::PUMP, HIGH);         // default no pumping enabled
@@ -51,23 +54,24 @@ int main(void)  // Enable for Testing
         current_state_water = true;
     }
 
-    Serial.println("\n\nStart of Program:");
+    Serial.println(F("\n\nStart of Program:"));
     Serial.println("-----------------\n");
-    //} //Enable on Hardware
+
+    //}  // Enable on Hardware
 
     unsigned long counter = 0;
     TIME t_min(0, 1), t1(0, 0), t2(0, 0), t_buffer(0, 0);
 
     for (int i = 0; i < 12000; i++)  // enable for Testing
     {                                // enable for Testing
-        /*
-    void loop() // Enable on Hardware
-    { // Enable on Hardware
-    */
+
+        //        void loop()  // Enable on Hardware
+        //        {            // Enable on Hardware
+
         counter++;
         if ((counter % 4000) == 0)
         {
-            printCyclicSystemInfo(PumpControl);
+            printCyclicSystemInfo();
         }
 
         // configuration settings - change time here
@@ -82,7 +86,7 @@ int main(void)  // Enable for Testing
         // the manual tube attached for which this feature is designed
         if (switch_on && water_on)
         {
-            Serial.println("pumpWater single Function!");
+            Serial.println(F("pumpWater single Function!"));
             PumpControl.pumpWater(par::t_half_can, par::VALVETOP, par::t_valve);
         }
 
@@ -105,8 +109,8 @@ int main(void)  // Enable for Testing
         t_buffer = par::t2_water;
         t2 = t_buffer + t_min;  // add operator not defined for const times
 
-        // TODO timer_water_flag solution doesn't work when t1 and t2 is only 1
-        // minute apart - apply fix if possible
+        // TODO timer_water_flag solution doesn't work when t1 and t2 is
+        // only 1 minute apart - apply fix if possible
 
         // reset timer_water_flag after the minute of watering is past
         if ((PumpControl.getCurrentLocalTime() == t1) ||

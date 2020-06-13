@@ -27,6 +27,9 @@ bool water_level_ok      = false;
 DS3231 clock_var;
 RTCDateTime DateTime;
 
+// global system variable
+WaterSystem PumpControl;
+
 int main(int argc, char** argv)
 {
     testing::InitGoogleTest(&argc, argv);

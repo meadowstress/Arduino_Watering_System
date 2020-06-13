@@ -1,11 +1,9 @@
 #ifndef PS_FUNC_H
 #define PS_FUNC_H
 
-/*
-#include"DHT.h" //Enable on Hardware
-#include <Wire.h> //Enable on Hardware
-#include <DS3231.h> //Enable on Hardware
-*/
+//#include "DHT.h"     //Enable on Hardware
+//#include <Wire.h>    //Enable on Hardware
+//#include <DS3231.h>  //Enable on Hardware
 
 #include "mock/mock_arduino.h"  //Enable for Testing
 #include "time.h"
@@ -45,10 +43,8 @@ class WaterSystem
     ~WaterSystem() {}
 
     int pumpWaterClock();
-    int pumpWater(unsigned long pump_time,
-                  unsigned short valve_pin,
-                  unsigned long valve_time);
-    bool holdState(unsigned long hold_time);
+    int pumpWater(unsigned int pump_time, byte valve_pin, byte valve_time);
+    bool holdState(unsigned int hold_time);
 
     bool isWaterLevelOk();
     bool isSystemSwitchedOn();
@@ -65,13 +61,13 @@ class WaterSystem
     bool isAutomaticWateringEnabled();
     TIME getCurrentLocalTime();
     bool isSDCardOk();
-    string getSDFileName();
-    void printToSDFile(string input);
-    void printToSDFile(int input);
+    String getSDFileName();
+    void printToSDFile(const String input);
+    void printToSDFile(const byte input);
 };
 
 // function headers
-void printCyclicSystemInfo(WaterSystem& PumpControl);
+void printCyclicSystemInfo();
 
 extern WaterSystem PumpControl;
 

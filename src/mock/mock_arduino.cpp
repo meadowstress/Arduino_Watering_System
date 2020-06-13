@@ -168,6 +168,16 @@ void Output::println(unsigned int data)
     cout << data << endl;
 }
 
+void Output::print(short data)
+{
+    cout << data;
+}
+
+void Output::println(short data)
+{
+    cout << data << endl;
+}
+
 void Output::print(float data)
 {
     cout << data;
@@ -221,3 +231,8 @@ RTCDateTime DS3231::getDateTime()
 // mock SD Card variable
 sd SD;
 unsigned short FILE_WRITE = 1;
+
+String F(String const input)
+{
+    return input;
+}

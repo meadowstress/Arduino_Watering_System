@@ -1,9 +1,8 @@
 #include "time.h"
 #include "mock/mock_arduino.h"  // Enable for Testing
-/*
-#include <Arduino.h>
-#include <HardwareSerial.h>
-*/
+
+//#include <Arduino.h> // Enable on Hardware
+//#include <HardwareSerial.h> // Enable on Hardware
 
 void TIME::print()
 {

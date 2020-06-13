@@ -7,17 +7,17 @@ namespace par
 {
 
 // pins
-const short PUMP        = A0;
-const short VALVETOP    = A1;
-const short VALVEBOTTOM = A2;
-const short SWITCH      = 7;
-const short WATER       = 3;
-const short WATERLEVEL  = 4;
-const short MEASURE_WL  = 5;
-const short TEMPERATURE = 6;
+const byte PUMP        = A0;
+const byte VALVETOP    = A1;
+const byte VALVEBOTTOM = A2;
+const byte SWITCH      = 7;
+const byte WATER       = 3;
+const byte WATERLEVEL  = 4;
+const byte MEASURE_WL  = 5;
+const byte TEMPERATURE = 6;
 
 // SD-pins
-const short CHIPSELECT = 10;  // SD-Card Pin for Arduino Uno
+const byte CHIPSELECT = 10;  // SD-Card Pin for Arduino Uno
 
 // Watering parameters for top plants
 const float maxTemp                  = 55.0F;
@@ -43,7 +43,7 @@ const unsigned int timeLowTempBottom = 3000;
 // Water Times
 const TIME t1_water(11, 30);
 const TIME t2_water(15, 30);
-const unsigned int t_valve    = 100;
+const byte t_valve            = 100;
 const unsigned int t_half_can = 15000;
 }  // namespace par
 
