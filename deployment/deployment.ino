@@ -51,7 +51,7 @@ void setup()  // Enable on Hardware
         current_state_water = true;
     }
 
-    Serial.println("\n\nStart of Program:");
+    Serial.println(F("\n\nStart of Program:"));
     Serial.println("-----------------\n");
 }  // Enable on Hardware
 
@@ -63,7 +63,6 @@ TIME t_min(0, 1), t1(0, 0), t2(0, 0), t_buffer(0, 0);
 
 void loop()  // Enable on Hardware
 {            // Enable on Hardware
-
     counter++;
     if ((counter % 4000) == 0)
     {
@@ -82,7 +81,7 @@ void loop()  // Enable on Hardware
     // the manual tube attached for which this feature is designed
     if (switch_on && water_on)
     {
-        Serial.println("pumpWater single Function!");
+        Serial.println(F("pumpWater single Function!"));
         PumpControl.pumpWater(par::t_half_can, par::VALVETOP, par::t_valve);
     }
 

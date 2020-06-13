@@ -17,7 +17,7 @@ void TIME::println()
     Serial.print(":");
     Serial.println(min);
 }
-
+/*
 unsigned long TIME::Time2Ticks()
 {
     unsigned long ticks = 0;
@@ -33,7 +33,7 @@ unsigned long TIME::Time2Ticks()
 
     return (ticks);
 }
-
+*/
 bool TIME::operator>(const TIME& c)
 {
     if (h > c.h)
