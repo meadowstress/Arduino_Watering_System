@@ -64,6 +64,8 @@ class WaterSystem
     String getSDFileName();
     void printToSDFile(const String input);
     void printToSDFile(const byte input);
+    void printlnToSDFile(const String input);
+    void printlnToSDFile(const byte input);
 };
 
 // function headers

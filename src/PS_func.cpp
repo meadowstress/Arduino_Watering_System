@@ -53,6 +53,23 @@ void WaterSystem::printToSDFile(const String input)
     }
 }
 
+void WaterSystem::printlnToSDFile(const String input)
+{
+    File logFile;
+    String fname = getSDFileName();
+    if (isSDCardOk())
+    {
+        logFile = SD.open(fname, FILE_WRITE);
+        logFile.print(input);
+        logFile.print("\n");
+        logFile.close();
+    }
+    else
+    {
+        Serial.println("\nWriting to SD Card not successful!\n");
+    }
+}
+
 void WaterSystem::printToSDFile(const byte input)
 {
     File logFile;
@@ -62,6 +79,24 @@ void WaterSystem::printToSDFile(const byte input)
     {
         logFile = SD.open(fname, FILE_WRITE);
         logFile.print(input);
+        logFile.close();
+    }
+    else
+    {
+        Serial.println("\nWriting to SD Card not successful!\n");
+    }
+}
+
+void WaterSystem::printlnToSDFile(const byte input)
+{
+    File logFile;
+    String fname = getSDFileName();
+
+    if (isSDCardOk())
+    {
+        logFile = SD.open(fname, FILE_WRITE);
+        logFile.print(input);
+        logFile.print("\n");
         logFile.close();
     }
     else
@@ -110,10 +145,18 @@ void printCyclicSystemInfo()
     // Watering Parameters
     Serial.print(F("Watering Parameters: "));
     Serial.print(F("t1_water = "));
+
+    PumpControl.printToSDFile(F("Watering Parameters: "));
+    PumpControl.printToSDFile(F("t1_water = "));
+
     t1 = par::t1_water;
     t1.print();  // print function not defined for const times
     Serial.print(F("; "));
     Serial.print(F("t2_water = "));
+
+    PumpControl.printToSDFile(F("; "));
+    PumpControl.printToSDFile(F("t2_water = "));
+
     t2 = par::t2_water;
     t2.println();  // print function not defined for const times
 
@@ -121,12 +164,20 @@ void printCyclicSystemInfo()
     ms = PumpControl.getWaterTimeTop();
     Serial.print(F("Current chosen ms for top watering: "));
     Serial.println(ms);
+
+    PumpControl.printlnToSDFile(ms);
+    PumpControl.printToSDFile(F("Current chosen ms for top watering: "));
+    PumpControl.printToSDFile(ms);
+
     ms = PumpControl.getWaterTimeBottom();
     Serial.print(F("Current chosen ms for bottom watering: "));
     Serial.println(ms);
-
     // distance to next cyclic message
     Serial.println(F(""));
+
+    PumpControl.printToSDFile(F("Current chosen ms for bottom watering: "));
+    PumpControl.printToSDFile(ms);
+    PumpControl.printlnToSDFile("");
 }
 
 // Hold logic
@@ -173,10 +224,14 @@ int WaterSystem::pumpWater(unsigned int pump_time,
     if (switch_on && water_level_ok)
     {
         Serial.println(F("Open Valve!"));
+        PumpControl.printlnToSDFile(F("Open Valve!"));
+
         digitalWrite(valve_pin, LOW);
         holdState(valve_time);
 
         Serial.println(F("Pump Water!"));
+        PumpControl.printlnToSDFile(F("Pump Water!"));
+
         digitalWrite(par::PUMP, LOW);  // pumping starts
         water_flag = holdState(pump_time);
         digitalWrite(par::PUMP, HIGH);  // pumping ends
@@ -184,7 +239,9 @@ int WaterSystem::pumpWater(unsigned int pump_time,
         holdState(valve_time);
         digitalWrite(valve_pin, HIGH);  // closing Valve
         water_on = false;               // state for interupt!
+
         Serial.println(F(""));
+        PumpControl.printlnToSDFile(F(""));
     }
 
     if (water_flag == true)
@@ -227,6 +284,28 @@ int WaterSystem::pumpWaterClock()
             Serial.print(getWaterTimeBottom());
             Serial.println(F(" ms"));
             Serial.println(F(""));
+
+            PumpControl.printlnToSDFile(F(""));
+            PumpControl.printToSDFile(DateTime.day);
+            PumpControl.printToSDFile(F("."));
+            PumpControl.printToSDFile(DateTime.month);
+            PumpControl.printToSDFile(F("."));
+            PumpControl.printToSDFile(DateTime.year);
+            PumpControl.printToSDFile(F(": "));
+            PumpControl.printToSDFile(DateTime.hour);
+            PumpControl.printToSDFile(F(":"));
+            PumpControl.printToSDFile(DateTime.minute);
+            PumpControl.printToSDFile(F("   "));
+            PumpControl.printToSDFile(F("Temperature = "));
+            PumpControl.printToSDFile(getTemperature());
+            PumpControl.printlnToSDFile(F(" Celsius"));
+            PumpControl.printToSDFile(F("WaterTimeTop = "));
+            PumpControl.printToSDFile(getWaterTimeTop());
+            PumpControl.printlnToSDFile(F(" ms"));
+            PumpControl.printToSDFile(F("WaterTimeBottom = "));
+            PumpControl.printToSDFile(getWaterTimeBottom());
+            PumpControl.printlnToSDFile(F(" ms"));
+            PumpControl.printlnToSDFile(F(""));
 
             water_counter +=
                 pumpWater(getWaterTimeTop(), par::VALVETOP, par::t_valve);
@@ -318,31 +397,41 @@ unsigned int WaterSystem::getWaterTimeTop()
     {
         water_time_ms = par::timeMaxTempTop;
         Serial.println(F("Chosen Time Constant = par::timeMaxTempTop"));
+        PumpControl.printlnToSDFile(
+            F("Chosen Time Constant = par::timeMaxTempTop"));
     }
     else if (temperature >= par::temp4)
     {
         water_time_ms = par::timeTemp4Top;
         Serial.println(F("Chosen Time Constant = par::timeTemp4Top"));
+        PumpControl.printlnToSDFile(
+            F("Chosen Time Constant = par::timeTemp4Top"));
     }
     else if (temperature >= par::temp3)
     {
         water_time_ms = par::timeTemp3Top;
         Serial.println(F("Chosen Time Constant = par::timeTemp3Top"));
+        PumpControl.printlnToSDFile(
+            F("Chosen Time Constant = par::timeTemp3Top"));
     }
     else if (temperature >= par::temp2)
     {
         water_time_ms = par::timeTemp2Top;
         Serial.println(F("Chosen Time Constant = par::timeTemp2Top"));
+        PumpControl.printlnToSDFile(
+            F("Chosen Time Constant = par::timeTemp2Top"));
     }
     else if (temperature >= par::lowTemp)
     {
         water_time_ms = par::timeLowTempTop;
         Serial.println(F("Chosen Time Constant = par::lowTemp"));
+        PumpControl.printlnToSDFile(F("Chosen Time Constant = par::lowTemp"));
     }
     else
     {
         water_time_ms = 0;
         Serial.println(F("No Watering Temperature too low!"));
+        PumpControl.printlnToSDFile(F("No Watering Temperature too low!"));
     }
     return water_time_ms;
 }
@@ -359,31 +448,42 @@ unsigned int WaterSystem::getWaterTimeBottom()
     {
         water_time_ms = par::timeMaxTempBottom;
         Serial.println(F("Chosen Time Constant = par::timeMaxTempBottom"));
+        PumpControl.printlnToSDFile(
+            F("Chosen Time Constant = par::timeMaxTempBottom"));
     }
     else if (temperature >= par::temp4)
     {
         water_time_ms = par::timeTemp4Bottom;
         Serial.println(F("Chosen Time Constant = par::timeTemp4Bottom"));
+        PumpControl.printlnToSDFile(
+            F("Chosen Time Constant = par::timeTemp4Bottom"));
     }
     else if (temperature >= par::temp3)
     {
         water_time_ms = par::timeTemp3Bottom;
         Serial.println(F("Chosen Time Constant = par::timeTemp3Bottom"));
+        PumpControl.printlnToSDFile(
+            F("Chosen Time Constant = par::timeTemp3Bottom"));
     }
     else if (temperature >= par::temp2)
     {
         water_time_ms = par::timeTemp2Bottom;
         Serial.println(F("Chosen Time Constant = par::timeTemp2Bottom"));
+        PumpControl.printlnToSDFile(
+            F("Chosen Time Constant = par::timeTemp2Bottom"));
     }
     else if (temperature >= par::lowTemp)
     {
         water_time_ms = par::timeLowTempBottom;
         Serial.println(F("Chosen Time Constant = par::timeLowTempBottom"));
+        PumpControl.printlnToSDFile(
+            F("Chosen Time Constant = par::timeLowTempBottom"));
     }
     else
     {
         water_time_ms = 0;
         Serial.println(F("No Watering Temperature too low!"));
+        PumpControl.printlnToSDFile(F("No Watering Temperature too low!"));
     }
     return water_time_ms;
 }
