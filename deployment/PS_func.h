@@ -43,9 +43,7 @@ class WaterSystem
     ~WaterSystem() {}
 
     int pumpWaterClock();
-    int pumpWater(unsigned int pump_time,
-                  byte valve_pin,
-                  byte valve_time);
+    int pumpWater(unsigned int pump_time, byte valve_pin, byte valve_time);
     bool holdState(unsigned int hold_time);
 
     bool isWaterLevelOk();
@@ -69,7 +67,7 @@ class WaterSystem
 };
 
 // function headers
-void printCyclicSystemInfo(const WaterSystem &PumpControl);
+void printCyclicSystemInfo();
 
 extern WaterSystem PumpControl;
 

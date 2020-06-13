@@ -1,8 +1,8 @@
 #include "time.h"
-//#include "mock_arduino.h" // Enable for Testing
+//#include "mock/mock_arduino.h"  // Enable for Testing
 
-#include <Arduino.h>
-#include <HardwareSerial.h>
+#include <Arduino.h>         // Enable on Hardware
+#include <HardwareSerial.h>  // Enable on Hardware
 
 void TIME::print()
 {
@@ -17,7 +17,7 @@ void TIME::println()
     Serial.print(":");
     Serial.println(min);
 }
-/*
+
 unsigned long TIME::Time2Ticks()
 {
     unsigned long ticks = 0;
@@ -33,7 +33,7 @@ unsigned long TIME::Time2Ticks()
 
     return (ticks);
 }
-*/
+
 bool TIME::operator>(const TIME& c)
 {
     if (h > c.h)

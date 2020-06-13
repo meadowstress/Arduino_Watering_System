@@ -1,5 +1,4 @@
-#include <Wire.h>
-
+#include <Wire.h>  // Enable on Hardware
 //#include "mock/mock_arduino.h"  //Enable for testing
 #include "time.h"
 #include "PS_func.h"
@@ -36,9 +35,10 @@ void setup()  // Enable on Hardware
     pinMode(par::WATER, INPUT);         // Enable on Hardware
     pinMode(par::WATERLEVEL, INPUT);    // Enable on Hardware
     Serial.begin(9600);                 // Enable on Hardware
-    dht.begin();
-    clock_var.begin();
-    pinMode(par::CHIPSELECT, OUTPUT);
+
+    dht.begin();                       // Enable on Hardware
+    clock_var.begin();                 // Enable on Hardware
+    pinMode(par::CHIPSELECT, OUTPUT);  // Enable on Hardware
 
     digitalWrite(par::PUMP, HIGH);         // default no pumping enabled
     digitalWrite(par::VALVETOP, HIGH);     // default no pumping enabled
@@ -53,6 +53,7 @@ void setup()  // Enable on Hardware
 
     Serial.println(F("\n\nStart of Program:"));
     Serial.println("-----------------\n");
+
 }  // Enable on Hardware
 
 unsigned long counter = 0;
@@ -63,10 +64,11 @@ TIME t_min(0, 1), t1(0, 0), t2(0, 0), t_buffer(0, 0);
 
 void loop()  // Enable on Hardware
 {            // Enable on Hardware
+
     counter++;
     if ((counter % 4000) == 0)
     {
-        printCyclicSystemInfo(PumpControl);
+        printCyclicSystemInfo();
     }
 
     // configuration settings - change time here
@@ -104,8 +106,8 @@ void loop()  // Enable on Hardware
     t_buffer = par::t2_water;
     t2       = t_buffer + t_min;  // add operator not defined for const times
 
-    // TODO timer_water_flag solution doesn't work when t1 and t2 is only 1
-    // minute apart - apply fix if possible
+    // TODO timer_water_flag solution doesn't work when t1 and t2 is
+    // only 1 minute apart - apply fix if possible
 
     // reset timer_water_flag after the minute of watering is past
     if ((PumpControl.getCurrentLocalTime() == t1) ||

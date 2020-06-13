@@ -11,7 +11,6 @@
 #include <SPI.h>
 #include <SD.h>
 
-
 bool WaterSystem::isSDCardOk()
 {
     bool isSDCardOk = SD.begin(par::CHIPSELECT);
@@ -21,10 +20,17 @@ bool WaterSystem::isSDCardOk()
 String WaterSystem::getSDFileName()
 {
     // using global time variable for date
+
+    // Enable on Hardware
     String year  = String(DateTime.year);
     String month = String(DateTime.month);
     String day   = String(DateTime.day);
 
+    /*  // Enable for Testing
+        String year  = to_string(DateTime.year);
+        String month = to_string(DateTime.month);
+        String day   = to_string(DateTime.day);
+    */
     String fname = year + month + day;
     return (fname);
 }
@@ -64,7 +70,7 @@ void WaterSystem::printToSDFile(const byte input)
 }
 
 // support function
-void printCyclicSystemInfo(const WaterSystem &PumpControl)
+void printCyclicSystemInfo()
 {
     TIME t1(0, 0), t2(0, 0);
     unsigned int ms = 0;
