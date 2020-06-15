@@ -21,15 +21,39 @@ String WaterSystem::getSDFileName()
 {
     // using global time variable for date
 
-    String year  = String(DateTime.year);   // Enable on Hardware
+    // just take the last 2 digits of the year
+    unsigned int y = DateTime.year % 100;
+
+    String year  = String(y);               // Enable on Hardware
     String month = String(DateTime.month);  // Enable on Hardware
     String day   = String(DateTime.day);    // Enable on Hardware
-                                            /*
-                                                String year  = to_string(DateTime.year);   // Enable for Testing
-                                                String month = to_string(DateTime.month);  // Enable for Testing
-                                                String day   = to_string(DateTime.day);    // Enable for Testing
-                                            */
-    String fname = year + month + day;
+
+    // String year  = to_string(y);               // Enable on Hardware
+    // String month = to_string(DateTime.month);  // Enable on Hardware
+    // String day   = to_string(DateTime.day);    // Enable on Hardware
+
+    // always have two digits for month e.g. 06
+    if (DateTime.month < 10)
+    {
+        month = "0" + month;
+    }
+    else
+    {
+        // do nothing
+    }
+
+    // always have two digits for day e.g. 07
+    if (DateTime.day < 10)
+    {
+        day = "0" + day;
+    }
+    else
+    {
+        // do nothing
+    }
+
+    // date format year-month-day e.g. 20-06-07
+    String fname = year + "-" + month + "-" + day;
     return (fname);
 }
 
