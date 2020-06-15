@@ -64,3 +64,16 @@ Hardware Libraries
 The hardware Libraries for the DHT22 temperature sensor and the DS3231 real time
 clock can be found in the library manager in the arduino development environ-
 ment.
+
+SD-Card Reader
+==============
+
+For preparing the SD card for the SD-Card reader follow the instructions found
+here:
+
+https://www.arduino.cc/en/Reference/SDCardNotes
+
+Find the sdcard path to the drive with the command "df" in the shell.
+Then in my case the command for formating the SD card with FAT32 is:
+
+sudo mkdosfs -F 32 /dev/mmcblk0p1
