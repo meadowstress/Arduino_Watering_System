@@ -69,7 +69,8 @@ class WaterSystem
 };
 
 // function headers
-void printCyclicSystemInfo();
+void printSystemInfo();
+void logSDData();
 
 extern WaterSystem PumpControl;
 

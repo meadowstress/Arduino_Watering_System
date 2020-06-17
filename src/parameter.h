@@ -43,6 +43,7 @@ const unsigned int timeLowTempBottom = 4000;
 // Water Times
 const TIME t1_water(11, 30);
 const TIME t2_water(15, 30);
+const TIME logging_time(6, 00);
 const byte t_valve            = 100;
 const unsigned int t_half_can = 15000;
 }  // namespace par

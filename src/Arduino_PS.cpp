@@ -71,7 +71,7 @@ int main(void)  // Enable for Testing
         counter++;
         if ((counter % 4000) == 0)
         {
-            printCyclicSystemInfo();
+            printSystemInfo();
         }
 
         // configuration settings - change time here
@@ -99,6 +99,14 @@ int main(void)  // Enable for Testing
             timer_water_flag)
         {
             PumpControl.pumpWaterClock();
+            timer_water_flag = false;
+        }
+
+        // At least log data once a day even without watering
+        if ((PumpControl.getCurrentLocalTime() == par::logging_time) &&
+            timer_water_flag)
+        {
+            logSDData();
             timer_water_flag = false;
         }
 

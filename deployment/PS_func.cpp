@@ -127,7 +127,7 @@ void WaterSystem::printlnToSDFile(const int input)
 }
 
 // support function
-void printCyclicSystemInfo()
+void printSystemInfo()
 {
     TIME t1(0, 0), t2(0, 0);
     unsigned int ms = 0;
@@ -143,6 +143,41 @@ void printCyclicSystemInfo()
     Serial.print(DateTime.minute);
     Serial.print(F("   "));
 
+    // Temperature
+    Serial.print(F("Temperature = "));
+    Serial.print(PumpControl.getTemperature());
+    Serial.print(F(" Celsius\n"));
+
+    // Watering Parameters
+    Serial.print(F("Watering Parameters: "));
+    Serial.print(F("t1_water = "));
+
+    t1 = par::t1_water;
+    t1.print();  // print function not defined for const times
+    Serial.print(F("; "));
+    Serial.print(F("t2_water = "));
+
+    t2 = par::t2_water;
+    t2.println();  // print function not defined for const times
+
+    // Currently selected Temperature Range
+    ms = PumpControl.getWaterTimeTop();
+    Serial.print(F("Current chosen ms for top watering: "));
+    Serial.println(ms);
+
+    ms = PumpControl.getWaterTimeBottom();
+    Serial.print(F("Current chosen ms for bottom watering: "));
+    Serial.println(ms);
+    // distance to next cyclic message
+    Serial.println(F(""));
+}
+
+void logSDData()
+{
+    TIME t1(0, 0), t2(0, 0);
+    unsigned int ms = 0;
+
+    // Currently selected Temperature Range
     PumpControl.printToSDFile(DateTime.day);
     PumpControl.printToSDFile(F("."));
     PumpControl.printToSDFile(DateTime.month);
@@ -154,47 +189,25 @@ void printCyclicSystemInfo()
     PumpControl.printToSDFile(DateTime.minute);
     PumpControl.printToSDFile(F("   "));
 
-    // Temperature
-    Serial.print(F("Temperature = "));
-    Serial.print(PumpControl.getTemperature());
-    Serial.print(F(" Celsius\n"));
-
     PumpControl.printToSDFile(F("Temperature = "));
     PumpControl.printToSDFile(PumpControl.getTemperature());
     PumpControl.printToSDFile(F(" Celsius\n"));
 
-    // Watering Parameters
-    Serial.print(F("Watering Parameters: "));
-    Serial.print(F("t1_water = "));
-
     PumpControl.printToSDFile(F("Watering Parameters: "));
     PumpControl.printToSDFile(F("t1_water = "));
-
     t1 = par::t1_water;
     t1.print();  // print function not defined for const times
-    Serial.print(F("; "));
-    Serial.print(F("t2_water = "));
 
     PumpControl.printToSDFile(F("; "));
     PumpControl.printToSDFile(F("t2_water = "));
-
     t2 = par::t2_water;
     t2.println();  // print function not defined for const times
 
-    // Currently selected Temperature Range
     ms = PumpControl.getWaterTimeTop();
-    Serial.print(F("Current chosen ms for top watering: "));
-    Serial.println(ms);
-
     PumpControl.printToSDFile(F("Current chosen ms for top watering: "));
     PumpControl.printlnToSDFile(ms);
 
     ms = PumpControl.getWaterTimeBottom();
-    Serial.print(F("Current chosen ms for bottom watering: "));
-    Serial.println(ms);
-    // distance to next cyclic message
-    Serial.println(F(""));
-
     PumpControl.printToSDFile(F("Current chosen ms for bottom watering: "));
     PumpControl.printlnToSDFile(ms);
     PumpControl.printlnToSDFile("");
@@ -243,6 +256,7 @@ int WaterSystem::pumpWater(unsigned int pump_time,
 
     if (switch_on && water_level_ok)
     {
+        logSDData();
         Serial.println(F("Open Valve!"));
         PumpControl.printlnToSDFile(F("Open Valve!"));
 
@@ -283,49 +297,10 @@ int WaterSystem::pumpWaterClock()
         if (switch_on && water_level_ok && isAutomaticWateringEnabled())
         {
             DateTime = clock_var.getDateTime();
-            Serial.println(F(""));
-            Serial.print(DateTime.day);
-            Serial.print(F("."));
-            Serial.print(DateTime.month);
-            Serial.print(F("."));
-            Serial.print(DateTime.year);
-            Serial.print(F(": "));
-            Serial.print(DateTime.hour);
-            Serial.print(F(":"));
-            Serial.print(DateTime.minute);
-            Serial.print(F("   "));
-            Serial.print(F("Temperature = "));
-            Serial.print(getTemperature());
-            Serial.println(F(" Celsius"));
-            Serial.print(F("WaterTimeTop = "));
-            Serial.print(getWaterTimeTop());
-            Serial.println(F(" ms"));
-            Serial.print(F("WaterTimeBottom = "));
-            Serial.print(getWaterTimeBottom());
-            Serial.println(F(" ms"));
-            Serial.println(F(""));
 
-            PumpControl.printlnToSDFile(F(""));
-            PumpControl.printToSDFile(DateTime.day);
-            PumpControl.printToSDFile(F("."));
-            PumpControl.printToSDFile(DateTime.month);
-            PumpControl.printToSDFile(F("."));
-            PumpControl.printToSDFile(DateTime.year);
-            PumpControl.printToSDFile(F(": "));
-            PumpControl.printToSDFile(DateTime.hour);
-            PumpControl.printToSDFile(F(":"));
-            PumpControl.printToSDFile(DateTime.minute);
-            PumpControl.printToSDFile(F("   "));
-            PumpControl.printToSDFile(F("Temperature = "));
-            PumpControl.printToSDFile(getTemperature());
-            PumpControl.printlnToSDFile(F(" Celsius"));
-            PumpControl.printToSDFile(F("WaterTimeTop = "));
-            PumpControl.printToSDFile(getWaterTimeTop());
-            PumpControl.printlnToSDFile(F(" ms"));
-            PumpControl.printToSDFile(F("WaterTimeBottom = "));
-            PumpControl.printToSDFile(getWaterTimeBottom());
-            PumpControl.printlnToSDFile(F(" ms"));
-            PumpControl.printlnToSDFile(F(""));
+            // log data
+            printSystemInfo();
+            logSDData();
 
             water_counter +=
                 pumpWater(getWaterTimeTop(), par::VALVETOP, par::t_valve);
@@ -344,7 +319,8 @@ bool WaterSystem::isWaterLevelOk()
       int level_Ok = false;
       digitalWrite(par::MEASURE_WL, LOW); //measurement current switched on
       level_Ok = digitalRead(WATERLEVEL);
-      digitalWrite(par::MEASURE_WL, HIGH); //measurement current switched off
+      digitalWrite(par::MEASURE_WL, HIGH); //measurement current switched
+      off
 
       if(level_Ok == LOW)
       {
@@ -381,6 +357,10 @@ bool WaterSystem::isWaterActivated()
 
     if (current_state_water != pre_state_water)
     {
+        logSDData();
+        Serial.println(F("Manual Watering enabled!"));
+        PumpControl.printlnToSDFile(F("Manual Watering enabled!\n"));
+
         pre_state_water = current_state_water;
         return true;
     }
