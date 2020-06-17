@@ -10,10 +10,6 @@ void TIME::print()
     Serial.print(h);
     Serial.print(":");
     Serial.print(min);
-
-    PumpControl.printToSDFile(h);
-    PumpControl.printToSDFile(":");
-    PumpControl.printToSDFile(min);
 }
 
 void TIME::println()
@@ -21,7 +17,17 @@ void TIME::println()
     Serial.print(h);
     Serial.print(":");
     Serial.println(min);
+}
 
+void TIME::printSD()
+{
+    PumpControl.printToSDFile(h);
+    PumpControl.printToSDFile(":");
+    PumpControl.printToSDFile(min);
+}
+
+void TIME::printlnSD()
+{
     PumpControl.printToSDFile(h);
     PumpControl.printToSDFile(":");
     PumpControl.printlnToSDFile(min);

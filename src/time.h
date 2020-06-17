@@ -53,6 +53,8 @@ class TIME
 
     void print();
     void println();
+    void printSD();
+    void printlnSD();
     unsigned long Time2Ticks();
     bool operator>(const TIME& c);
     bool operator>=(const TIME& c);
