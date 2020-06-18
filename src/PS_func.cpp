@@ -260,6 +260,7 @@ int WaterSystem::pumpWater(unsigned int pump_time,
 
     if (switch_on && water_level_ok)
     {
+        Serial.println(F("\nManual watering enabled!"));
         Serial.println(F("Open Valve!"));
 
         digitalWrite(valve_pin, LOW);
@@ -276,10 +277,11 @@ int WaterSystem::pumpWater(unsigned int pump_time,
         digitalWrite(valve_pin, HIGH);  // closing Valve
         water_on = false;               // state for interupt
 
+        // log data to SD card
+        PumpControl.printlnToSDFile(F("\nManual watering enabled!"));
         PumpControl.printlnToSDFile(F("Open Valve!"));
         PumpControl.printlnToSDFile(F("Pump Water!"));
         PumpControl.printlnToSDFile(F("Close Valve!\n"));
-
         logSDData();
     }
 

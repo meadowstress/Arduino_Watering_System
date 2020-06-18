@@ -91,10 +91,6 @@ void loop()  // Enable on Hardware
     if (switch_on && water_on)
     {
         PumpControl.pumpWater(par::t_half_can, par::VALVETOP, par::t_valve);
-
-        Serial.println(F("\nManual watering enabled!"));
-        PumpControl.printlnToSDFile(F("\nManual watering enabled!"));
-        logSDData();
     }
 
     // Watering according to timer
