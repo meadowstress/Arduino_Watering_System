@@ -68,12 +68,6 @@ int main(void)  // Enable for Testing
         //        void loop()  // Enable on Hardware
         //        {            // Enable on Hardware
 
-        counter++;
-        if ((counter % 4000) == 0)
-        {
-            printSystemInfo();
-        }
-
         // configuration settings - change time here
         timer_on = true;  // software switch for pump timer function
 
@@ -81,13 +75,28 @@ int main(void)  // Enable for Testing
         switch_on = PumpControl.isSystemSwitchedOn();
         water_on  = PumpControl.isWaterActivated();
 
+        // log System Info
+        counter++;
+        if ((counter % 4000) == 0)
+        {
+            printSystemInfo();
+
+            if (!switch_on)
+            {
+                logSDData();
+            }
+        }
+
         // Manual watering
         // applied only to valve for top plants since there is
         // the manual tube attached for which this feature is designed
         if (switch_on && water_on)
         {
-            Serial.println(F("pumpWater single Function!"));
             PumpControl.pumpWater(par::t_half_can, par::VALVETOP, par::t_valve);
+
+            Serial.println(F("\nManual watering enabled!"));
+            PumpControl.printlnToSDFile(F("\nManual watering enabled!"));
+            logSDData();
         }
 
         // Watering according to timer

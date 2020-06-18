@@ -256,26 +256,27 @@ int WaterSystem::pumpWater(unsigned int pump_time,
 
     if (switch_on && water_level_ok)
     {
-        logSDData();
         Serial.println(F("Open Valve!"));
-        PumpControl.printlnToSDFile(F("Open Valve!"));
 
         digitalWrite(valve_pin, LOW);
         holdState(valve_time);
 
         Serial.println(F("Pump Water!"));
-        PumpControl.printlnToSDFile(F("Pump Water!"));
 
         digitalWrite(par::PUMP, LOW);  // pumping starts
         water_flag = holdState(pump_time);
         digitalWrite(par::PUMP, HIGH);  // pumping ends
 
         holdState(valve_time);
+        Serial.println(F("Close Valve!\n"));
         digitalWrite(valve_pin, HIGH);  // closing Valve
-        water_on = false;               // state for interupt!
+        water_on = false;               // state for interupt
 
-        Serial.println(F(""));
-        PumpControl.printlnToSDFile(F(""));
+        PumpControl.printlnToSDFile(F("Open Valve!"));
+        PumpControl.printlnToSDFile(F("Pump Water!"));
+        PumpControl.printlnToSDFile(F("Close Valve!\n"));
+
+        logSDData();
     }
 
     if (water_flag == true)
@@ -298,14 +299,14 @@ int WaterSystem::pumpWaterClock()
         {
             DateTime = clock_var.getDateTime();
 
-            // log data
-            printSystemInfo();
-            logSDData();
-
             water_counter +=
                 pumpWater(getWaterTimeTop(), par::VALVETOP, par::t_valve);
             water_counter +=
                 pumpWater(getWaterTimeBottom(), par::VALVEBOTTOM, par::t_valve);
+
+            // log data
+            printSystemInfo();
+            logSDData();
         }
     }
 
@@ -357,9 +358,7 @@ bool WaterSystem::isWaterActivated()
 
     if (current_state_water != pre_state_water)
     {
-        logSDData();
         Serial.println(F("Manual Watering enabled!"));
-        PumpControl.printlnToSDFile(F("Manual Watering enabled!\n"));
 
         pre_state_water = current_state_water;
         return true;
