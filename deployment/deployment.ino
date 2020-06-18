@@ -110,11 +110,17 @@ void loop()  // Enable on Hardware
     }
 
     // At least log data once a day even without watering
-    if ((PumpControl.getCurrentLocalTime() == par::logging_time) &&
-        timer_water_flag)
+    if ((PumpControl.getCurrentLocalTime() == par::logging_time) ||
+        (PumpControl.getCurrentLocalTime() == par::t1_water) ||
+        (PumpControl.getCurrentLocalTime() == par::t2_water))
     {
-        logSDData();
-        timer_water_flag = false;
+        // timer_water_flag must not be touched that is why an modulo
+        // logic is needed until the time resolution of 1 second is
+        // implemented
+        if ((counter % 2000) == 0)
+        {
+            logSDData();
+        }
     }
 
     // buffer needed because par::t1::water is const and overloading of
