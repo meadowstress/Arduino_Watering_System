@@ -179,6 +179,8 @@ void logSDData()
     TIME t1(0, 0), t2(0, 0);
     unsigned int ms = 0;
 
+    Serial.print(F("\nWriting to SD...\n"));
+
     // Currently selected Temperature Range
     PumpControl.printToSDFile(DateTime.day);
     PumpControl.printToSDFile(F("."));
