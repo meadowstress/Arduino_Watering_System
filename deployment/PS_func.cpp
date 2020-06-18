@@ -362,8 +362,6 @@ bool WaterSystem::isWaterActivated()
 
     if (current_state_water != pre_state_water)
     {
-        Serial.println(F("Manual Watering enabled!"));
-
         pre_state_water = current_state_water;
         return true;
     }
