@@ -60,7 +60,7 @@ int main(void)  // Enable for Testing
     //}  // Enable on Hardware
 
     unsigned long counter = 0;
-    TIME t_min(0, 1), t1(0, 0), t2(0, 0), t_buffer(0, 0);
+    TIME t_min(0, 1, 0), t1(0, 0, 0), t2(0, 0, 0), t_buffer(0, 0, 0);
 
     for (int i = 0; i < 12000; i++)  // enable for Testing
     {                                // enable for Testing

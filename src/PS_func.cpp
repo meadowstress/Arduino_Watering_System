@@ -131,7 +131,7 @@ void WaterSystem::printlnToSDFile(const int input)
 // support function
 void printSystemInfo()
 {
-    TIME t1(0, 0), t2(0, 0);
+    TIME t1(0, 0, 0), t2(0, 0, 0);
     unsigned int ms = 0;
 
     Serial.print(DateTime.day);
@@ -176,7 +176,7 @@ void printSystemInfo()
 
 void logSDData()
 {
-    TIME t1(0, 0), t2(0, 0);
+    TIME t1(0, 0, 0), t2(0, 0, 0);
     unsigned int ms = 0;
 
     Serial.print(F("\nWriting to SD...\n"));
@@ -474,7 +474,7 @@ unsigned int WaterSystem::getWaterTimeBottom()
 
 TIME WaterSystem::getCurrentLocalTime()
 {
-    TIME t(0, 0);
+    TIME t(0, 0, 0);
     DateTime = clock_var.getDateTime();
 
     t.set_H(DateTime.hour);

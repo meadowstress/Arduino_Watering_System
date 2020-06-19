@@ -270,7 +270,7 @@ TEST_F(WaterSystemTest, Pump_Water_Clock_low_temperature)
 
 TEST_F(WaterSystemTest, systemTime_getLocalTime)
 {
-    TIME t(0, 0);
+    TIME t(0, 0, 0);
 
     temperature_value = 20.0F;
     switch_state      = true;
