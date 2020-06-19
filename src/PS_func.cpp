@@ -215,6 +215,8 @@ void logSDData()
     PumpControl.printToSDFile(F("Current chosen ms for bottom watering: "));
     PumpControl.printlnToSDFile(ms);
     PumpControl.printlnToSDFile("");
+
+    Serial.print(F("...writing to SD finished!\n"));
 }
 
 // Hold logic
