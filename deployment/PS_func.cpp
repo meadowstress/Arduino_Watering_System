@@ -24,13 +24,15 @@ String WaterSystem::getSDFileName()
     // just take the last 2 digits of the year
     unsigned int y = DateTime.year % 100;
 
-    String year  = String(y);               // Enable on Hardware
-    String month = String(DateTime.month);  // Enable on Hardware
-    String day   = String(DateTime.day);    // Enable on Hardware
+    /*
+    String year  = String(y);    // Enable on Hardware
+    String month = String(DateTime.month);   // Enable on Hardware
+    String day   = String(DateTime.day);     // Enable on Hardware
+    */
 
-    // String year  = to_string(y);               // Enable on Hardware
-    // String month = to_string(DateTime.month);  // Enable on Hardware
-    // String day   = to_string(DateTime.day);    // Enable on Hardware
+    String year  = to_string(y);               // Enable on Hardware
+    String month = to_string(DateTime.month);  // Enable on Hardware
+    String day   = to_string(DateTime.day);    // Enable on Hardware
 
     // always have two digits for month e.g. 06
     if (DateTime.month < 10)
@@ -129,7 +131,7 @@ void WaterSystem::printlnToSDFile(const int input)
 // support function
 void printSystemInfo()
 {
-    TIME t1(0, 0), t2(0, 0);
+    TIME t1(0, 0, 0), t2(0, 0, 0);
     unsigned int ms = 0;
 
     Serial.print(DateTime.day);
@@ -174,7 +176,7 @@ void printSystemInfo()
 
 void logSDData()
 {
-    TIME t1(0, 0), t2(0, 0);
+    TIME t1(0, 0, 0), t2(0, 0, 0);
     unsigned int ms = 0;
 
     Serial.print(F("\nWriting to SD...\n"));
@@ -472,10 +474,11 @@ unsigned int WaterSystem::getWaterTimeBottom()
 
 TIME WaterSystem::getCurrentLocalTime()
 {
-    TIME t(0, 0);
+    TIME t(0, 0, 0);
     DateTime = clock_var.getDateTime();
 
     t.set_H(DateTime.hour);
     t.set_Min(DateTime.minute);
+    t.set_Sec(DateTime.second);
     return (t);
 }

@@ -479,5 +479,6 @@ TIME WaterSystem::getCurrentLocalTime()
 
     t.set_H(DateTime.hour);
     t.set_Min(DateTime.minute);
+    t.set_Sec(DateTime.second);
     return (t);
 }
