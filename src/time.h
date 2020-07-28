@@ -65,12 +65,19 @@ class TIME
     void printlnSD();
     unsigned long Time2Ticks();
     bool operator>(const TIME& c);
+    const bool operator>(const TIME& c) const;
     bool operator>=(const TIME& c);
+    const bool operator>=(const TIME& c) const;
     bool operator<(const TIME& c);
+    const bool operator<(const TIME& c) const;
     bool operator<=(const TIME& c);
+    const bool operator<=(const TIME& c) const;
     bool operator==(const TIME& c);
+    const bool operator==(const TIME& c) const;
     TIME operator+(const TIME& t);
+    const TIME operator+(const TIME& t) const;
     TIME operator-(const TIME& t);
+    const TIME operator-(const TIME& t) const;
 };
 
 #endif /* TIME_H_ */
