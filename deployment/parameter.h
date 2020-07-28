@@ -21,29 +21,29 @@ const byte CHIPSELECT = 10;  // SD-Card Pin for Arduino Uno
 
 // Watering parameters for top plants
 const float maxTemp                  = 55.0F;
-const unsigned int timeMaxTempTop    = 60000;
-const unsigned int timeMaxTempBottom = 11000;
+const unsigned int timeMaxTempTop    = 57000;
+const unsigned int timeMaxTempBottom = 55000;
 
 const float temp4                  = 45.0F;
-const unsigned int timeTemp4Top    = 40000;
-const unsigned int timeTemp4Bottom = 9000;
+const unsigned int timeTemp4Top    = 37000;
+const unsigned int timeTemp4Bottom = 25000;
 
 const float temp3                  = 35.0F;
-const unsigned int timeTemp3Top    = 30000;
-const unsigned int timeTemp3Bottom = 6000;
+const unsigned int timeTemp3Top    = 27000;
+const unsigned int timeTemp3Bottom = 25000;
 
 const float temp2                  = 25.0F;
-const unsigned int timeTemp2Top    = 17000;
-const unsigned int timeTemp2Bottom = 5000;
+const unsigned int timeTemp2Top    = 14000;
+const unsigned int timeTemp2Bottom = 14000;
 
 const float lowTemp                  = 20.0F;
-const unsigned int timeLowTempTop    = 10000;
-const unsigned int timeLowTempBottom = 4000;
+const unsigned int timeLowTempTop    = 7000;
+const unsigned int timeLowTempBottom = 8000;
 
 // Water Times
-const TIME t1_water(11, 30);
-const TIME t2_water(15, 30);
-const TIME logging_time(6, 00);
+const TIME t1_water(11, 30, 0);
+const TIME t2_water(15, 30, 0);
+const TIME logging_time(6, 0, 0);
 const byte t_valve            = 100;
 const unsigned int t_half_can = 15000;
 }  // namespace par
