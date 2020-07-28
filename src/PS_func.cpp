@@ -23,16 +23,15 @@ String WaterSystem::getSDFileName()
 
     // just take the last 2 digits of the year
     unsigned int y = DateTime.year % 100;
-
     /*
-    String year  = String(y);    // Enable on Hardware
-    String month = String(DateTime.month);   // Enable on Hardware
-    String day   = String(DateTime.day);     // Enable on Hardware
+        String year  = String(y);               // Enable on Hardware
+        String month = String(DateTime.month);  // Enable on Hardware
+        String day   = String(DateTime.day);    // Enable on Hardware
     */
 
-    String year  = to_string(y);               // Enable on Hardware
-    String month = to_string(DateTime.month);  // Enable on Hardware
-    String day   = to_string(DateTime.day);    // Enable on Hardware
+    String year  = to_string(y);               // Enable for Testing
+    String month = to_string(DateTime.month);  // Enable for Testing
+    String day   = to_string(DateTime.day);    // Enable for Testing
 
     // always have two digits for month e.g. 06
     if (DateTime.month < 10)
@@ -143,6 +142,8 @@ void printSystemInfo()
     Serial.print(DateTime.hour);
     Serial.print(F(":"));
     Serial.print(DateTime.minute);
+    Serial.print(F(":"));
+    Serial.print(DateTime.second);
     Serial.print(F("   "));
 
     // Temperature
@@ -191,6 +192,8 @@ void logSDData()
     PumpControl.printToSDFile(DateTime.hour);
     PumpControl.printToSDFile(F(":"));
     PumpControl.printToSDFile(DateTime.minute);
+    PumpControl.printToSDFile(F(":"));
+    PumpControl.printToSDFile(DateTime.second);
     PumpControl.printToSDFile(F("   "));
 
     PumpControl.printToSDFile(F("Temperature = "));
@@ -262,8 +265,7 @@ int WaterSystem::pumpWater(unsigned int pump_time,
 
     if (switch_on && water_level_ok)
     {
-        Serial.println(F("\nManual watering enabled!"));
-        Serial.println(F("Open Valve!"));
+        Serial.println(F("\n\nOpen Valve!"));
 
         digitalWrite(valve_pin, LOW);
         holdState(valve_time);
@@ -280,8 +282,7 @@ int WaterSystem::pumpWater(unsigned int pump_time,
         water_on = false;               // state for interupt
 
         // log data to SD card
-        PumpControl.printlnToSDFile(F("\nManual watering enabled!"));
-        PumpControl.printlnToSDFile(F("Open Valve!"));
+        PumpControl.printlnToSDFile(F("\n\nOpen Valve!"));
         PumpControl.printlnToSDFile(F("Pump Water!"));
         PumpControl.printlnToSDFile(F("Close Valve!\n"));
         logSDData();
@@ -305,6 +306,8 @@ int WaterSystem::pumpWaterClock()
 
         if (switch_on && water_level_ok && isAutomaticWateringEnabled())
         {
+            Serial.println("\nAutomatic Watering is enabled!\n");
+
             DateTime = clock_var.getDateTime();
 
             water_counter +=
@@ -314,6 +317,8 @@ int WaterSystem::pumpWaterClock()
 
             // log data
             printSystemInfo();
+            PumpControl.printlnToSDFile(
+                F("\nAutomatic Watering is enabled!\n"));
             logSDData();
         }
     }

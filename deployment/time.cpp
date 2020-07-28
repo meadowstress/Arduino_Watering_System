@@ -18,9 +18,9 @@ void TIME::println()
 {
     Serial.print(h);
     Serial.print(":");
-    Serial.println(min);
+    Serial.print(min);
     Serial.print(":");
-    Serial.print(sec);
+    Serial.println(sec);
 }
 
 void TIME::printSD()
@@ -36,7 +36,7 @@ void TIME::printlnSD()
 {
     PumpControl.printToSDFile(h);
     PumpControl.printToSDFile(":");
-    PumpControl.printlnToSDFile(min);
+    PumpControl.printToSDFile(min);
     PumpControl.printToSDFile(":");
     PumpControl.printlnToSDFile(sec);
 }

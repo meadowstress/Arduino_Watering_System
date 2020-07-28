@@ -88,23 +88,14 @@ void loop()  // Enable on Hardware
     // the manual tube attached for which this feature is designed
     if (switch_on && water_on)
     {
+        Serial.println("\nManual Watering is enabled!\n");
         PumpControl.pumpWater(par::t_half_can, par::VALVETOP, par::t_valve);
+        PumpControl.printlnToSDFile(F("\nManual Watering is enabled!\n"));
     }
 
-    // Watering according to timer
-    if (timer_on &&
-        ((PumpControl.getCurrentLocalTime() == par::t1_water) ||
-         (PumpControl.getCurrentLocalTime() == par::t2_water)))
+    if (timer_on)
     {
         PumpControl.pumpWaterClock();
-    }
-
-    // At least log data once a day even without watering
-    if ((PumpControl.getCurrentLocalTime() == par::logging_time) ||
-        (PumpControl.getCurrentLocalTime() == par::t1_water) ||
-        (PumpControl.getCurrentLocalTime() == par::t2_water))
-    {
-        logSDData();
     }
     //}  // Enable for Testing
 }
