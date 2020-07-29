@@ -54,7 +54,7 @@ String WaterSystem::getSDFileName()
     }
 
     // date format year-month-day e.g. 20-06-07
-    String fname = year + "-" + month + "-" + day;
+    String fname = year + "-" + month + "-" + day + ".txt";
     return (fname);
 }
 
