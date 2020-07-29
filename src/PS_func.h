@@ -42,6 +42,7 @@ class WaterSystem
     }
     ~WaterSystem() {}
 
+    int pumpWaterManual();
     int pumpWaterClock();
     int pumpWater(unsigned int pump_time, byte valve_pin, byte valve_time);
     bool holdState(unsigned int hold_time);
@@ -60,6 +61,7 @@ class WaterSystem
     bool getWateringEnabled() { return watering_enabled; }
     bool isAutomaticWateringEnabled();
     TIME getCurrentLocalTime();
+    bool isOneMinutePassed();
     bool isSDCardOk();
     String getSDFileName();
     void printToSDFile(const String input);
@@ -71,6 +73,7 @@ class WaterSystem
 // function headers
 void printSystemInfo();
 void logSDData();
+void logSystemInfo();
 
 extern WaterSystem PumpControl;
 

@@ -111,6 +111,96 @@ TEST_F(WaterSystemTest, PumpWaterSwitchOff)
     ASSERT_EQ(result, 0);
 }
 
+TEST_F(WaterSystemTest, PumpWaterManual)
+{
+    // true-true-true
+    int result = 0;
+    // Waterlevel ok
+    water_level_state = true;
+
+    // condition for switch enabled
+    water_state     = true;
+    pre_state_water = false;
+
+    // On switch activated
+    switch_state = true;
+
+    result = PS_.pumpWaterManual();
+    ASSERT_EQ(result, 1);
+
+    // true-true-false
+    result            = 0;
+    water_level_state = true;
+
+    water_state     = true;
+    pre_state_water = false;
+
+    switch_state = false;
+
+    result = PS_.pumpWaterManual();
+    ASSERT_EQ(result, 0);
+
+    // true-false-true
+    result            = 0;
+    water_level_state = true;
+
+    water_state     = true;
+    pre_state_water = true;
+
+    switch_state = true;
+
+    result = PS_.pumpWaterManual();
+    ASSERT_EQ(result, 0);
+
+    // false-true-true
+    result            = 0;
+    water_level_state = false;
+
+    water_state     = true;
+    pre_state_water = false;
+
+    switch_state = true;
+
+    result = PS_.pumpWaterManual();
+    ASSERT_EQ(result, 1);
+
+    // false-false-true
+    result            = 0;
+    water_level_state = false;
+
+    water_state     = true;
+    pre_state_water = true;
+
+    switch_state = true;
+
+    result = PS_.pumpWaterManual();
+    ASSERT_EQ(result, 0);
+
+    // true-false-false
+    result            = 0;
+    water_level_state = true;
+
+    water_state     = true;
+    pre_state_water = true;
+
+    switch_state = false;
+
+    result = PS_.pumpWaterManual();
+    ASSERT_EQ(result, 0);
+
+    // false-false-false
+    result            = 0;
+    water_level_state = false;
+
+    water_state     = true;
+    pre_state_water = true;
+
+    switch_state = false;
+
+    result = PS_.pumpWaterManual();
+    ASSERT_EQ(result, 0);
+}
+
 // Parameter test for Temperature Ranges of top plants
 struct TemperatureRange
 {
@@ -281,4 +371,42 @@ TEST_F(WaterSystemTest, systemTime_getLocalTime)
     t = PS_.getCurrentLocalTime();
     ASSERT_EQ(t.get_H(), 15);
     ASSERT_EQ(t.get_Min(), 13);
+}
+
+TEST_F(WaterSystemTest, isOneMinutePassed)
+{
+    TIME t(0, 0, 0);
+
+    temperature_value = 20.0F;
+    switch_state      = true;
+
+    current_local_time.hour   = 15;
+    current_local_time.minute = 13;
+    current_local_time.second = 0;
+
+    ASSERT_TRUE(PS_.isOneMinutePassed());
+
+    current_local_time.hour   = 15;
+    current_local_time.minute = 13;
+    current_local_time.second = 1;
+
+    ASSERT_FALSE(PS_.isOneMinutePassed());
+
+    current_local_time.hour   = 15;
+    current_local_time.minute = 13;
+    current_local_time.second = 59;
+
+    ASSERT_FALSE(PS_.isOneMinutePassed());
+
+    current_local_time.hour   = 1;
+    current_local_time.minute = 0;
+    current_local_time.second = 0;
+
+    ASSERT_TRUE(PS_.isOneMinutePassed());
+
+    current_local_time.hour   = 1;
+    current_local_time.minute = 0;
+    current_local_time.second = 1;
+
+    ASSERT_FALSE(PS_.isOneMinutePassed());
 }

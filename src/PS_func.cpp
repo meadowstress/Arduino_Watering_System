@@ -222,6 +222,23 @@ void logSDData()
     Serial.print(F("...writing to SD finished!\n"));
 }
 
+void logSystemInfo()
+{
+    if (PumpControl.isOneMinutePassed())
+    {
+        printSystemInfo();
+
+        if (!switch_on)
+        {
+            logSDData();
+        }
+    }
+    else
+    {
+        // do nothing
+    }
+}
+
 // Hold logic
 bool WaterSystem::holdState(unsigned int hold_time)
 {
@@ -292,6 +309,25 @@ int WaterSystem::pumpWater(unsigned int pump_time,
         return (1);
     else
         return (0);
+}
+
+int WaterSystem::pumpWaterManual()
+{
+    int water_flag = 0;
+
+    switch_on = PumpControl.isSystemSwitchedOn();
+    water_on  = PumpControl.isWaterActivated();
+
+    if (switch_on && water_on)
+    {
+        Serial.println("\nManual Watering is enabled!\n");
+
+        water_flag =
+            PumpControl.pumpWater(par::t_half_can, par::VALVETOP, par::t_valve);
+
+        PumpControl.printlnToSDFile(F("\nManual Watering is enabled!\n"));
+    }
+    return (water_flag);
 }
 
 int WaterSystem::pumpWaterClock()
@@ -486,4 +522,20 @@ TIME WaterSystem::getCurrentLocalTime()
     t.set_Min(DateTime.minute);
     t.set_Sec(DateTime.second);
     return (t);
+}
+
+bool WaterSystem::isOneMinutePassed()
+{
+    TIME t(0, 0, 0);
+
+    t = getCurrentLocalTime();
+
+    if (t.get_Sec() == 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }

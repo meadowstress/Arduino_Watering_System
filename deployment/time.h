@@ -27,6 +27,7 @@ class TIME
     }
     short get_H() { return h; }
     short get_Min() { return min; }
+    short get_Sec() { return sec; }
 
     void set_H(short iH)
     {

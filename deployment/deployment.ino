@@ -11,7 +11,6 @@ bool pre_state_water     = false;
 bool current_state_water = false;
 bool switch_on           = false;
 bool water_on            = false;
-bool timer_on            = false;
 bool water_level_ok      = false;
 
 // global states of external devices
@@ -52,11 +51,9 @@ void setup()  // Enable on Hardware
     }
 
     Serial.println(F("\n\nStart of Program:"));
-    Serial.println("-----------------\n");
+    Serial.println(F("-----------------\n"));
 
 }  // Enable on Hardware
-
-unsigned long counter = 0;
 
 // for (int i = 0; i < 5; i++)  // enable for Testing
 //{                            // enable for Testing
@@ -64,38 +61,15 @@ unsigned long counter = 0;
 void loop()  // Enable on Hardware
 {            // Enable on Hardware
 
-    // configuration settings - change time here
-    timer_on = true;  // software switch for pump timer function
+    // Check if info should be logged
+    logSystemInfo();
 
-    // state logics
-    switch_on = PumpControl.isSystemSwitchedOn();
-    water_on  = PumpControl.isWaterActivated();
-
-    // log System Info
-    counter++;
-    if ((counter % 4000) == 0)
-    {
-        printSystemInfo();
-
-        if (!switch_on)
-        {
-            logSDData();
-        }
-    }
-
-    // Manual watering
+    // Check manual watering
     // applied only to valve for top plants since there is
     // the manual tube attached for which this feature is designed
-    if (switch_on && water_on)
-    {
-        Serial.println("\nManual Watering is enabled!\n");
-        PumpControl.pumpWater(par::t_half_can, par::VALVETOP, par::t_valve);
-        PumpControl.printlnToSDFile(F("\nManual Watering is enabled!\n"));
-    }
+    PumpControl.pumpWaterManual();
 
-    if (timer_on)
-    {
-        PumpControl.pumpWaterClock();
-    }
+    // check automatic watering
+    PumpControl.pumpWaterClock();
     //}  // Enable for Testing
 }
