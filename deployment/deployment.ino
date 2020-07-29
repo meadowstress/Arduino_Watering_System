@@ -20,6 +20,7 @@ DHT dht(par::TEMPERATURE, DHT22);  // Enable for Hardware
 
 // global system variable
 WaterSystem PumpControl;
+unsigned long global_counter = 0;
 
 // int main(void)  // Enable for Testing
 //{               // Enable for Testing

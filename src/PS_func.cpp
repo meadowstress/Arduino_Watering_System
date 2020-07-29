@@ -224,7 +224,7 @@ void logSDData()
 
 void logSystemInfo()
 {
-    if (PumpControl.isOneMinutePassed())
+    if (PumpControl.isLoggingIntervallPassed())
     {
         printSystemInfo();
 
@@ -524,18 +524,16 @@ TIME WaterSystem::getCurrentLocalTime()
     return (t);
 }
 
-bool WaterSystem::isOneMinutePassed()
+bool WaterSystem::isLoggingIntervallPassed()
 {
-    TIME t(0, 0, 0);
-
-    t = getCurrentLocalTime();
-
-    if (t.get_Sec() == 0)
+    if ((global_counter % 4000) == 0)
     {
+        global_counter++;
         return true;
     }
     else
     {
+        global_counter++;
         return false;
     }
 }

@@ -375,38 +375,31 @@ TEST_F(WaterSystemTest, systemTime_getLocalTime)
 
 TEST_F(WaterSystemTest, isOneMinutePassed)
 {
-    TIME t(0, 0, 0);
+    global_counter = 2000;
 
-    temperature_value = 20.0F;
-    switch_state      = true;
+    ASSERT_FALSE(PS_.isLoggingIntervallPassed());
 
-    current_local_time.hour   = 15;
-    current_local_time.minute = 13;
-    current_local_time.second = 0;
+    global_counter = 1999;
 
-    ASSERT_TRUE(PS_.isOneMinutePassed());
+    ASSERT_FALSE(PS_.isLoggingIntervallPassed());
 
-    current_local_time.hour   = 15;
-    current_local_time.minute = 13;
-    current_local_time.second = 1;
+    global_counter = 2001;
 
-    ASSERT_FALSE(PS_.isOneMinutePassed());
+    ASSERT_FALSE(PS_.isLoggingIntervallPassed());
 
-    current_local_time.hour   = 15;
-    current_local_time.minute = 13;
-    current_local_time.second = 59;
+    global_counter = 3999;
 
-    ASSERT_FALSE(PS_.isOneMinutePassed());
+    ASSERT_FALSE(PS_.isLoggingIntervallPassed());
 
-    current_local_time.hour   = 1;
-    current_local_time.minute = 0;
-    current_local_time.second = 0;
+    global_counter = 4000;
 
-    ASSERT_TRUE(PS_.isOneMinutePassed());
+    ASSERT_TRUE(PS_.isLoggingIntervallPassed());
 
-    current_local_time.hour   = 1;
-    current_local_time.minute = 0;
-    current_local_time.second = 1;
+    global_counter = 4001;
 
-    ASSERT_FALSE(PS_.isOneMinutePassed());
+    ASSERT_FALSE(PS_.isLoggingIntervallPassed());
+
+    global_counter = 1234;
+
+    ASSERT_FALSE(PS_.isLoggingIntervallPassed());
 }

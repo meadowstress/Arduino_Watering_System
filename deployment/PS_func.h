@@ -61,7 +61,7 @@ class WaterSystem
     bool getWateringEnabled() { return watering_enabled; }
     bool isAutomaticWateringEnabled();
     TIME getCurrentLocalTime();
-    bool isOneMinutePassed();
+    bool isLoggingIntervallPassed();
     bool isSDCardOk();
     String getSDFileName();
     void printToSDFile(const String input);
@@ -76,5 +76,6 @@ void logSDData();
 void logSystemInfo();
 
 extern WaterSystem PumpControl;
+extern unsigned long global_counter;  // counter for counting cycles
 
 #endif

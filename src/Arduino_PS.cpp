@@ -20,6 +20,7 @@ RTCDateTime DateTime;
 
 // global system variable
 WaterSystem PumpControl;
+unsigned long global_counter = 0;  // counter for cycles
 
 int main(void)  // Enable for Testing
 {               // Enable for Testing
