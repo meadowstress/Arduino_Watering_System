@@ -364,24 +364,23 @@ int WaterSystem::pumpWaterClock()
 
 bool WaterSystem::isWaterLevelOk()
 {
-    // Deactivation of water level feature
-    /*
-      int level_Ok = false;
-      digitalWrite(par::MEASURE_WL, LOW); //measurement current switched on
-      level_Ok = digitalRead(WATERLEVEL);
-      digitalWrite(par::MEASURE_WL, HIGH); //measurement current switched
-      off
+    bool level_Ok = false;
+    digitalWrite(par::MEASURE_WL, HIGH);  // measurement current switched on
 
-      if(level_Ok == LOW)
-      {
+    // possibly hold_state function need to be set here to wait that the full
+    // current is reached
+
+    level_Ok = digitalRead(par::WATERLEVEL);
+    digitalWrite(par::MEASURE_WL, LOW);  // measurement current switched off
+
+    if (level_Ok == LOW)
+    {
         return true;
-      }
-      else
-      {
+    }
+    else
+    {
         return false;
-      }
-      */
-    return true;
+    }
 }
 
 bool WaterSystem::isSystemSwitchedOn()
@@ -526,14 +525,14 @@ TIME WaterSystem::getCurrentLocalTime()
 
 bool WaterSystem::isLoggingIntervallPassed()
 {
-    global_counter++;
-
     if ((global_counter % 4000) == 0)
     {
+        global_counter++;
         return true;
     }
     else
     {
+        global_counter++;
         return false;
     }
 }

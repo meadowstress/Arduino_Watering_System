@@ -34,7 +34,9 @@ void setup()  // Enable on Hardware
     pinMode(par::SWITCH, INPUT);        // Enable on Hardware
     pinMode(par::WATER, INPUT);         // Enable on Hardware
     pinMode(par::WATERLEVEL, INPUT);    // Enable on Hardware
-    Serial.begin(9600);                 // Enable on Hardware
+    pinMode(par::MEASURE_WL, OUTPUT);   // Enable on Hardware
+
+    Serial.begin(9600);  // Enable on Hardware
 
     dht.begin();                       // Enable on Hardware
     clock_var.begin();                 // Enable on Hardware
@@ -43,6 +45,7 @@ void setup()  // Enable on Hardware
     digitalWrite(par::PUMP, HIGH);         // default no pumping enabled
     digitalWrite(par::VALVETOP, HIGH);     // default no pumping enabled
     digitalWrite(par::VALVEBOTTOM, HIGH);  // default no pumping enabled
+    digitalWrite(par::MEASURE_WL, HIGH);   // default no measurement current
 
     // prevent different states when water switch is on
     if (digitalRead(par::WATER) == LOW)
