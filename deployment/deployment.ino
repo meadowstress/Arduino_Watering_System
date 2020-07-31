@@ -36,7 +36,7 @@ void setup()  // Enable on Hardware
     pinMode(par::WATERLEVEL, INPUT);    // Enable on Hardware
     pinMode(par::MEASURE_WL, OUTPUT);   // Enable on Hardware
 
-    Serial.begin(9600);  // Enable on Hardware
+    Serial.begin(115200);  // Enable on Hardware
 
     dht.begin();                       // Enable on Hardware
     clock_var.begin();                 // Enable on Hardware

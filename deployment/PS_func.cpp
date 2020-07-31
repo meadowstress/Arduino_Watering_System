@@ -337,10 +337,9 @@ int WaterSystem::pumpWaterClock()
     if (getCurrentLocalTime() == par::t1_water ||
         getCurrentLocalTime() == par::t2_water)
     {
-        switch_on      = isSystemSwitchedOn();
-        water_level_ok = isWaterLevelOk();
+        switch_on = isSystemSwitchedOn();
 
-        if (switch_on && water_level_ok && isAutomaticWateringEnabled())
+        if (switch_on && isAutomaticWateringEnabled())
         {
             Serial.println("\nAutomatic Watering is enabled!\n");
 
@@ -365,13 +364,13 @@ int WaterSystem::pumpWaterClock()
 bool WaterSystem::isWaterLevelOk()
 {
     bool level_Ok = false;
-    digitalWrite(par::MEASURE_WL, HIGH);  // measurement current switched on
+    digitalWrite(par::MEASURE_WL, LOW);  // measurement current switched on
 
     // possibly hold_state function need to be set here to wait that the full
     // current is reached
 
     level_Ok = digitalRead(par::WATERLEVEL);
-    digitalWrite(par::MEASURE_WL, LOW);  // measurement current switched off
+    digitalWrite(par::MEASURE_WL, HIGH);  // measurement current switched off
 
     if (level_Ok == LOW)
     {
