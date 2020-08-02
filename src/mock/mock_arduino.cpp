@@ -2,7 +2,7 @@
 #include "mock_arduino.h"
 #include <iostream>
 #include <ctime>
-#include "../parameter.h"
+#include "parameter.h"
 
 using namespace std;
 

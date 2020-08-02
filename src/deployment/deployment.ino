@@ -1,7 +1,7 @@
 #include <Wire.h>  // Enable on Hardware
 
-//#include "mock/mock_arduino.h"  //Enable for testing
-#include "time.h"
+//#include "mock_arduino.h"  //Enable for testing
+#include "mytime.h"
 #include "PS_func.h"
 #include "parameter.h"
 #include <DS3231.h>  //Enable on Hardware
@@ -20,7 +20,7 @@ DHT dht(par::TEMPERATURE, DHT22);  // Enable for Hardware
 
 // global system variable
 WaterSystem PumpControl;
-unsigned long global_counter = 0;
+unsigned long global_counter = 0;  // counter for cycles
 
 // int main(void)  // Enable for Testing
 //{               // Enable for Testing

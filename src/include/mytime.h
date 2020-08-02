@@ -1,5 +1,5 @@
-#include <Arduino.h>  // Enable on Hardware
-//#include "mock/mock_arduino.h"  //Enable for Test
+// #include <Arduino.h> // Enable on Hardware
+#include "mock_arduino.h"  //Enable for Test
 
 #ifndef TIME_H_
 #define TIME_H_

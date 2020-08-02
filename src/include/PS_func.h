@@ -5,8 +5,8 @@
 //#include <Wire.h>    //Enable on Hardware
 //#include <DS3231.h>  //Enable on Hardware
 
-#include "mock/mock_arduino.h"  //Enable for Testing
-#include "time.h"
+#include "mock_arduino.h"  //Enable for Testing
+#include "mytime.h"
 
 // pins
 extern const short PUMP;

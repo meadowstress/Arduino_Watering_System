@@ -1,5 +1,5 @@
 #include "PS_func.h"
-//#include "mock/mock_arduino.h"  //Enable for Testing
+//#include "mock_arduino.h"  //Enable for Testing
 #include "parameter.h"
 #include <string.h>
 
@@ -33,6 +33,7 @@ String WaterSystem::getSDFileName()
         String month = to_string(DateTime.month);  // Enable for Testing
         String day   = to_string(DateTime.day);    // Enable for Testing
     */
+
     // always have two digits for month e.g. 06
     if (DateTime.month < 10)
     {
@@ -526,14 +527,14 @@ TIME WaterSystem::getCurrentLocalTime()
 
 bool WaterSystem::isLoggingIntervallPassed()
 {
-    global_counter++;
-
     if ((global_counter % 4000) == 0)
     {
+        global_counter++;
         return true;
     }
     else
     {
+        global_counter++;
         return false;
     }
 }

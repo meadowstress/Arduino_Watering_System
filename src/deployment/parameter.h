@@ -1,7 +1,7 @@
 #ifndef PARAMETER_H
 #define PARAMETER_H
 
-#include "time.h"
+#include "mytime.h"
 
 namespace par
 {

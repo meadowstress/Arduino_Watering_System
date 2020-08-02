@@ -1,5 +1,5 @@
 #include "PS_func.h"
-#include "mock/mock_arduino.h"  //Enable for Testing
+#include "mock_arduino.h"  //Enable for Testing
 #include "parameter.h"
 #include <string.h>
 /*

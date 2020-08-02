@@ -1,7 +1,7 @@
 //#include <Wire.h> // Enable on Hardware
 
-#include "mock/mock_arduino.h"  //Enable for testing
-#include "time.h"
+#include "mock_arduino.h"  //Enable for testing
+#include "mytime.h"
 #include "PS_func.h"
 #include "parameter.h"
 //#include <DS3231.h>  //Enable on Hardware

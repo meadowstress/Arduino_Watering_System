@@ -1,6 +1,6 @@
 {
     "board": "arduino:avr:uno",
-    "sketch": "deployment/deployment.ino",
+    "sketch": "src/deployment/deployment.ino",
     "port": "/dev/ttyACM0",
-    "output": "/home/david/Dropbox/CodeBase/Arduino/Pump_Control/build"
+    "output": "/home/david/Dropbox/CodeBase/Arduino/Pump_Control/src/build"
 }

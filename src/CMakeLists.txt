@@ -1,7 +1,7 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.16.0)
 set(CMAKE_CXX_STANDARD 11)
 
-project(Pump_Control)
+project(Arduino_Watering_System VERSION 12.2.0)
 
 
 # Locate GTest
@@ -9,55 +9,25 @@ find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 message("GTEST_INCLUDE_DIRS = ${GTEST_INCLUDE_DIRS}")
 
-
 set(CMAKE_BUILD_TYPE debug)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 message("CMAKE_CXX_FLAGS = ${CMAKE_CXX_FLAGS}")
 
+include_directories(include mock)
+
+add_library(
+    test_library
+
+    PS_func.cpp
+    mytime.cpp
+    mock/mock_arduino.cpp
+)
+
 add_executable(
     Arduino_PS
     Arduino_PS.cpp
-    PS_func.cpp
-    mock/mock_arduino.cpp
-    time.cpp
 )
 
-add_executable(
-    runTest_all
-    test/test_main_all.cpp
-    mock/mock_arduino.cpp
-    time.cpp
-    PS_func.cpp
-)
+target_link_libraries(Arduino_PS test_library)
 
-add_executable(
-    runTest_Time
-    test/test_main_Time.cpp
-    mock/mock_arduino.cpp
-    time.cpp
-    PS_func.cpp
-)
-
-add_executable(
-    runTest_WaterSystem
-    test/test_main_WaterSystem.cpp
-    mock/mock_arduino.cpp
-    time.cpp
-    PS_func.cpp
-)
-
-add_executable(
-    runTest_Mocks
-    test/test_main_Mocks.cpp
-    mock/mock_arduino.cpp
-    time.cpp
-    PS_func.cpp
-)
-
-# relevant only for google test
-# Link runTests with what we want to test and the GTest and pthread library
-message("GTEST_LIBRARIES = ${GTEST_LIBRARIES}")
-target_link_libraries(runTest_all ${GTEST_LIBRARIES} pthread)
-target_link_libraries(runTest_Time ${GTEST_LIBRARIES} pthread)
-target_link_libraries(runTest_WaterSystem ${GTEST_LIBRARIES} pthread)
-target_link_libraries(runTest_Mocks ${GTEST_LIBRARIES} pthread)
+add_subdirectory(test)
