@@ -263,8 +263,11 @@ bool WaterSystem::holdState(unsigned int hold_time)
         {
             if (!water_level_ok)
             {
+                Serial.print("\n\nWater Level Detection Feature "
+                             "deactivated Watering!\n\n");
                 PumpControl.printToSDFile("\n\nWater Level Detection Feature "
                                           "deactivated Watering!\n\n");
+                logSDData();
             }
             else
             {
@@ -319,6 +322,8 @@ int WaterSystem::pumpWater(unsigned int pump_time,
 
     else if (!water_level_ok)
     {
+        Serial.print("\n\nWater Level Detection Feature "
+                     "deactivated Watering!\n\n");
         PumpControl.printToSDFile("\n\nWater Level Detection Feature "
                                   "deactivated Watering!\n\n");
         logSDData();
