@@ -8,6 +8,7 @@
 #include "DHT.h"             //Enable on Hardware
 #include <Wire.h>            //Enable on Hardware
 #include <DS3231.h>          //Enable on Hardware
+
 #include <SPI.h>
 #include <SD.h>
 
@@ -252,14 +253,24 @@ bool WaterSystem::holdState(unsigned int hold_time)
     do
     {
         i++;
-        switch_on      = isSystemSwitchedOn();
-        water_level_ok = isWaterLevelOk();  // has to be evaluated if test test
-                                            // for waterlevel is applicable
+        switch_on = isSystemSwitchedOn();
+        // water_level_ok = isWaterLevelOk();  // has to be evaluated if test
+        // for waterlevel is applicable
+        water_level_ok = true;  // currently check disabled
 
         elapsed_time = (millis() - start_time);
-        if ((elapsed_time > hold_time) || switch_on == false ||
-            water_level_ok == false)
+        if ((elapsed_time > hold_time) || !switch_on || !water_level_ok)
         {
+            if (!water_level_ok)
+            {
+                PumpControl.printToSDFile("\n\nWater Level Detection Feature "
+                                          "deactivated Watering!\n\n");
+            }
+            else
+            {
+                // do nothing
+            }
+
             state_flag = false;
         }
     } while (state_flag);
@@ -306,6 +317,17 @@ int WaterSystem::pumpWater(unsigned int pump_time,
         logSDData();
     }
 
+    else if (!water_level_ok)
+    {
+        PumpControl.printToSDFile("\n\nWater Level Detection Feature "
+                                  "deactivated Watering!\n\n");
+        logSDData();
+    }
+    else
+    {
+        // do nothing
+    }
+
     if (water_flag == true)
         return (1);
     else
@@ -338,10 +360,9 @@ int WaterSystem::pumpWaterClock()
     if (getCurrentLocalTime() == par::t1_water ||
         getCurrentLocalTime() == par::t2_water)
     {
-        switch_on      = isSystemSwitchedOn();
-        water_level_ok = isWaterLevelOk();
+        switch_on = isSystemSwitchedOn();
 
-        if (switch_on && water_level_ok && isAutomaticWateringEnabled())
+        if (switch_on && isAutomaticWateringEnabled())
         {
             Serial.println("\nAutomatic Watering is enabled!\n");
 
@@ -365,24 +386,23 @@ int WaterSystem::pumpWaterClock()
 
 bool WaterSystem::isWaterLevelOk()
 {
-    // Deactivation of water level feature
-    /*
-      int level_Ok = false;
-      digitalWrite(par::MEASURE_WL, LOW); //measurement current switched on
-      level_Ok = digitalRead(WATERLEVEL);
-      digitalWrite(par::MEASURE_WL, HIGH); //measurement current switched
-      off
+    bool level_Ok = false;
+    digitalWrite(par::MEASURE_WL, LOW);  // measurement current switched on
 
-      if(level_Ok == LOW)
-      {
+    // possibly hold_state function need to be set here to wait that the full
+    // current is reached
+
+    level_Ok = digitalRead(par::WATERLEVEL);
+    digitalWrite(par::MEASURE_WL, HIGH);  // measurement current switched off
+
+    if (level_Ok == LOW)
+    {
         return true;
-      }
-      else
-      {
+    }
+    else
+    {
         return false;
-      }
-      */
-    return true;
+    }
 }
 
 bool WaterSystem::isSystemSwitchedOn()
