@@ -12,19 +12,9 @@ class TIME
     short sec;
 
  public:
-    TIME()
-    {
-        h   = 0;
-        min = 0;
-        sec = 0;
-    }
+    TIME() : h{0}, min{0}, sec{0} {}
+    TIME(short iH, short iMin, short iSec) : h{iH}, min{iMin}, sec{iSec} {}
 
-    TIME(short iH, short iMin, short iSec)
-    {
-        h   = iH;
-        min = iMin;
-        sec = iSec;
-    }
     short get_H() { return h; }
     short get_Min() { return min; }
     short get_Sec() { return sec; }

@@ -35,11 +35,7 @@ class WaterSystem
     float measured_temperature;
 
  public:
-    WaterSystem()
-    {
-        watering_enabled     = false;
-        measured_temperature = 0.0F;
-    }
+    WaterSystem() : watering_enabled{false}, measured_temperature{0.0F} {}
     ~WaterSystem() {}
 
     int pumpWaterManual();

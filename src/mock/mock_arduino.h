@@ -78,7 +78,7 @@ class DHT
     float temperature;
 
  public:
-    DHT() { temperature = 0.0F; }
+    DHT() : temperature{0.0F} {}
     ~DHT() {}
     float readTemperature();
 };
