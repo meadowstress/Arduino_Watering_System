@@ -86,16 +86,6 @@ void digitalWrite(const short& pin, const bool& state)
         else
             std::cout << "Throw Error: digitalWrite(WATERLEVEL)\n";
     }
-
-    else if (pin == par::MEASURE_WL)
-    {
-        if (state == HIGH)
-            measure_current_wl = false;
-        else if (state == LOW)
-            measure_current_wl = true;
-        else
-            std::cout << "Throw Error: digitalWrite(MEASURE_WL)\n";
-    }
 }
 
 bool digitalRead(const short& pin)
@@ -116,10 +106,7 @@ bool digitalRead(const short& pin)
         return (water_state);
 
     else if (pin == par::WATERLEVEL)
-        return (water_level_state && measure_current_wl);
-
-    else if (pin == par::MEASURE_WL)
-        return (measure_current_wl);
+        return (water_level_state);
 
     else
     {

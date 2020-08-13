@@ -13,7 +13,6 @@ const byte VALVEBOTTOM = A2;
 const byte SWITCH      = 7;
 const byte WATER       = 3;
 const byte WATERLEVEL  = 4;
-const byte MEASURE_WL  = 5;
 const byte TEMPERATURE = 6;
 
 // SD-pins

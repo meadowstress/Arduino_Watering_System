@@ -8,7 +8,6 @@
 #include "DHT.h"             //Enable on Hardware
 #include <Wire.h>            //Enable on Hardware
 #include <DS3231.h>          //Enable on Hardware
-
 #include <SPI.h>
 #include <SD.h>
 
@@ -34,7 +33,6 @@ String WaterSystem::getSDFileName()
         String month = to_string(DateTime.month);  // Enable for Testing
         String day   = to_string(DateTime.day);    // Enable for Testing
     */
-
     // always have two digits for month e.g. 06
     if (DateTime.month < 10)
     {
@@ -253,10 +251,9 @@ bool WaterSystem::holdState(unsigned int hold_time)
     do
     {
         i++;
-        switch_on = isSystemSwitchedOn();
-        // water_level_ok = isWaterLevelOk();  // has to be evaluated if test
+        switch_on      = isSystemSwitchedOn();
+        water_level_ok = isWaterLevelOk();  // has to be evaluated if test
         // for waterlevel is applicable
-        water_level_ok = true;  // currently check disabled
 
         elapsed_time = (millis() - start_time);
         if ((elapsed_time > hold_time) || !switch_on || !water_level_ok)
@@ -392,15 +389,10 @@ int WaterSystem::pumpWaterClock()
 bool WaterSystem::isWaterLevelOk()
 {
     bool level_Ok = false;
-    digitalWrite(par::MEASURE_WL, LOW);  // measurement current switched on
-
-    // possibly hold_state function need to be set here to wait that the full
-    // current is reached
 
     level_Ok = digitalRead(par::WATERLEVEL);
-    digitalWrite(par::MEASURE_WL, HIGH);  // measurement current switched off
 
-    if (level_Ok == LOW)
+    if (level_Ok == HIGH)
     {
         return true;
     }

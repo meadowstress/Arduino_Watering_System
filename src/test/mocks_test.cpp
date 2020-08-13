@@ -49,20 +49,6 @@ TEST(digitalWrite, VALVEBOTTOM_HIGH)
     ASSERT_EQ(valve_state_bottom, false);
 }
 
-TEST(digitalWrite, MEASURE_WL_HIGH)
-{
-    measure_current_wl = true;
-    digitalWrite(par::MEASURE_WL, HIGH);
-    ASSERT_EQ(measure_current_wl, false);
-}
-
-TEST(digitalWrite, MEASURE_WL_LOW)
-{
-    measure_current_wl = false;
-    digitalWrite(par::MEASURE_WL, LOW);
-    ASSERT_EQ(measure_current_wl, true);
-}
-
 TEST(digitalRead, PUMP_LOW)
 {
     pump_state = true;
@@ -149,18 +135,6 @@ TEST(digitalRead, WATERLEVEL_OFFOFF)
     water_level_state  = false;
     measure_current_wl = false;
     ASSERT_EQ(digitalRead(par::WATERLEVEL), HIGH);
-}
-
-TEST(digitalRead, MEASURE_WL_ON)
-{
-    measure_current_wl = true;
-    ASSERT_EQ(digitalRead(par::MEASURE_WL), LOW);
-}
-
-TEST(digitalRead, MEASURE_WL_OFF)
-{
-    measure_current_wl = false;
-    ASSERT_EQ(digitalRead(par::MEASURE_WL), HIGH);
 }
 
 TEST(Serial, println)
