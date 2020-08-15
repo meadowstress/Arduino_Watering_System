@@ -171,6 +171,10 @@ void printSystemInfo()
     ms = PumpControl.getWaterTimeBottom();
     Serial.print(F("Current chosen ms for bottom watering: "));
     Serial.println(ms);
+
+    ms = PumpControl.isWaterLevelOk();
+    Serial.print(F("isWaterLevelOk = "));
+    Serial.println(ms);
     // distance to next cyclic message
     Serial.println(F(""));
 }
@@ -218,6 +222,10 @@ void logSDData()
     PumpControl.printToSDFile(F("Current chosen ms for bottom watering: "));
     PumpControl.printlnToSDFile(ms);
     PumpControl.printlnToSDFile("");
+
+    ms = PumpControl.isWaterLevelOk();
+    PumpControl.printToSDFile(F("isWaterLevelOk = "));
+    PumpControl.printToSDFile(ms);
 
     Serial.print(F("...writing to SD finished!\n"));
 }
@@ -340,31 +348,45 @@ int WaterSystem::pumpWaterManual()
 {
     int water_flag = 0;
 
-    switch_on = PumpControl.isSystemSwitchedOn();
-    water_on  = PumpControl.isWaterActivated();
+    switch_on      = PumpControl.isSystemSwitchedOn();
+    water_on       = PumpControl.isWaterActivated();
+    water_level_ok = PumpControl.isWaterLevelOk();
 
     if (switch_on && water_on)
     {
-        Serial.println("\nManual Watering is enabled!\n");
+        if (water_level_ok)
+        {
+            Serial.println("\nManual Watering is enabled!\n");
 
-        water_flag =
-            PumpControl.pumpWater(par::t_half_can, par::VALVETOP, par::t_valve);
+            water_flag = PumpControl.pumpWater(par::t_half_can, par::VALVETOP,
+                                               par::t_valve);
 
-        PumpControl.printlnToSDFile(F("\nManual Watering is enabled!\n"));
+            PumpControl.printlnToSDFile(F("\nManual Watering is enabled!\n"));
+        }
+        else
+        {
+            Serial.print("\n\nWater Level Detection Feature "
+                         "deactivated Watering!\n\n");
+            PumpControl.printToSDFile("\n\nWater Level Detection Feature "
+                                      "deactivated Watering!\n\n");
+            logSDData();
+        }
     }
+
     return (water_flag);
 }
 
 int WaterSystem::pumpWaterClock()
 {
     int water_counter = 0;
+    water_level_ok    = PumpControl.isWaterLevelOk();
 
     if (getCurrentLocalTime() == par::t1_water ||
         getCurrentLocalTime() == par::t2_water)
     {
         switch_on = isSystemSwitchedOn();
 
-        if (switch_on && isAutomaticWateringEnabled())
+        if (switch_on && isAutomaticWateringEnabled() && water_level_ok)
         {
             Serial.println("\nAutomatic Watering is enabled!\n");
 
@@ -380,6 +402,20 @@ int WaterSystem::pumpWaterClock()
             PumpControl.printlnToSDFile(
                 F("\nAutomatic Watering is enabled!\n"));
             logSDData();
+        }
+
+        else if (!water_level_ok)
+        {
+            Serial.print("\n\nWater Level Detection Feature "
+                         "deactivated Watering!\n\n");
+            PumpControl.printToSDFile("\n\nWater Level Detection Feature "
+                                      "deactivated Watering!\n\n");
+            logSDData();
+        }
+
+        else
+        {
+            // do nothing
         }
     }
 
