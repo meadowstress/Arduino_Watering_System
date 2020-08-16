@@ -261,8 +261,8 @@ bool WaterSystem::holdState(unsigned int hold_time)
     {
         i++;
         switch_on      = isSystemSwitchedOn();
-        water_level_ok = isWaterLevelOk();  // does not work currently
-        // water_level_ok = true;  // check currently disabled
+        //water_level_ok = isWaterLevelOk();  // does not work currently
+        water_level_ok = true;  // check currently disabled
 
         elapsed_time = (millis() - start_time);
         if ((elapsed_time > hold_time) || !switch_on || !water_level_ok)
