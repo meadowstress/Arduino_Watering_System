@@ -477,7 +477,7 @@ bool WaterSystem::isAutomaticWateringEnabled()
 {
     updateTemperature();
 
-    if (getTemperature() >= 18.0F)
+    if (getTemperature() >= par::lowTemp)
         watering_enabled = true;
     else
         watering_enabled = false;
