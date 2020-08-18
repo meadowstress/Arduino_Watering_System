@@ -1,5 +1,5 @@
 #include "PS_func.h"
-// #include "mock_arduino.h"  //Enable for Testing
+//#include "mock_arduino.h"  //Enable for Testing
 #include "parameter.h"
 #include <string.h>
 
@@ -33,7 +33,6 @@ String WaterSystem::getSDFileName()
         String month = to_string(DateTime.month);  // Enable for Testing
         String day   = to_string(DateTime.day);    // Enable for Testing
     */
-
     // always have two digits for month e.g. 06
     if (DateTime.month < 10)
     {
@@ -260,8 +259,8 @@ bool WaterSystem::holdState(unsigned int hold_time)
     do
     {
         i++;
-        switch_on      = isSystemSwitchedOn();
-        //water_level_ok = isWaterLevelOk();  // does not work currently
+        switch_on = isSystemSwitchedOn();
+        // water_level_ok = isWaterLevelOk();  // does not work currently
         water_level_ok = true;  // check currently disabled
 
         elapsed_time = (millis() - start_time);
@@ -381,13 +380,14 @@ int WaterSystem::pumpWaterClock()
 {
     int water_counter = 0;
     water_level_ok    = PumpControl.isWaterLevelOk();
+    watering_enabled  = isAutomaticWateringEnabled();
+    switch_on         = isSystemSwitchedOn();
 
     if (getCurrentLocalTime() == par::t1_water ||
         getCurrentLocalTime() == par::t2_water)
     {
-        switch_on = isSystemSwitchedOn();
 
-        if (switch_on && isAutomaticWateringEnabled() && water_level_ok)
+        if (switch_on && watering_enabled && water_level_ok)
         {
             Serial.println("\nAutomatic Watering is enabled!\n");
 
@@ -402,7 +402,6 @@ int WaterSystem::pumpWaterClock()
             printSystemInfo();
             PumpControl.printlnToSDFile(
                 F("\nAutomatic Watering is enabled!\n"));
-            logSDData();
         }
 
         else if (!water_level_ok)
@@ -411,13 +410,23 @@ int WaterSystem::pumpWaterClock()
                          "deactivated Watering!\n\n");
             PumpControl.printToSDFile("\n\nWater Level Detection Feature "
                                       "deactivated Watering!\n\n");
-            logSDData();
+        }
+
+        else if (!watering_enabled)
+        {
+            Serial.print(
+                "\n\nAutomatic Watering disabled! - Temperature too low!\n\n");
+            PumpControl.printToSDFile(
+                "\n\nAutomatic Watering disabled! - Temperature too low!\n\n");
         }
 
         else
         {
             // do nothing
         }
+
+        // log data every time when configured watering times are reached
+        logSDData();
     }
 
     return (water_counter);
