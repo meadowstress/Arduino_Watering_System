@@ -420,6 +420,12 @@ int WaterSystem::pumpWaterClock()
                 "\n\nAutomatic Watering disabled! - Temperature too low!\n\n");
         }
 
+        else if (!switch_on)
+        {
+            Serial.print("\n\nSystem switched off!\n\n");
+            PumpControl.printToSDFile("\n\nSystem switched off!\n\n");
+        }
+
         else
         {
             // do nothing
