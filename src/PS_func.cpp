@@ -428,7 +428,8 @@ int WaterSystem::pumpWaterClock()
 
         else
         {
-            // do nothing
+            Serial.print("\n\nUnexpected Error!\n\n");
+            PumpControl.printToSDFile("\n\nUnexpected Error!\n\n");
         }
 
         // log data every time when configured watering times are reached
