@@ -80,17 +80,15 @@ INSTANTIATE_TEST_SUITE_P(WaterActivationTest_PARAMETER,
 
 TEST_F(WaterSystemTest, HoldStateSwitchOn)
 {
-    switch_state       = true;
-    water_level_state  = true;
-    measure_current_wl = true;
+    switch_state      = LOW;
+    water_level_state = HIGH;
     ASSERT_TRUE(PS_.holdState(3000));
 }
 
 TEST_F(WaterSystemTest, HoldStateSwitchOff)
 {
-    switch_state       = false;
-    water_level_state  = true;
-    measure_current_wl = true;
+    switch_state      = HIGH;
+    water_level_state = HIGH;
     ASSERT_FALSE(PS_.holdState(3000));
 }
 
@@ -100,8 +98,8 @@ TEST_F(WaterSystemTest, PumpWaterSwitchOn)
     unsigned short valve_pin = par::VALVETOP;
     unsigned long valve_time = par::t_valve;
 
-    water_level_state = true;
-    switch_state      = true;
+    water_level_state = HIGH;
+    switch_state      = LOW;
 
     ASSERT_EQ(PS_.pumpWater(pump_time, valve_pin, valve_time), 1);
 }
@@ -125,93 +123,26 @@ TEST_F(WaterSystemTest, PumpWaterManual)
     // true-true-true
     int result = 0;
     // Waterlevel ok
-    water_level_state  = true;
-    measure_current_wl = true;
+    water_level_state = HIGH;
 
     // condition for switch enabled
-    water_state     = true;
-    pre_state_water = false;
+    water_state     = LOW;
+    pre_state_water = HIGH;
 
     // On switch activated
-    switch_state = true;
+    switch_state = LOW;
 
     result = PS_.pumpWaterManual();
     ASSERT_EQ(result, 1);
 
     // true-true-false
-    result             = 0;
-    water_level_state  = true;
-    measure_current_wl = true;
+    result            = 0;
+    water_level_state = LOW;
 
-    water_state     = true;
-    pre_state_water = false;
+    water_state     = LOW;
+    pre_state_water = HIGH;
 
-    switch_state = false;
-
-    result = PS_.pumpWaterManual();
-    ASSERT_EQ(result, 0);
-
-    // true-false-true
-    result             = 0;
-    water_level_state  = true;
-    measure_current_wl = true;
-
-    water_state     = true;
-    pre_state_water = true;
-
-    switch_state = true;
-
-    result = PS_.pumpWaterManual();
-    ASSERT_EQ(result, 0);
-
-    // false-true-true
-    result             = 0;
-    water_level_state  = false;
-    measure_current_wl = false;
-
-    water_state     = true;
-    pre_state_water = false;
-
-    switch_state = true;
-
-    result = PS_.pumpWaterManual();
-    ASSERT_EQ(result, 0);
-
-    // false-false-true
-    result             = 0;
-    water_level_state  = false;
-    measure_current_wl = true;
-
-    water_state     = true;
-    pre_state_water = true;
-
-    switch_state = true;
-
-    result = PS_.pumpWaterManual();
-    ASSERT_EQ(result, 0);
-
-    // true-false-false
-    result             = 0;
-    water_level_state  = true;
-    measure_current_wl = true;
-
-    water_state     = true;
-    pre_state_water = true;
-
-    switch_state = false;
-
-    result = PS_.pumpWaterManual();
-    ASSERT_EQ(result, 0);
-
-    // false-false-false
-    result             = 0;
-    water_level_state  = false;
-    measure_current_wl = true;
-
-    water_state     = true;
-    pre_state_water = true;
-
-    switch_state = false;
+    switch_state = HIGH;
 
     result = PS_.pumpWaterManual();
     ASSERT_EQ(result, 0);
@@ -294,9 +225,9 @@ INSTANTIATE_TEST_SUITE_P(TemperatureRangeTestBottom_PARAMETER,
 
 TEST_F(WaterSystemTest, WateringEnabledTrue)
 {
-    temperature_value = 18.0F;
-    ASSERT_TRUE(PS_.isAutomaticWateringEnabled());
     temperature_value = 20.0F;
+    ASSERT_TRUE(PS_.isAutomaticWateringEnabled());
+    temperature_value = 22.0F;
     ASSERT_TRUE(PS_.isAutomaticWateringEnabled());
 }
 
@@ -310,30 +241,19 @@ TEST_F(WaterSystemTest, isWateringEnabledFalse)
 
 TEST_F(WaterSystemTest, isWaterLevelOk)
 {
-    water_level_state  = true;
-    measure_current_wl = true;
+    water_level_state = HIGH;
     ASSERT_TRUE(PS_.isWaterLevelOk());
 
-    water_level_state  = true;
-    measure_current_wl = false;
-    ASSERT_TRUE(PS_.isWaterLevelOk());
-
-    water_level_state  = false;
-    measure_current_wl = true;
-    ASSERT_FALSE(PS_.isWaterLevelOk());
-
-    water_level_state  = false;
-    measure_current_wl = false;
+    water_level_state = LOW;
     ASSERT_FALSE(PS_.isWaterLevelOk());
 }
 
 TEST_F(WaterSystemTest, Pump_Water_Clock_watering_true_t1)
 {
     temperature_value = 20.0F;
-    switch_state      = true;
+    switch_state      = LOW;
 
-    water_level_state  = true;
-    measure_current_wl = true;
+    water_level_state = HIGH;
 
     current_local_time.hour   = 11;
     current_local_time.minute = 30;
@@ -343,10 +263,9 @@ TEST_F(WaterSystemTest, Pump_Water_Clock_watering_true_t1)
 TEST_F(WaterSystemTest, Pump_Water_Clock_watering_true_t2)
 {
     temperature_value = 20.0F;
-    switch_state      = true;
+    switch_state      = LOW;
 
-    water_level_state  = true;
-    measure_current_wl = true;
+    water_level_state = HIGH;
 
     current_local_time.hour   = 15;
     current_local_time.minute = 30;
@@ -356,10 +275,9 @@ TEST_F(WaterSystemTest, Pump_Water_Clock_watering_true_t2)
 TEST_F(WaterSystemTest, Pump_Water_Clock_watering_false)
 {
     temperature_value = 20.0F;
-    switch_state      = true;
+    switch_state      = LOW;
 
-    water_level_state  = true;
-    measure_current_wl = true;
+    water_level_state = HIGH;
 
     current_local_time.hour   = 10;
     current_local_time.minute = 30;

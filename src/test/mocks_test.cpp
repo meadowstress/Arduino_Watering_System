@@ -109,31 +109,15 @@ TEST(digitalRead, WATER_OFF)
     ASSERT_EQ(digitalRead(par::WATER), HIGH);
 }
 
-TEST(digitalRead, WATERLEVEL_ONON)
+TEST(digitalRead, WATERLEVEL_ON)
 {
-    water_level_state  = true;
-    measure_current_wl = true;
+    water_level_state = true;
     ASSERT_EQ(digitalRead(par::WATERLEVEL), LOW);
 }
 
-TEST(digitalRead, WATERLEVEL_ONOFF)
+TEST(digitalRead, WATERLEVEL_OFF)
 {
-    water_level_state  = true;
-    measure_current_wl = false;
-    ASSERT_EQ(digitalRead(par::WATERLEVEL), HIGH);
-}
-
-TEST(digitalRead, WATERLEVEL_OFFON)
-{
-    water_level_state  = false;
-    measure_current_wl = true;
-    ASSERT_EQ(digitalRead(par::WATERLEVEL), HIGH);
-}
-
-TEST(digitalRead, WATERLEVEL_OFFOFF)
-{
-    water_level_state  = false;
-    measure_current_wl = false;
+    water_level_state = false;
     ASSERT_EQ(digitalRead(par::WATERLEVEL), HIGH);
 }
 

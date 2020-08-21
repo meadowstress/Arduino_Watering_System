@@ -13,7 +13,6 @@ bool valve_state_bottom = false;
 bool switch_state       = true;
 bool water_state        = false;
 bool water_level_state  = false;
-bool measure_current_wl = false;
 float temperature_value = 20;
 
 // artificial local time
