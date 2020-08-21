@@ -10,6 +10,7 @@ namespace par
 const byte PUMP        = A0;
 const byte VALVETOP    = A1;
 const byte VALVEBOTTOM = A2;
+const byte VALVETUBE   = A3;
 const byte SWITCH      = 7;
 const byte WATER       = 3;
 const byte WATERLEVEL  = 4;

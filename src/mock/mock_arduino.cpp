@@ -10,6 +10,7 @@ using namespace std;
 bool pump_state         = false;
 bool valve_state_top    = false;
 bool valve_state_bottom = false;
+bool valve_state_tube   = false;
 bool switch_state       = true;
 bool water_state        = false;
 bool water_level_state  = false;
@@ -76,6 +77,16 @@ void digitalWrite(const short& pin, const bool& state)
             std::cout << "Throw Error: digitalWrite(VALVEBOTTOM)\n";
     }
 
+    else if (pin == par::VALVETUBE)
+    {
+        if (state == HIGH)
+            valve_state_tube = false;
+        else if (state == LOW)
+            valve_state_tube = true;
+        else
+            std::cout << "Throw Error: digitalWrite(VALVETUBE)\n";
+    }
+
     else if (pin == par::WATERLEVEL)
     {
         if (state == HIGH)
@@ -106,6 +117,9 @@ bool digitalRead(const short& pin)
 
     else if (pin == par::WATERLEVEL)
         return (water_level_state);
+
+    else if (pin == par::VALVETUBE)
+        return (valve_state_tube);
 
     else
     {

@@ -358,7 +358,7 @@ int WaterSystem::pumpWaterManual()
         {
             Serial.println("\nManual Watering is enabled!\n");
 
-            water_flag = PumpControl.pumpWater(par::t_half_can, par::VALVETOP,
+            water_flag = PumpControl.pumpWater(par::t_half_can, par::VALVETUBE,
                                                par::t_valve);
 
             PumpControl.printlnToSDFile(F("\nManual Watering is enabled!\n"));

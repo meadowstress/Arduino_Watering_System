@@ -10,6 +10,7 @@ namespace par
 const byte PUMP        = A0;
 const byte VALVETOP    = A1;
 const byte VALVEBOTTOM = A2;
+const byte VALVETUBE   = A3;
 const byte SWITCH      = 7;
 const byte WATER       = 3;
 const byte WATERLEVEL  = 4;
@@ -40,8 +41,8 @@ const unsigned int timeLowTempTop    = 10000;
 const unsigned int timeLowTempBottom = 8000;
 
 // Water Times
-const TIME t1_water(11, 30, 0);
-const TIME t2_water(15, 30, 0);
+const TIME t1_water(14, 5, 0);
+const TIME t2_water(14, 10, 0);
 const byte t_valve            = 100;
 const unsigned int t_half_can = 15000;
 }  // namespace par
