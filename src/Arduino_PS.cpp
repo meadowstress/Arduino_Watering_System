@@ -47,6 +47,7 @@ int main(void)  // Enable for Testing
     digitalWrite(par::PUMP, HIGH);         // default no pumping enabled
     digitalWrite(par::VALVETOP, HIGH);     // default no pumping enabled
     digitalWrite(par::VALVEBOTTOM, HIGH);  // default no pumping enabled
+    digitalWrite(par::VALVETUBE, HIGH);    // default no pumping enabled
 
     // prevent different states when water switch is on
     if (digitalRead(par::WATER) == LOW)
