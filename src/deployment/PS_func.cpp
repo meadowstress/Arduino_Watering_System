@@ -33,6 +33,7 @@ String WaterSystem::getSDFileName()
         String month = to_string(DateTime.month);  // Enable for Testing
         String day   = to_string(DateTime.day);    // Enable for Testing
     */
+
     // always have two digits for month e.g. 06
     if (DateTime.month < 10)
     {
@@ -250,42 +251,22 @@ void logSystemInfo()
 // Hold logic
 bool WaterSystem::holdState(unsigned int hold_time)
 {
-
-    bool state_flag            = true;
     unsigned long start_time   = millis();
     unsigned long elapsed_time = 0;
-    int i                      = 0;
+    unsigned long i            = 0;
 
-    do
+    switch_on = isSystemSwitchedOn();
+
+    while ((elapsed_time < hold_time) && switch_on)
     {
         i++;
-        switch_on = isSystemSwitchedOn();
-        // water_level_ok = isWaterLevelOk();  // does not work currently
-        water_level_ok = true;  // check currently disabled
-
+        switch_on    = isSystemSwitchedOn();
         elapsed_time = (millis() - start_time);
-        if ((elapsed_time > hold_time) || !switch_on || !water_level_ok)
-        {
-            if (!water_level_ok)
-            {
-                Serial.print("\n\nWater Level Detection Feature "
-                             "deactivated Watering!\n\n");
-                PumpControl.printToSDFile("\n\nWater Level Detection Feature "
-                                          "deactivated Watering!\n\n");
-                logSDData();
-            }
-            else
-            {
-                // do nothing
-            }
-
-            state_flag = false;
-        }
-    } while (state_flag);
+    }
 
     // test if hold time has been elapsed regularly
     // var i is only necessary for time simulation with high factors
-    if ((elapsed_time > hold_time) && i > 1)
+    if ((elapsed_time > hold_time) && i >= 1)
         return true;
     else
         return false;
@@ -297,46 +278,26 @@ int WaterSystem::pumpWater(unsigned int pump_time,
 {
     bool water_flag = false;
 
-    switch_on      = isSystemSwitchedOn();
-    water_level_ok = isWaterLevelOk();
+    Serial.println(F("\n\nOpen Valve!"));
 
-    if (switch_on && water_level_ok)
-    {
-        Serial.println(F("\n\nOpen Valve!"));
+    digitalWrite(valve_pin, LOW);
+    holdState(valve_time);
 
-        digitalWrite(valve_pin, LOW);
-        holdState(valve_time);
+    Serial.println(F("Pump Water!"));
 
-        Serial.println(F("Pump Water!"));
+    digitalWrite(par::PUMP, LOW);  // pumping starts
+    water_flag = holdState(pump_time);
+    digitalWrite(par::PUMP, HIGH);  // pumping ends
 
-        digitalWrite(par::PUMP, LOW);  // pumping starts
-        water_flag = holdState(pump_time);
-        digitalWrite(par::PUMP, HIGH);  // pumping ends
+    holdState(valve_time);
+    Serial.println(F("Close Valve!\n"));
+    digitalWrite(valve_pin, HIGH);  // closing Valve
+    water_on = false;               // state for interupt
 
-        holdState(valve_time);
-        Serial.println(F("Close Valve!\n"));
-        digitalWrite(valve_pin, HIGH);  // closing Valve
-        water_on = false;               // state for interupt
-
-        // log data to SD card
-        PumpControl.printlnToSDFile(F("\n\nOpen Valve!"));
-        PumpControl.printlnToSDFile(F("Pump Water!"));
-        PumpControl.printlnToSDFile(F("Close Valve!\n"));
-        logSDData();
-    }
-
-    else if (!water_level_ok)
-    {
-        Serial.print("\n\nWater Level Detection Feature "
-                     "deactivated Watering!\n\n");
-        PumpControl.printToSDFile("\n\nWater Level Detection Feature "
-                                  "deactivated Watering!\n\n");
-        logSDData();
-    }
-    else
-    {
-        // do nothing
-    }
+    // log data to SD card
+    PumpControl.printlnToSDFile(F("\n\nOpen Valve!"));
+    PumpControl.printlnToSDFile(F("Pump Water!"));
+    PumpControl.printlnToSDFile(F("Close Valve!\n"));
 
     if (water_flag == true)
         return (1);
