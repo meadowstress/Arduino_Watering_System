@@ -5,7 +5,7 @@ With the current ressources of an Arduino Uno further feature development is pre
 be limited. And if time allows I will spend my energy in better unit tests and refactoring work.
 
 
-![FileStructure](docs/images/FileStructure.png)
+![FileStructure](images/FileStructure.png)
 
 There are several folders in the repo. The most interesting for others is possibly the "src/deployment" folder. You can have a
 look at the Arduino entry point in the "deployment.ino". All self written libraries are within the "deployment" folder.
@@ -23,20 +23,20 @@ hardware parts.
 
 ## Overview
 
-![toplevel](docs/images/toplevel.JPEG)
+![toplevel](images/toplevel.JPEG)
 
 ### Control Box
 
-![control](docs/images/control.JPEG)
+![control](images/control.JPEG)
 
 ## Pump and Valves
 
-![valves](docs/images/valves.JPEG)
+![valves](images/valves.JPEG)
 
 ## Tubes to top Plants
 
-![tubes_top](docs/images/tubes_top.JPEG)
+![tubes_top](images/tubes_top.JPEG)
 
 ## Tubes to bottom Plants
 
-![tubes_bottom](docs/images/tubes_bottom.JPEG)
+![tubes_bottom](images/tubes_bottom.JPEG)
