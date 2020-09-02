@@ -4,6 +4,8 @@ This repo was created for my own plant watering system on my balcony. The projec
 With the current ressources of an Arduino Uno further feature development is pretty limited. So in the future activities will
 be limited. And if time allows I will spend my energy in better unit tests and refactoring work.
 
+You'll find the website of this repository here: https://meadowstress.github.io/Arduino_Watering_System/
+
 
 ![FileStructure](docs/images/FileStructure.png)
 
