@@ -41,8 +41,8 @@ const unsigned int timeLowTempTop    = 10000;
 const unsigned int timeLowTempBottom = 8000;
 
 // Water Times
-const TIME t1_water(13, 40, 0);
-const TIME t2_water(13, 42, 0);
+const TIME t1_water(11, 30, 0);
+const TIME t2_water(15, 30, 0);
 const byte t_valve            = 100;
 const unsigned int t_half_can = 15000;
 }  // namespace par
