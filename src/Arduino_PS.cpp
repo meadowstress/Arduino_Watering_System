@@ -48,6 +48,7 @@ int main(void)  // Enable for Testing
     digitalWrite(par::VALVETOP, HIGH);     // default no pumping enabled
     digitalWrite(par::VALVEBOTTOM, HIGH);  // default no pumping enabled
     digitalWrite(par::VALVETUBE, HIGH);    // default no pumping enabled
+    digitalWrite(par::LED, LOW);           // default led off
 
     // prevent different states when water switch is on
     if (digitalRead(par::WATER) == LOW)
@@ -77,5 +78,8 @@ int main(void)  // Enable for Testing
 
         // check automatic watering
         PumpControl.pumpWaterClock();
+
+        // turn error led on or off
+        PumpControl.checkSystem();
     }  // Enable for Testing
 }

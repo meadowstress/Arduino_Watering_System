@@ -21,6 +21,7 @@ extern bool valve_state_bottom;
 extern bool switch_state;
 extern bool water_state;
 extern bool water_level_state;
+extern bool led_state;
 extern float temperature_value;
 
 extern const bool HIGH;

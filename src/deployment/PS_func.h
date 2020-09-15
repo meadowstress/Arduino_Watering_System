@@ -33,9 +33,12 @@ class WaterSystem
  private:
     bool watering_enabled;
     float measured_temperature;
+    bool sd_card_ok;
 
  public:
-    WaterSystem() : watering_enabled{false}, measured_temperature{0.0F} {}
+    WaterSystem() :
+        watering_enabled{false}, measured_temperature{0.0F}, sd_card_ok{true}
+    {}
     ~WaterSystem() {}
 
     int pumpWaterManual();
@@ -43,6 +46,7 @@ class WaterSystem
     int pumpWater(unsigned int pump_time, byte valve_pin, byte valve_time);
     bool holdState(unsigned int hold_time);
 
+    bool checkSystem();
     bool isWaterLevelOk();
     bool isSystemSwitchedOn();
     bool isWaterActivated();

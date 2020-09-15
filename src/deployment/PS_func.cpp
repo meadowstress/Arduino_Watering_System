@@ -11,9 +11,37 @@
 #include <SPI.h>
 #include <SD.h>
 
+bool WaterSystem::checkSystem()
+{
+    bool system_status = (sd_card_ok && water_level_ok);
+
+    if (system_status)
+    {
+        digitalWrite(par::LED, LOW);
+    }
+
+    else
+    {
+        digitalWrite(par::LED, HIGH);
+    }
+
+    return (system_status);
+}
+
 bool WaterSystem::isSDCardOk()
 {
     bool isSDCardOk = SD.begin(par::CHIPSELECT);
+
+    if (isSDCardOk)
+    {
+        sd_card_ok = true;
+    }
+    else
+    {
+        sd_card_ok = false;
+    }
+
+    checkSystem();
     return (isSDCardOk);
 }
 
@@ -308,9 +336,9 @@ int WaterSystem::pumpWaterManual()
 {
     int water_flag = 0;
 
-    switch_on      = isSystemSwitchedOn();
-    water_on       = isWaterActivated();
-    water_level_ok = isWaterLevelOk();
+    switch_on = isSystemSwitchedOn();
+    water_on  = isWaterActivated();
+    isWaterLevelOk();
 
     if (switch_on && water_on)
     {
@@ -339,9 +367,9 @@ int WaterSystem::pumpWaterManual()
 int WaterSystem::pumpWaterClock()
 {
     int water_counter = 0;
-    water_level_ok    = isWaterLevelOk();
     watering_enabled  = isAutomaticWateringEnabled();
     switch_on         = isSystemSwitchedOn();
+    isWaterLevelOk();
 
     if (getCurrentLocalTime() == par::t1_water ||
         getCurrentLocalTime() == par::t2_water)
@@ -406,10 +434,12 @@ bool WaterSystem::isWaterLevelOk()
 
     if (level_Ok == HIGH)
     {
+        water_level_ok = true;
         return true;
     }
     else
     {
+        water_level_ok = false;
         return false;
     }
 }
@@ -419,9 +449,13 @@ bool WaterSystem::isSystemSwitchedOn()
     bool state = false;
     state      = (bool)digitalRead(par::SWITCH);
     if (state == LOW)
+    {
         return true;
+    }
     else
+    {
         return false;
+    }
 }
 
 bool WaterSystem::isWaterActivated()

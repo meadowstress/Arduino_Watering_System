@@ -15,6 +15,7 @@ const byte SWITCH      = 7;
 const byte WATER       = 3;
 const byte WATERLEVEL  = 4;
 const byte TEMPERATURE = 6;
+const byte LED         = 8;
 
 // SD-pins
 const byte CHIPSELECT = 10;  // SD-Card Pin for Arduino Uno

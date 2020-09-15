@@ -14,6 +14,7 @@ bool valve_state_tube   = false;
 bool switch_state       = true;
 bool water_state        = false;
 bool water_level_state  = false;
+bool led_state          = false;
 float temperature_value = 20;
 
 // artificial local time
@@ -96,6 +97,15 @@ void digitalWrite(const short& pin, const bool& state)
         else
             std::cout << "Throw Error: digitalWrite(WATERLEVEL)\n";
     }
+    else if (pin == par::LED)
+    {
+        if (state == HIGH)
+            led_state = false;
+        else if (state == LOW)
+            led_state = true;
+        else
+            std::cout << "Throw Error: digitalWrite(LED)\n";
+    }
 }
 
 bool digitalRead(const short& pin)
@@ -120,6 +130,9 @@ bool digitalRead(const short& pin)
 
     else if (pin == par::VALVETUBE)
         return (valve_state_tube);
+
+    else if (pin == par::LED)
+        return (led_state);
 
     else
     {
