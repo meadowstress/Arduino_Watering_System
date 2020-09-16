@@ -32,10 +32,11 @@ int main(void)  // Enable for Testing
         pinMode(par::PUMP, OUTPUT);         // Enable on Hardware
         pinMode(par::VALVETOP, OUTPUT);     // Enable on Hardware
         pinMode(par::VALVEBOTTOM, OUTPUT);  // Enable on Hardware
-        pinMode(par::VALVETUBE, OUTPUT);  // Enable on Hardware
+        pinMode(par::VALVETUBE, OUTPUT);    // Enable on Hardware
         pinMode(par::SWITCH, INPUT);        // Enable on Hardware
         pinMode(par::WATER, INPUT);         // Enable on Hardware
         pinMode(par::WATERLEVEL, INPUT);    // Enable on Hardware
+        pinMode(par::LED, OUTPUT);          // Enable on Hardware
 
         Serial.begin(115200);                 // Enable on Hardware
 
