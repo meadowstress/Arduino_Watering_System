@@ -60,9 +60,9 @@ class WaterActivationTest
 TEST_P(WaterActivationTest, WaterActivationStateTest)
 {
     cout << endl << GetParam().title << endl;
-    pre_state_water     = GetParam().pre_state_water;
-    current_state_water = GetParam().current_state_water;
-    water_state         = GetParam().water_state;
+    PS_.setPreStateWater(GetParam().pre_state_water);
+    PS_.setCurrentStateWater(GetParam().current_state_water);
+    water_state = GetParam().water_state;
     ASSERT_EQ(PS_.isWaterActivated(), GetParam().result);
 }
 

@@ -264,7 +264,7 @@ void logSystemInfo()
     {
         printSystemInfo();
 
-        if (!switch_on)
+        if (!PumpControl.getSwitchState())
         {
             logSDData();
         }

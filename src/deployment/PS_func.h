@@ -20,24 +20,18 @@ extern DHT dht;
 extern DS3231 clock_var;
 extern RTCDateTime DateTime;
 
-// states
-extern bool pre_state_water;
-extern bool current_state_water;
-extern bool switch_on;
-extern bool water_on;
-extern bool timer_on;
-extern bool water_level_ok;
-
 class WaterSystem
 {
- private:
-    bool watering_enabled;
-    float measured_temperature;
-    bool sd_card_ok;
-
  public:
     WaterSystem() :
-        watering_enabled{false}, measured_temperature{0.0F}, sd_card_ok{true}
+        watering_enabled{false},
+        measured_temperature{0.0F},
+        sd_card_ok{true},
+        pre_state_water{false},
+        current_state_water{false},
+        switch_on{false},
+        water_on{false},
+        water_level_ok{false}
     {}
     ~WaterSystem() {}
 
@@ -68,6 +62,22 @@ class WaterSystem
     void printToSDFile(const int input);
     void printlnToSDFile(const String input);
     void printlnToSDFile(const int input);
+    void setPreStateWater(bool input) { pre_state_water = input; }
+    void setCurrentStateWater(bool input) { current_state_water = input; }
+    void setSwitchState(bool input) { switch_on = input; }
+    bool getSwitchState() { return switch_on; }
+    void setWaterState(bool input) { water_on = input; }
+    void setWaterLevelState(bool input) { water_level_ok = input; }
+
+ private:
+    bool watering_enabled;
+    float measured_temperature;
+    bool sd_card_ok;
+    bool pre_state_water;
+    bool current_state_water;
+    bool switch_on;
+    bool water_on;
+    bool water_level_ok;
 };
 
 // function headers
