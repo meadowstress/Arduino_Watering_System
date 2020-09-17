@@ -291,9 +291,15 @@ bool WaterSystem::holdState(unsigned int hold_time)
         elapsed_time = (millis() - start_time);
     }
 
+    if (!switch_on)
+    {
+        Serial.print("\nWatering has been interupted by off on switch!\n");
+        printToSDFile("\nWatering has been interupted by off on switch!\n");
+    }
+
     // test if hold time has been elapsed regularly
     // var i is only necessary for time simulation with high factors
-    if ((elapsed_time > hold_time) && i >= 1)
+    if ((elapsed_time >= hold_time) && i >= 1)
         return true;
     else
         return false;
