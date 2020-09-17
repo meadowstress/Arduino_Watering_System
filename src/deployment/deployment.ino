@@ -52,8 +52,8 @@ void setup()  // Enable on Hardware
     // prevent different states when water switch is on
     if (digitalRead(par::WATER) == LOW)
     {
-        pre_state_water     = true;
-        current_state_water = true;
+        PumpControl.setPreStateWater(true);
+        PumpControl.setCurrentStateWater(true);
     }
 
     Serial.println(F("\n\nStart of Program:"));
