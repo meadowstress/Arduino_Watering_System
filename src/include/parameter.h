@@ -38,8 +38,8 @@ const unsigned int timeTemp2Top    = 17000;
 const unsigned int timeTemp2Bottom = 13000;
 
 const float lowTemp                  = 20.0F;
-const unsigned int timeLowTempTop    = 10000;
-const unsigned int timeLowTempBottom = 8000;
+const unsigned int timeLowTempTop    = 8000;
+const unsigned int timeLowTempBottom = 6000;
 
 // Water Times
 const TIME t1_water(11, 30, 0);

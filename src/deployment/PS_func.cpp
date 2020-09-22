@@ -13,7 +13,7 @@
 
 bool WaterSystem::checkSystem()
 {
-    bool system_status = (sd_card_ok && water_level_ok);
+    bool system_status = (sd_card_ok && isWaterLevelOk());
 
     if (system_status)
     {
@@ -61,6 +61,7 @@ String WaterSystem::getSDFileName()
         String month = to_string(DateTime.month);  // Enable for Testing
         String day   = to_string(DateTime.day);    // Enable for Testing
     */
+
     // always have two digits for month e.g. 06
     if (DateTime.month < 10)
     {
@@ -282,23 +283,18 @@ bool WaterSystem::holdState(unsigned int hold_time)
     unsigned long elapsed_time = 0;
     unsigned long i            = 0;
 
-    switch_on = isSystemSwitchedOn();
-
-    while ((elapsed_time < hold_time) && switch_on)
+    while ((elapsed_time < hold_time) && isSystemSwitchedOn())
     {
         i++;
-        switch_on    = isSystemSwitchedOn();
         elapsed_time = (millis() - start_time);
     }
 
-    if (!switch_on)
+    if (!isSystemSwitchedOn())
     {
         Serial.print("\nWatering has been interupted by off on switch!\n");
         printToSDFile("\nWatering has been interupted by off on switch!\n");
     }
 
-    // test if hold time has been elapsed regularly
-    // var i is only necessary for time simulation with high factors
     if ((elapsed_time >= hold_time) && i >= 1)
         return true;
     else
@@ -309,7 +305,8 @@ int WaterSystem::pumpWater(unsigned int pump_time,
                            byte valve_pin,
                            byte valve_time)
 {
-    bool water_flag = false;
+    bool water_flag            = false;
+    unsigned long elapsed_time = 0;
 
     Serial.println(F("\n\nOpen Valve!"));
 
@@ -342,9 +339,9 @@ int WaterSystem::pumpWaterManual()
 {
     int water_flag = 0;
 
-    switch_on = isSystemSwitchedOn();
-    water_on  = isWaterActivated();
-    isWaterLevelOk();
+    switch_on      = isSystemSwitchedOn();
+    water_on       = isWaterActivated();
+    water_level_ok = isWaterLevelOk();
 
     if (switch_on && water_on)
     {
@@ -375,7 +372,7 @@ int WaterSystem::pumpWaterClock()
     int water_counter = 0;
     watering_enabled  = isAutomaticWateringEnabled();
     switch_on         = isSystemSwitchedOn();
-    isWaterLevelOk();
+    water_level_ok    = isWaterLevelOk();
 
     if (getCurrentLocalTime() == par::t1_water ||
         getCurrentLocalTime() == par::t2_water)
@@ -440,12 +437,10 @@ bool WaterSystem::isWaterLevelOk()
 
     if (level_Ok == HIGH)
     {
-        water_level_ok = true;
         return true;
     }
     else
     {
-        water_level_ok = false;
         return false;
     }
 }
